@@ -79,7 +79,9 @@
   <section class="scene" id="s8">
     <div class="cam">
       <div class="window side-window" id="export-window"><div class="view-title">TOURCODE</div><div class="stack" id="export-stack"></div></div>
-      <div class="page-card" id="page-card"><img src="assets/export-page.png" alt=""></div>
+      <svg class="route-svg" id="s8-route" viewBox="0 0 1920 1080"></svg>
+      <div id="page-frame"><div class="sweep"></div></div>
+      <div id="packets"></div>
       <div class="dest" id="dest"></div>
       <div class="cursor" id="cursor-export"></div>
     </div>
@@ -117,6 +119,7 @@
 <script src="node_modules/gsap/dist/gsap.min.js"></script>
 <script src="data/ui-css.js"></script>
 <script src="data/ui-states.js"></script>
+<script src="data/page-css.js"></script>
 <script src="data/narration.js"></script>
 <script src="data/demo.js"></script>
 <script src="data/logos.js"></script>

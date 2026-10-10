@@ -85,14 +85,52 @@
     });
   }
   const capRoot = $('#captions');
+  /* Captions: a dark glass pill with the product's glowing green dot. The pill grows to the
+     right as each word arrives, the word rises out of a mask, and a thin green line (the
+     logo's route) slides under the word being spoken. Text never shifts while it is read. */
   function caption(id, from, to, outAt) {
     const list = words(id).slice(from, to);
-    const line = el('div', 'caption');
-    capRoot.appendChild(line);
-    wordsIn(wordSpans(line, list), list, { y: 18, blur: 8, dur: 0.36 });
-    const out = outAt ?? (list[list.length - 1].end + 1.2);
-    tl.to(line, { opacity: 0, y: -8, filter: 'blur(6px)', duration: 0.3, ease: 'power2.in' }, out);
-    return line;
+    const pill = el('div', 'cap');
+    const dot = el('i', 'cap-dot');
+    const line = el('div', 'cap-line');
+    const under = el('b', 'cap-bar');
+    pill.append(dot, line);
+    line.appendChild(under);
+    const ws = list.map((w, i) => {
+      const m = el('span', 'cw');
+      const sp = el('span', 'cw-i', w.word);
+      m.appendChild(sp);
+      line.appendChild(m);
+      if (i < list.length - 1) line.appendChild(document.createTextNode(' '));
+      return { m, sp, w };
+    });
+    capRoot.appendChild(pill);
+    const W = pill.getBoundingClientRect().width;
+    pill.style.left = (960 - W / 2).toFixed(1) + 'px';
+    const pr = pill.getBoundingClientRect(), lr = line.getBoundingClientRect();
+    const geo = ws.map(({ m }) => { const r = m.getBoundingClientRect(); return { x: r.left - lr.left, w: r.width, right: r.right - pr.left }; });
+    const PADR = 30, R = 18;
+    const inset = (right) => `inset(0px ${Math.max(0, W - right - PADR).toFixed(1)}px 0px 0px round ${R}px)`;
+    const t0 = list[0].start;
+    gsap.set(pill, { opacity: 0, y: 12, clipPath: inset(34) }); // only the dot shows at first
+    gsap.set(ws.map((o) => o.sp), { yPercent: 118, color: '#FFFFFF' });
+    gsap.set(under, { x: geo[0].x, width: 0 });
+    tl.to(pill, { opacity: 1, y: 0, duration: 0.32, ease: 'expo.out' }, t0 - 0.24);
+    tl.fromTo(dot, { scale: 0.3 }, { scale: 1, duration: 0.5, ease: 'back.out(3)' }, t0 - 0.24);
+    ws.forEach(({ sp, w }, i) => {
+      const at = w.start - 0.05;
+      tl.to(pill, { clipPath: inset(geo[i].right), duration: 0.42, ease: 'expo.out' }, at);
+      tl.to(sp, { yPercent: 0, duration: 0.5, ease: 'expo.out' }, at);
+      tl.to(under, { x: geo[i].x, width: geo[i].w, duration: 0.34, ease: 'expo.out' }, at);
+      if (i) tl.to(ws[i - 1].sp, { color: '#C9CDD2', duration: 0.3 }, at);
+    });
+    const last = list[list.length - 1], g = geo[geo.length - 1];
+    tl.to(under, { x: g.x + g.w, width: 0, duration: 0.4, ease: 'power2.inOut' }, last.end + 0.12);
+    tl.to(ws[ws.length - 1].sp, { color: '#C9CDD2', duration: 0.4 }, last.end + 0.12);
+    const out = outAt ?? (last.end + 1.2);
+    tl.to(ws.map((o) => o.sp), { yPercent: -118, duration: 0.3, ease: 'power2.in', stagger: 0.01 }, out);
+    tl.to(pill, { opacity: 0, y: 6, duration: 0.28, ease: 'power2.in' }, out + 0.1);
+    return pill;
   }
 
   // ---------- cursor ----------
@@ -325,30 +363,43 @@
 
   // ---- 8 · export ----
   const exWin = $('#export-window');
-  const ex = stack($('#export-stack'), ['sb-tour-0'], 1.5);
-  ex.init('sb-tour-0');
+  const ex = stack($('#export-stack'), ['sb-home', 'sb-tour-0'], 1.6);
+  ex.init('sb-home');
   const exCursor = cursor($('#cursor-export'));
-  const dest = $('#dest');
+  // the exported page (assets/tours/how-login-works.page.html), its real DOM and CSS
+  const PZ = 0.8625; // 1280×800 → 1104×690
+  const pageFrame = $('#page-frame');
+  const pageHost = el('div', 'ui-host');
+  {
+    const r = pageHost.attachShadow({ mode: 'open' });
+    r.innerHTML = `<style>${PAGE_CSS}.pg-body{width:1280px;height:800px;position:relative;overflow:hidden}.step-list{overflow:visible}.step-list-item{white-space:nowrap}*{transition:none!important}</style><div class="pg-body">${UI_STATES['export-page'].html}</div>`;
+    pageHost.q = (q) => r.querySelector(q);
+    pageHost.qa = (q) => [...r.querySelectorAll(q)];
+  }
+  pageHost.style.zoom = PZ;
+  pageFrame.insertBefore(pageHost, pageFrame.firstChild);
+  const wikiMark = (size) => {
+    const m = el('div', 'mono-mark', '<svg viewBox="0 0 24 24" style="fill:none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H11v18H5.5A1.5 1.5 0 0 1 4 19.5z"/><path d="M20 4.5A1.5 1.5 0 0 0 18.5 3H13v18h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>');
+    m.style.width = m.style.height = size + 'px';
+    return m;
+  };
   const DEST = [
-    { key: 'confluence', label: 'Confluence', word: 7 },
-    { key: 'notion', label: 'Notion', word: 8 },
-    { key: null, label: 'Your wiki', word: 10 },
+    { key: 'confluence', label: 'Confluence', word: 7, x: 1250, y: 112 },
+    { key: 'notion', label: 'Notion', word: 8, x: 1335, y: 380 },
+    { key: null, label: 'Your wiki', word: 11, x: 1250, y: 648 },
   ];
-  const tiles = DEST.map((d, i) => {
-    const t = el('div', 'dtile');
-    t.style.left = '1170px'; t.style.top = (205 + i * 230) + 'px';
-    t.style.width = '560px'; t.style.height = '190px';
-    t.style.flexDirection = 'row'; t.style.justifyContent = 'flex-start'; t.style.padding = '0 46px'; t.style.gap = '34px';
-    const mark = d.key ? monoMark(d.key, 74) : el('div', 'mono-mark',
-      '<svg viewBox="0 0 24 24" style="fill:none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H11v18H5.5A1.5 1.5 0 0 1 4 19.5z"/><path d="M20 4.5A1.5 1.5 0 0 0 18.5 3H13v18h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>');
-    if (!d.key) { mark.style.width = mark.style.height = '74px'; }
-    t.appendChild(mark);
-    t.appendChild(el('div', 'lbl', d.label));
-    const doc = el('div', 'doc', '<img src="assets/export-page.png" alt="">');
-    doc.style.right = '40px'; doc.style.top = '55px';
-    t.appendChild(doc);
-    dest.appendChild(t);
-    return t;
+  const apps = DEST.map((d) => {
+    const w = el('div', 'app');
+    w.style.left = d.x + 'px'; w.style.top = d.y + 'px';
+    const head = el('div', 'app-bar');
+    head.append(d.key ? monoMark(d.key, 22) : wikiMark(22), el('span', 'app-name', d.label));
+    const body = el('div', 'app-body',
+      '<div class="sk"><i style="width:58%"></i><i style="width:90%"></i><i style="width:76%"></i><i style="width:84%"></i><i style="width:44%"></i></div>'
+      + '<div class="app-doc"><img src="assets/export-page.png" alt=""></div>'
+      + '<div class="app-ok"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#0D1117" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg></div>');
+    w.append(head, body);
+    $('#dest').appendChild(w);
+    return w;
   });
 
   // ---- 9 · rows ----
@@ -429,6 +480,24 @@
     const rebuildBtn = rect(home1.q('.tour-card-stale .link-button'));
     const exportLink = byText(ex.hosts['sb-tour-0'], '.link-button', 'Export');
     const exportR = rect(exportLink);
+    // flip sources (the tour sidebar) and targets (the page at its final size)
+    const tourHost = ex.hosts['sb-tour-0'];
+    const fontPx = (n, zoom) => parseFloat(getComputedStyle(n).fontSize) * zoom;
+    const srcOf = (n) => ({ ...rect(n), font: fontPx(n, 1.6) });
+    const flipSrc = {
+      title: srcOf(tourHost.q('.tour-title')),
+      map: srcOf(tourHost.q('.overview-button')),
+      steps: tourHost.qa('.steps-item .step .step-title').slice(0, 4).map(srcOf),
+    };
+    Object.assign(pageFrame.style, { left: '408px', top: '118px', width: '1104px', height: '690px' });
+    const pageFinal = new Map();
+    for (const n of [pageHost.q('.header-title'), ...pageHost.qa('.step-list-item')]) {
+      const r = rect(n);
+      const cs = getComputedStyle(n);
+      pageFinal.set(n, { lx: r.x - 408 - 1, ly: r.y - 118 - 1, h: r.h, w: r.w, font: parseFloat(cs.fontSize) * PZ,
+        padL: parseFloat(cs.paddingLeft) * PZ, padT: parseFloat(cs.paddingTop) * PZ });
+    }
+    Object.assign(pageFrame.style, { left: '0px', top: '0px', width: '578px', height: '690px' });
     const logo = $('#logo');
     const rPath = $('.r-path', logo), rHead = $('.r-head', logo), rDot = $('.r-dot', logo);
 
@@ -633,7 +702,7 @@
     gsap.set(routeItems, { opacity: 0, y: 10 });
     tl.to(routeItems, { opacity: 1, y: 0, duration: 0.5, stagger: BEAT / 2, ease: 'expo.out' }, bar(11, 2));
     routeItems.forEach((_, i) => cue('route_tick', bar(11, 2) + i * BEAT / 2, { i }));
-    caption('s4a', 0, 6, words('s4b')[0].start - 0.15);
+    caption('s4a', 0, 6, words('s4b')[0].start - 0.62);
     // "Each box leads to its step": box n and route item n glow together, one per beat
     const nodesEls = mapHost.qa('.overview-node');
     const steps = mapHost.qa('.route-step');
@@ -693,7 +762,7 @@
     tl.to($('.panel-title', editor), { opacity: 1, duration: 0.4 }, bar(15, 2));
     tl.to($('#panel-stack'), { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, bar(15, 2));
     cue('panel_rise', bar(15, 2));
-    caption('s5a', 0, 7, words('s5b')[0].start - 0.15);
+    caption('s5a', 0, 7, words('s5b')[0].start - 0.62);
     caption('s5b', 0, 10, bar(18, 1));
     // step 2: Next → lines 12–15
     edCursor.show(bar(15, 4), { x: nextBtn.cx + 140, y: nextBtn.cy + 160 });
@@ -759,7 +828,7 @@
     cue('type_texture', ASK + 0.3, { dur: 2.1 });
     tl.to(c5, { ...cam({ x: chip.cx + 360, y: panelR.y + 150 }, 1.44, { ry: -3, rx: 2 }), duration: 2.4, ease: 'sine.inOut' }, ASK + 0.2);
     edCursor.move(ASK + 0.3, { x: chip.r + 240, y: chip.cy - SCR1 + 150 }, 0.8);
-    caption('s6a', 0, 4, words('s6b')[0].start - 0.2);
+    caption('s6a', 0, 4, words('s6b')[0].start - 0.62);
     // risks
     const RISK = bar(21, 1);
     tl.to(pn.scroller, { y: 0, duration: 0.6, ease: 'expo.inOut' }, RISK - 0.85);
@@ -772,7 +841,7 @@
     tl.to(riskDot, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(3)' }, RISK + 0.15);
     tl.fromTo(riskNote, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: 'expo.out', immediateRender: false }, RISK + 0.25);
     cue('warn_tone', RISK + 0.15);
-    caption('s6b', 0, 4, words('s6c')[0].start - 0.15);
+    caption('s6b', 0, 4, words('s6c')[0].start - 0.62);
     // explain deeper → dive into the sub-tour
     const DEEP = bar(22, 1);
     edCursor.move(DEEP - 0.75, { x: deeperBtn.x + 34, y: deeperBtn.cy + 3 }, 0.5);
@@ -861,50 +930,129 @@
 
     // =================================================================================
     // 8 · EXPORT  bar 27 – bar 30
+    // One tour becomes one page, and the page travels the route to where the team reads.
     // =================================================================================
     const s8 = bar(27);
     const c8 = $('#s8 .cam');
-    const ew = { left: 689, top: 150, width: 542, height: 740 };
-    gsap.set(exWin, { opacity: 0, y: 40 });
-    tl.to(exWin, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, s8);
-    cue('cut_soft', s8);
+    const S7END = cam({ x: 960, y: 480 }, 1.08, { ry: -4 });
+    gsap.set(c8, S7END); // continues scene 7's last frame exactly
+    // drill into the tour: the home view slides out, the tour slides in (same window)
+    const exHome = ex.hosts['sb-home'], exTour = ex.hosts['sb-tour-0'];
+    gsap.set(exHome, { y: -scroll7 });
+    tl.to(exHome, { x: -70, opacity: 0, duration: 0.22, ease: 'power2.in' }, s8 + 0.02);
+    tl.fromTo(exTour, { x: 70, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: 'expo.out', immediateRender: false }, s8 + 0.2);
+    cue('slide', s8 + 0.02);
+    tl.to(c8, { ...cam({ x: 960, y: 505 }, 1.0, { ry: -2 }), duration: 1.3, ease: 'expo.inOut' }, s8 + 0.1);
     const EP = { x: exportR.r - 2, y: exportR.b - 4 };
-    exCursor.show(s8 + 0.15, { x: EP.x + 160, y: EP.y - 150 });
-    exCursor.move(s8 + 0.2, { x: EP.x, y: EP.y }, 0.5);
     const EXP = words('s8')[0].start;
+    exCursor.show(s8 + 0.25, { x: EP.x + 150, y: EP.y - 170 });
+    exCursor.move(s8 + 0.3, { x: EP.x, y: EP.y }, EXP - s8 - 0.38);
     exCursor.click(EXP);
-    exCursor.hide(EXP + 0.3);
-    tl.to(exportLink, { color: '#3FB950', duration: 0.15 }, EXP);
-    // the tour folds into a page
-    const card = $('#page-card');
-    gsap.set(card, { x: ew.left, y: ew.top, scale: 0.42, rotationY: -20, opacity: 0, transformPerspective: 1600 });
-    tl.to(exWin, { scale: 0.86, rotationY: 24, opacity: 0, duration: 0.55, ease: 'power3.in', transformPerspective: 1600, transformOrigin: '50% 50%' }, EXP + 0.2);
-    tl.to(card, { opacity: 1, duration: 0.25 }, EXP + 0.42);
-    tl.to(card, { x: 110, y: 250, scale: 0.7, rotationY: 0, duration: 0.95, ease: 'expo.out' }, EXP + 0.42);
-    cue('paper_swish', EXP + 0.25);
-    caption('s8', 0, 6, words('s8')[6].start - 0.1);
-    // and lands where the team reads
+    exCursor.hide(EXP + 0.25);
+    tl.to(exportLink, { color: '#3FB950', duration: 0.12 }, EXP);
+    // the window becomes the page: frame morphs, the tour's own parts fly into the page's layout
+    const M0 = EXP + 0.1, MD = 0.75;
+    const WIN = { left: 671, top: 160, width: 578, height: 690 };
+    const PAGE = { left: 408, top: 118, width: 1104, height: 690 };
+    gsap.set(pageFrame, { ...WIN, opacity: 0 });
+    tl.set(pageFrame, { opacity: 1 }, M0);
+    tl.to(exWin, { opacity: 0, duration: 0.16 }, M0 + 0.04);
+    tl.to(pageFrame, { ...PAGE, duration: MD, ease: 'expo.inOut' }, M0);
+    cue('paper_swish', M0);
+    const pg = (q) => pageHost.q(q);
+    const pgItems = pageHost.qa('.step-list-item');
+    const flips = [
+      [pg('.header-title'), flipSrc.title],
+      [pgItems[0], flipSrc.map],
+      ...pgItems.slice(1).map((n, i) => [n, flipSrc.steps[i]]),
+    ];
+    flips.forEach(([node, src], i) => {
+      const fin = pageFinal.get(node);
+      const s0 = src.font / fin.font; // start at the sidebar's text size
+      const t0 = { x: src.x - fin.padL * s0 - (WIN.left + 1 + fin.lx), y: src.y - fin.padT * s0 - (WIN.top + 1 + fin.ly) };
+      gsap.set(node, { transformOrigin: '0 0', opacity: 0 });
+      tl.fromTo(node, { x: t0.x / PZ, y: t0.y / PZ, scale: s0 },
+        { x: 0, y: 0, scale: 1, duration: MD, ease: 'expo.inOut', immediateRender: false }, M0 + i * 0.03);
+      tl.to(node, { opacity: 1, duration: 0.1 }, M0 + i * 0.03);
+    });
+    const rest = [pg('.header-counter'), pg('.step-list-title'), pg('.overview-question'), pg('.overview-summary')];
+    gsap.set(rest, { opacity: 0, y: 14 });
+    tl.to(rest, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', stagger: 0.06 }, M0 + 0.42);
+    const chips = pageHost.qa('.overview-node');
+    gsap.set(chips, { opacity: 0, scale: 0.8, transformOrigin: '50% 50%' });
+    chips.forEach((c, i) => {
+      tl.to(c, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2.2)' }, M0 + 0.62 + i * 0.07);
+      cue('route_tick', M0 + 0.62 + i * 0.07, { i });
+    });
+    const tail = [...pageHost.qa('.overview-edge'), pg('.primary-button')];
+    gsap.set(tail, { opacity: 0, x: -10 });
+    tl.to(tail, { opacity: 1, x: 0, duration: 0.4, ease: 'expo.out', stagger: 0.05 }, M0 + 0.82);
+    tl.to($('.sweep', pageFrame), { xPercent: 260, duration: 0.8, ease: 'power2.inOut' }, M0 + 0.7);
+    // the page steps aside and becomes the hub of three routes
+    const H0 = M0 + 1.05;
+    const HUB = { x: -380, y: 22, scale: 0.56 };
+    tl.to(pageFrame, { ...HUB, transformOrigin: '50% 50%', duration: 0.62, ease: 'expo.inOut' }, H0);
+    cue('airy_whoosh', H0, { soft: 1 });
+    const hubRight = { x: 960 + HUB.x + (PAGE.width / 2) * HUB.scale, y: PAGE.top + PAGE.height / 2 + HUB.y };
+    const r8 = $('#s8-route');
+    const packets = $('#packets');
+    const flowPaths = [];
     DEST.forEach((d, i) => {
       const w = words('s8')[d.word];
-      const t = w.start - 0.08;
-      const tile = tiles[i];
-      gsap.set(tile, { opacity: 0, x: 40 });
-      tl.to(tile, { opacity: 1, x: 0, duration: 0.5, ease: 'expo.out' }, t - 0.25);
-      const lbl = $('.lbl', tile);
-      gsap.set(lbl, { opacity: 0, y: 10, filter: 'blur(6px)' });
-      tl.to(lbl, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.38, ease: 'expo.out' }, w.start - 0.04);
-      const fly = el('div', 'page-card');
-      fly.innerHTML = '<img src="assets/export-page.png" alt="">';
-      c8.appendChild(fly);
-      gsap.set(fly, { x: 110 + 448 - 64, y: 250 + 280 - 40, scale: 0.1, opacity: 0, transformOrigin: '0 0' });
-      const docTarget = { x: 1170 + 560 - 40 - 128, y: 205 + i * 230 + 55 };
-      tl.to(fly, { opacity: 1, duration: 0.1 }, t - 0.3);
-      tl.to(fly, { x: docTarget.x, y: docTarget.y, duration: 0.5, ease: 'expo.inOut' }, t - 0.3);
-      tl.set(fly, { opacity: 0 }, t + 0.2);
-      tl.set($('.doc', tile), { opacity: 1 }, t + 0.2);
-      cue('land', t + 0.18, { i });
+      const T = w.start; // the page lands as the name is spoken
+      const app = apps[i];
+      const ey = d.y + 125;
+      const turn = i === 1 ? 1105 : 1060;
+      const pts = i === 1
+        ? [[hubRight.x + 4, hubRight.y], [turn, hubRight.y], [turn, ey], [d.x, ey]]
+        : [[hubRight.x + 4, hubRight.y], [turn, hubRight.y], [turn, ey], [d.x, ey]];
+      const D = routeD(pts, 26);
+      const glow = svgEl('path', { d: D, class: 'glow', style: 'stroke-width:7;opacity:.12' }, r8);
+      const line = svgEl('path', { d: D, style: 'stroke-width:2.5' }, r8);
+      const flow = svgEl('path', { d: D, style: 'stroke-width:2.5;stroke:#9BE9A8;stroke-dasharray:3 17;opacity:0' }, r8);
+      flowPaths.push(flow);
+      drawPath(line, T - 0.62, 0.45, 'power2.inOut');
+      drawPath(glow, T - 0.62, 0.45, 'power2.inOut');
+      cue('swish', T - 0.6, { i });
+      gsap.set(app, { opacity: 0, x: 40, scale: 0.94, filter: 'blur(8px)', transformOrigin: '0% 50%' });
+      tl.to(app, { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)', duration: 0.55, ease: 'expo.out' }, T - 0.6);
+      // a copy of the page rides the route
+      const pk = el('div', 'packet', '<img src="assets/export-page.png" alt="">');
+      packets.appendChild(pk);
+      const L = line.getTotalLength();
+      const a = T - 0.4, b = T - 0.02;
+      R.push((t) => {
+        if (t < a - 0.05 || t > b + 0.12) { pk.style.opacity = 0; return; }
+        const u = clamp((t - a) / (b - a), 0, 1);
+        const e = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+        const P = line.getPointAtLength(e * L);
+        const sc = 0.55 + 0.45 * Math.sin(Math.PI * Math.min(1, u * 1.1));
+        pk.style.transform = `translate(${P.x.toFixed(1)}px, ${P.y.toFixed(1)}px) scale(${sc.toFixed(3)})`;
+        pk.style.opacity = (t > b ? 1 - (t - b) / 0.12 : Math.min(1, (t - a + 0.05) / 0.1)).toFixed(3);
+      });
+      // landing: ring, the page appears inside, a check
+      const ring = el('div', 'ring');
+      packets.appendChild(ring);
+      gsap.set(ring, { x: d.x, y: ey });
+      tl.fromTo(ring, { opacity: 0.95, scale: 0.6 }, { opacity: 0, scale: 4.2, duration: 0.7, ease: 'expo.out', immediateRender: false }, T);
+      tl.to($('.sk', app), { opacity: 0, duration: 0.2 }, T);
+      tl.fromTo($('.app-doc', app), { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'expo.out', immediateRender: false }, T);
+      tl.fromTo($('.app-ok', app), { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(2.5)', immediateRender: false }, T + 0.12);
+      tl.fromTo(app, { boxShadow: '0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(63,185,80,0)' },
+        { boxShadow: '0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(63,185,80,.9)', duration: 0.18, immediateRender: false }, T);
+      tl.to(app, { boxShadow: '0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(63,185,80,0)', duration: 0.9, ease: 'sine.inOut' }, T + 0.3);
+      cue('land', T, { i });
     });
-    tl.fromTo(c8, cam({ x: 960, y: 540 }, 1.0), { ...cam({ x: 960, y: 530 }, 1.04), duration: BAR * 3, ease: 'sine.inOut' }, s8);
+    // once everyone has it, the routes keep flowing
+    const FLOW = words('s8')[11].start + 0.45;
+    flowPaths.forEach((f, i) => {
+      tl.to(f, { opacity: 0.55, duration: 0.4 }, FLOW + i * 0.08);
+      tl.fromTo(f, { strokeDashoffset: 0 }, { strokeDashoffset: -120, duration: bar(30) - FLOW, ease: 'none', immediateRender: false }, FLOW);
+    });
+    tl.to(c8, { ...cam({ x: 990, y: 500 }, 1.05, { ry: 3 }), duration: bar(30) - 0.45 - (s8 + 1.4), ease: 'sine.inOut' }, s8 + 1.4);
+    caption('s8', 0, 12, bar(30) - 0.5);
+    // push through to the next scene
+    tl.to(c8, { scale: '+=0.1', opacity: 0, duration: 0.42, ease: 'power2.in' }, bar(30) - 0.42);
 
     // =================================================================================
     // 9 · WORKS EVERYWHERE  bar 30 – bar 32
@@ -979,7 +1127,7 @@
     const scrim = $('#scrim');
     R.push((t) => {
       for (const [n, a, b] of SC) n.style.visibility = t >= a && t < b ? 'visible' : 'hidden';
-      scrim.style.opacity = (smooth(bar(7), bar(7) + 0.4, t) * (1 - smooth(bar(30) - 0.3, bar(30), t))).toFixed(3);
+      scrim.style.opacity = (0.55 * smooth(bar(7), bar(7) + 0.4, t) * (1 - smooth(bar(30) - 0.3, bar(30), t))).toFixed(3);
     });
     tl.set({}, {}, END);
 

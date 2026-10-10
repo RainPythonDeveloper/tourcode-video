@@ -110,12 +110,21 @@ for (const [name, [base, change]] of Object.entries(states)) {
   await tab.evaluate(() => document.fonts.ready);
   await tab.waitForTimeout(400);
   await tab.screenshot({ path: path.join(root, 'assets/export-page.png') });
+  // its DOM and CSS too, so the film can assemble the page piece by piece
+  const page = await tab.evaluate(() => ({ html: document.getElementById('app').outerHTML, css: document.querySelector('style').textContent }));
+  out['export-page'] = { surface: 'page', width: 1280, height: 800, html: page.html };
+  const pageCss = page.css
+    .replace(/@media \(prefers-color-scheme: dark\)/g, '@media all')  // the film is dark
+    .replace(/:root\b/g, ':host')
+    .replace(/html,\s*body/g, '.pg-body')
+    .replace(/(^|[\s,}])body(?=[\s{[.:,])/g, '$1.pg-body');
+  fs.writeFileSync(path.join(root, 'data/page-css.js'), `window.PAGE_CSS = ${JSON.stringify(pageCss)};\n`);
   await tab.close();
   console.log('export page');
 }
 await browser.close();
-
 fs.writeFileSync(path.join(root, 'data/ui-states.js'), `window.UI_STATES = ${JSON.stringify(out)};\n`);
+
 for (const f of ['webview.css', 'theme.css']) fs.copyFileSync(path.join(ui, f), path.join(root, 'data', f));
 // the same CSS, scoped for a shadow root: :root -> :host, body -> .wv-body
 const scoped = ['theme.css', 'webview.css']

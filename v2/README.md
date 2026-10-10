@@ -13,7 +13,8 @@
 | `source/` | Everything needed to re-render (see below) |
 
 The brief asked for 60 s; on review the export scene was added and the length freed, so the film
-is 75 s (35 bars at 112 BPM).
+is 75 s (35 bars at 112 BPM). v2.1 (this version) restyles the captions and rebuilds the export scene;
+the first render is in the git history (commit b8671a3).
 
 ## The story
 
@@ -28,12 +29,14 @@ Every cut sits on a bar line of the music (112 BPM, 2.143 s per bar); the tour m
 | 5 | 0:28 | The exact lines, explained | Box 1 grows to fill the frame and contracts into the green lines; the highlight travels step to step | Step by step, the right file opens. The exact lines light up, explained right under the code. |
 | 6 | 0:39 | Go as deep as you need | Ask a question, Risks on, Explain deeper: the camera flies into the lines; the Path | Ask about any step. See what can break. Go deeper, and the Path shows where you are. |
 | 7 | 0:49 | For teams | The tour card travels to "Start here"; a changed tour is rebuilt | Pin a tour to Start here, for every newcomer. |
-| 8 | 0:56 | Export | The tour folds into a page and lands in Confluence, Notion, your wiki | Export any tour as a page, for Confluence, Notion, or your wiki. |
+| 8 | 0:56 | Export | The window morphs into the exported page (its parts fly in from the tour); three green routes carry copies to Confluence, Notion and your wiki, each landing as its name is spoken | Export any tour as a page, for Confluence, Notion, or your wiki. |
 | 9 | 1:02 | Works everywhere | Editor and agent marks snap in on the beat | Your editor. Your agent. Even your notebooks. |
 | 10 | 1:06 | Final frame | The logo's route line draws itself, the green circle blooms | TourCode. Understand any codebase, one step at a time. |
 
 Every on-screen word appears as it is spoken (word timings from the voice model), so the film
-works muted. All TourCode UI in the film is the product's own: the pages in `assets/ui` are drawn
+works muted. Captions sit in a dark glass pill with the product's green dot; the pill grows with the
+words, each word rises out of a mask, and a thin green line (the logo's route) runs under the word
+being spoken. All TourCode UI in the film is the product's own: the pages in `assets/ui` are drawn
 by the extension's `webview.js` with `webview.css` into new states (step 2, step 3, the answer
 streaming, risks on, a pinned / out-of-date tour…), and that DOM is embedded in the film with the
 same CSS. Code, step titles, diagram labels, the risk note and the glossary definition come from

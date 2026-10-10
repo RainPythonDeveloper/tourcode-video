@@ -133,19 +133,29 @@
   as changed is rebuilt with one click and turns fresh.
 - **Sound:** a pin snap; a soft slide for the group; a swirl + light chime on rebuild.
 
-## 8 · Export — 0:55.71–1:02.14 (bars 27–29) · new
+## 8 · Export — 0:55.71–1:02.14 (bars 27–29) · new, reworked in v2.1
 
-- **Idea:** the tour leaves the editor and lives where the team reads.
-- **Technique:** the tour folds into a single page, which flies out and docks into the team's wiki.
+- **Idea:** one tour becomes one page, and the page travels the route to where the team reads.
+- **Technique:** a morph and a route network (the logo's line as a subway map), landing on the beat of the words.
 - **Narration:** *"Export any tour as a page, for Confluence, Notion, or your wiki."*
-- **Visual:** the sidebar's "Export" link is clicked; the tour's steps, map and code collapse into one page
-  (the look of the exported page, `assets/tours/how-login-works.page.html`); the page flies to the right and
-  docks between the Confluence and Notion marks, landing as a wiki page.
-- **Sound:** a click; a paper-like swish as the page folds; a soft landing thump.
+- **Visual:**
+  - The camera continues from the last frame of scene 7; inside the same window the home view slides out
+    and the tour slides in. The cursor clicks **Export** on the word "Export".
+  - The window becomes the page: the frame grows into the exported page
+    (`assets/tours/how-login-works.page.html`, its real DOM), the tour's title, "Tour map" and its four steps
+    fly from the sidebar into the page's step list; the summary, the four map chips and the route list
+    assemble, a soft light sweeps across.
+  - The page steps aside and becomes a hub. Three green routes branch from it with rounded turns; along
+    each, a copy of the page rides into an app window — **Confluence**, **Notion**, **Your wiki** — and lands
+    exactly as its name is spoken: a ring, the page appears inside, a check.
+  - The routes keep flowing (a light dash running along them) while the camera orbits gently; a push-through
+    into the next scene.
+- **Sound:** a slide, a click, a paper swish, soft ticks as the chips assemble, a swish per route, a soft
+  landing per app.
 
 ## 9 · Works everywhere — 1:02.14–1:06.43 (bars 30–31)
 
-- **Narration:** *"Your editor. Your agent. Even your notebooks."*
+- **Narration:** *"Your editor. Your agent. Even your notebooks."* (the row labels are the spoken words)
 - **Visual:** a clean row of editor marks snaps in, one per beat — VS Code, Cursor, Kiro, Windsurf — then the
   agents — Claude Code, Cursor, Kiro — then the Jupyter mark. Monochrome on dark, equal optical size.
 - **Sound:** one soft percussive hit per logo, on the beat; a riser under the last bar.
@@ -178,6 +188,13 @@
 
 Each sentence is generated separately and placed on its beat (`source/narration/script.json`); the
 word timings come from the voice model and drive every on-screen word.
+
+## Captions (v2.1)
+
+A dark glass pill with the product's glowing green dot (the UI's eyebrow), bottom centre. It opens from
+the dot and grows to the right as each word is spoken; every word rises out of a mask, and a thin green
+line — the logo's route — slides under the word being spoken. The line is centred once complete and never
+shifts while it is read. The hook and the final frame keep their large typography.
 
 ## Poster frames
 
