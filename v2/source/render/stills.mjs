@@ -1,5 +1,5 @@
 // Stills and a contact sheet: node render/stills.mjs [out-dir] [t1 t2 …]
-// With no times, takes one still every 1.5 s (in time order, as the capture does).
+// With no times, takes one still every 1.5 s. The film is played forward frame by frame, as the capture does.
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -13,7 +13,10 @@ let times = process.argv.slice(3).map(Number);
 if (!times.length) for (let t = 0.75; t < dur; t += 1.5) times.push(+t.toFixed(3));
 times.sort((a, b) => a - b);
 const files = [];
+// play forward frame by frame, exactly as the capture does, so the stills show what the film shows
+let now = 0;
 for (const t of times) {
+  for (; now < t; now += 1 / 60) await film.page.evaluate((x) => window.__seek(x), now);
   await film.page.evaluate((x) => window.__seek(x), t);
   const f = path.join(out, `t${t.toFixed(2).padStart(6, '0')}.png`);
   await film.page.screenshot({ path: f });

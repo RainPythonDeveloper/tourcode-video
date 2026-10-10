@@ -98,7 +98,7 @@
     const sh = shade ? el('div', 'kt-shade') : null;
     if (sh) parent.appendChild(sh);
     parent.appendChild(box);
-    const all = [];
+    const wordEls = [];
     let first = Infinity;
     for (const L of lines) {
       const line = el('div', 'kl');
@@ -117,14 +117,15 @@
         first = Math.min(first, t);
         gsap.set(chars, { yPercent: 112, rotationX: -75, opacity: 0, filter: 'blur(12px)' });
         tl.to(chars, { yPercent: 0, rotationX: 0, opacity: 1, filter: 'blur(0px)', duration: 0.95, ease: 'expo.out', stagger: 0.028 }, t);
-        all.push(...chars);
+        wordEls.push(wEl);
       });
     }
     if (sh) {
       tl.to(sh, { opacity: 1, duration: 0.5, ease: 'power2.out' }, first - 0.2);
       if (out != null) tl.to(sh, { opacity: 0, duration: 0.55, ease: 'power2.inOut' }, out + 0.1);
     }
-    if (out != null) tl.to(all, { yPercent: -50, opacity: 0, filter: 'blur(10px)', duration: 0.5, ease: 'power3.in', stagger: 0.007 }, out);
+    // the exit moves the words, not their letters, so a letter still settling never fights it
+    if (out != null) tl.to(wordEls, { y: -36, opacity: 0, filter: 'blur(10px)', duration: 0.5, ease: 'power3.in', stagger: 0.035 }, out);
     return box;
   }
 
