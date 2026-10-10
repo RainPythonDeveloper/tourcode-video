@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.json': 'application/json' };
 
-export async function openFilm({ browser } = {}) {
+export async function openFilm({ browser, transformHtml } = {}) {
   const own = !browser;
   browser = browser || (await chromium.launch({ args: ['--disable-lcd-text', '--font-render-hinting=none', '--force-color-profile=srgb'] }));
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
@@ -18,6 +18,7 @@ export async function openFilm({ browser } = {}) {
     const p = decodeURIComponent(new URL(route.request().url()).pathname);
     const file = path.join(root, p === '/' ? 'index.html' : p.slice(1));
     if (!fs.existsSync(file)) return route.fulfill({ status: 404, body: 'not found' });
+    if (transformHtml && p === '/index.html') return route.fulfill({ body: transformHtml(fs.readFileSync(file, 'utf8')), contentType: 'text/html' });
     return route.fulfill({ path: file, contentType: TYPES[path.extname(file)] || 'application/octet-stream' });
   });
   await page.goto('http://tc.local/index.html');

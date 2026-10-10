@@ -70,9 +70,9 @@
   });
 
   // ---------- words in sync with the voice ----------
-  function wordSpans(container, list, cls = 'w') {
+  function wordSpans(container, list, cls = 'w', accent = []) {
     return list.map((w, i) => {
-      const s = el('span', cls, w.word + (i < list.length - 1 ? ' ' : ''));
+      const s = el('span', cls + (accent.includes(i) ? ' acc' : ''), w.word + (i < list.length - 1 ? ' ' : ''));
       container.appendChild(s);
       return s;
     });
@@ -430,12 +430,16 @@
 
   // ---- 10 · final ----
   const tagList = words('s10b');
-  const tagSpans = wordSpans($('#tagline'), tagList);
+  const tagSpans = wordSpans($('#tagline'), tagList, 'w', [4, 5, 6, 7]); // "one step at a time." 
 
   // =====================================================================================
   //  MEASURE, THEN ANIMATE
   // =====================================================================================
   async function build() {
+    // load every face the film's typography uses before anything is measured
+    const cs = getComputedStyle(document.documentElement);
+    const fams = ['--display', '--caption', '--code', '--accent'].map((v) => cs.getPropertyValue(v).trim()).filter((f) => f && f !== 'inherit');
+    await Promise.all(fams.flatMap((f) => ['400', '500', '600', '700', 'italic 400'].map((w) => document.fonts.load(`${w} 40px ${f}`).catch(() => null))));
     await document.fonts.ready;
     await Promise.all([...document.images].map((i) => (i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; }))));
     document.querySelectorAll('.scene').forEach((s) => (s.style.visibility = 'visible'));
@@ -528,7 +532,7 @@
     const aList = words('s1a'), bList = words('s1b');
     wordsIn(wordSpans(hookA, aList), aList, { y: 34, blur: 16, scale: 0.94, dur: 0.55 });
     tl.to(hookA, { opacity: 0, scale: 1.18, filter: 'blur(14px)', duration: 0.5, ease: 'power2.in' }, 3.28);
-    const bSpans = wordSpans(hookB, bList);
+    const bSpans = wordSpans(hookB, bList, 'w', [4]); // "start?" 
     wordsIn(bSpans, bList, { y: 40, blur: 18, scale: 0.92, dur: 0.5 });
     tl.to(hookB, { scale: 0.97, duration: 1.2, ease: 'sine.inOut' }, 4.9);
     tl.to(hookB, { opacity: 0, filter: 'blur(10px)', duration: 0.32, ease: 'power2.in' }, 6.0);
