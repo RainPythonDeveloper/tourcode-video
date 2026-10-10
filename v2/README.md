@@ -4,7 +4,7 @@
 
 | File | What it is |
 |------|------------|
-| `tourcode-teaser-v2.mp4` | The film: 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS, 27.6 MB |
+| `tourcode-teaser-v2.mp4` | The film (v2.1): 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS, 28.4 MB |
 | `posters/poster-1-tour-map.png` | Poster frame: the tour map, just after the reveal (0:23) |
 | `posters/poster-2-step.png` | Poster frame: step 1, `auth.ts` lines 4–10 lit, the explanation under the code (0:31) |
 | `posters/poster-3-final.png` | Poster frame: the final frame (1:14) |
