@@ -4,7 +4,7 @@
 
 | File | What it is |
 |------|------------|
-| `tourcode-teaser-v2.mp4` | The film: 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS |
+| `tourcode-teaser-v2.mp4` | The film: 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS, 27.6 MB |
 | `posters/poster-1-tour-map.png` | Poster frame: the tour map, just after the reveal (0:23) |
 | `posters/poster-2-step.png` | Poster frame: step 1, `auth.ts` lines 4–10 lit, the explanation under the code (0:31) |
 | `posters/poster-3-final.png` | Poster frame: the final frame (1:14) |
@@ -48,8 +48,10 @@ warm two-note chime (A5 → D6), the same sound every time lines light up. The m
 
 - Contact sheet of stills before the full render: `checks/contact-sheet-stills.png`.
 - Contact sheet of the encoded MP4: `checks/contact-sheet-mp4.png`.
-- Loudness of the final MP4 (ffmpeg `ebur128`): see `checks/loudness.txt` — integrated −14 LUFS,
-  true peak ≤ −1 dBTP.
+- Loudness of the final MP4's audio (ffmpeg `ebur128`, `checks/loudness.txt`): integrated **−14.1 LUFS**,
+  true peak **−1.1 dBTP**, loudness range 4.7 LU.
+- The three render workers' seams (0:25, 0:50) show no jump: frame-to-frame change there is the same as
+  around them.
 - Colour: an encoded frame matches the browser render within 1/255.
 - Voice over the background in the speech band (300 Hz–4 kHz) is 6.6–22 dB on every line.
 
