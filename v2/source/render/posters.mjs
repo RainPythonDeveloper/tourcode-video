@@ -1,4 +1,4 @@
-// Three poster frames (1920×1080 PNG) straight from the film, without the caption band.
+// Three poster frames (1920×1080 PNG) straight from the film.
 //   node render/posters.mjs OUT_DIR
 import fs from 'node:fs';
 import path from 'node:path';
@@ -12,7 +12,6 @@ const POSTERS = [
   ['poster-3-final.png', 74.6],      // the final frame
 ];
 const film = await openFilm();
-await film.page.evaluate(() => { for (const id of ['captions', 'scrim']) document.getElementById(id).style.display = 'none'; });
 // play forward so every tween starts exactly as in the film
 let t = 0;
 for (const [name, at] of POSTERS) {
