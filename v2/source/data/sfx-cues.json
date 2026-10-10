@@ -1,0 +1,451 @@
+{
+ "duration": 75,
+ "cues": [
+  {
+   "name": "hook_riser",
+   "t": 0,
+   "dur": 4.95
+  },
+  {
+   "name": "rush",
+   "t": 1.05,
+   "i": 0
+  },
+  {
+   "name": "rush",
+   "t": 2.35,
+   "i": 1
+  },
+  {
+   "name": "rush",
+   "t": 3.4,
+   "i": 2
+  },
+  {
+   "name": "rush",
+   "t": 4.25,
+   "i": 3
+  },
+  {
+   "name": "tape_stop",
+   "t": 4.85
+  },
+  {
+   "name": "thud",
+   "t": 5.55
+  },
+  {
+   "name": "cut_soft",
+   "t": 6.4286
+  },
+  {
+   "name": "key",
+   "t": 8.562
+  },
+  {
+   "name": "key",
+   "t": 8.937
+  },
+  {
+   "name": "key",
+   "t": 9.0057
+  },
+  {
+   "name": "key",
+   "t": 9.0745
+  },
+  {
+   "name": "key",
+   "t": 9.1433
+  },
+  {
+   "name": "key",
+   "t": 9.3307
+  },
+  {
+   "name": "key",
+   "t": 9.3745
+  },
+  {
+   "name": "key",
+   "t": 9.4183
+  },
+  {
+   "name": "key",
+   "t": 9.498
+  },
+  {
+   "name": "key",
+   "t": 9.539
+  },
+  {
+   "name": "key",
+   "t": 9.58
+  },
+  {
+   "name": "key",
+   "t": 9.621
+  },
+  {
+   "name": "key",
+   "t": 9.7412
+  },
+  {
+   "name": "key",
+   "t": 9.8003
+  },
+  {
+   "name": "key",
+   "t": 9.8595
+  },
+  {
+   "name": "key",
+   "t": 9.9187
+  },
+  {
+   "name": "key",
+   "t": 9.9778
+  },
+  {
+   "name": "key",
+   "t": 10.1137
+  },
+  {
+   "name": "key",
+   "t": 10.1703
+  },
+  {
+   "name": "key",
+   "t": 10.227
+  },
+  {
+   "name": "key",
+   "t": 10.2836
+  },
+  {
+   "name": "enter_pop",
+   "t": 10.7143
+  },
+  {
+   "name": "shimmer",
+   "t": 10.7443
+  },
+  {
+   "name": "line_swish",
+   "t": 11.1643
+  },
+  {
+   "name": "line_swish",
+   "t": 12.8771
+  },
+  {
+   "name": "tick",
+   "t": 13.9286,
+   "i": 0
+  },
+  {
+   "name": "tick",
+   "t": 14.4643,
+   "i": 1
+  },
+  {
+   "name": "swish",
+   "t": 14.95,
+   "i": 0
+  },
+  {
+   "name": "tick",
+   "t": 15,
+   "i": 2
+  },
+  {
+   "name": "pop_soft",
+   "t": 15.28,
+   "i": 0
+  },
+  {
+   "name": "swish",
+   "t": 15.4857,
+   "i": 1
+  },
+  {
+   "name": "pop_soft",
+   "t": 15.8157,
+   "i": 1
+  },
+  {
+   "name": "swish",
+   "t": 16.0214,
+   "i": 2
+  },
+  {
+   "name": "pop_soft",
+   "t": 16.3514,
+   "i": 2
+  },
+  {
+   "name": "swish",
+   "t": 16.5571,
+   "i": 3
+  },
+  {
+   "name": "pop_soft",
+   "t": 16.8871,
+   "i": 3
+  },
+  {
+   "name": "line_swish",
+   "t": 17.1071
+  },
+  {
+   "name": "select",
+   "t": 17.6786
+  },
+  {
+   "name": "impact",
+   "t": 19.2857
+  },
+  {
+   "name": "airy_whoosh",
+   "t": 19.6857
+  },
+  {
+   "name": "route_tick",
+   "t": 21.9643,
+   "i": 0
+  },
+  {
+   "name": "route_tick",
+   "t": 22.2321,
+   "i": 1
+  },
+  {
+   "name": "route_tick",
+   "t": 22.5,
+   "i": 2
+  },
+  {
+   "name": "route_tick",
+   "t": 22.7679,
+   "i": 3
+  },
+  {
+   "name": "node_ping",
+   "t": 23.5714,
+   "i": 0
+  },
+  {
+   "name": "node_ping",
+   "t": 24.1071,
+   "i": 1
+  },
+  {
+   "name": "node_ping",
+   "t": 24.6429,
+   "i": 2
+  },
+  {
+   "name": "node_ping",
+   "t": 25.1786,
+   "i": 3
+  },
+  {
+   "name": "click",
+   "t": 26.7857
+  },
+  {
+   "name": "deep_swoosh",
+   "t": 26.8657
+  },
+  {
+   "name": "chime",
+   "t": 27.9371
+  },
+  {
+   "name": "airy_whoosh",
+   "t": 29.0286,
+   "soft": 1
+  },
+  {
+   "name": "panel_rise",
+   "t": 30.5357
+  },
+  {
+   "name": "click",
+   "t": 32.1429
+  },
+  {
+   "name": "prog_tick",
+   "t": 32.2429
+  },
+  {
+   "name": "chime",
+   "t": 32.4429
+  },
+  {
+   "name": "click",
+   "t": 34.2857
+  },
+  {
+   "name": "prog_tick",
+   "t": 34.3857
+  },
+  {
+   "name": "chime",
+   "t": 34.5857
+  },
+  {
+   "name": "tooltip_pop",
+   "t": 36.7286
+  },
+  {
+   "name": "cut_soft",
+   "t": 38.5714
+  },
+  {
+   "name": "click",
+   "t": 38.9996
+  },
+  {
+   "name": "type_texture",
+   "t": 39.2996,
+   "dur": 2.1
+  },
+  {
+   "name": "toggle",
+   "t": 42.8571
+  },
+  {
+   "name": "warn_tone",
+   "t": 43.0071
+  },
+  {
+   "name": "click",
+   "t": 45
+  },
+  {
+   "name": "dive_whoosh",
+   "t": 45
+  },
+  {
+   "name": "chime",
+   "t": 45.96
+  },
+  {
+   "name": "path_slide",
+   "t": 47.2429
+  },
+  {
+   "name": "cut_soft",
+   "t": 49.2857
+  },
+  {
+   "name": "pin_snap",
+   "t": 50.4491
+  },
+  {
+   "name": "slide",
+   "t": 50.5491
+  },
+  {
+   "name": "click",
+   "t": 53.0357
+  },
+  {
+   "name": "swirl",
+   "t": 53.0557
+  },
+  {
+   "name": "rebuild_chime",
+   "t": 53.5857
+  },
+  {
+   "name": "cut_soft",
+   "t": 55.7143
+  },
+  {
+   "name": "click",
+   "t": 56.3227
+  },
+  {
+   "name": "paper_swish",
+   "t": 56.5727
+  },
+  {
+   "name": "land",
+   "t": 58.3227,
+   "i": 0
+  },
+  {
+   "name": "land",
+   "t": 59.1227,
+   "i": 1
+  },
+  {
+   "name": "land",
+   "t": 59.9027,
+   "i": 2
+  },
+  {
+   "name": "cut_soft",
+   "t": 62.1429
+  },
+  {
+   "name": "logo_hit",
+   "t": 62.7434,
+   "i": 0
+  },
+  {
+   "name": "logo_hit",
+   "t": 63.0113,
+   "i": 1
+  },
+  {
+   "name": "logo_hit",
+   "t": 63.2791,
+   "i": 2
+  },
+  {
+   "name": "logo_hit",
+   "t": 63.547,
+   "i": 3
+  },
+  {
+   "name": "logo_hit",
+   "t": 63.6134,
+   "i": 4
+  },
+  {
+   "name": "logo_hit",
+   "t": 63.8813,
+   "i": 5
+  },
+  {
+   "name": "logo_hit",
+   "t": 64.1491,
+   "i": 6
+  },
+  {
+   "name": "final_riser",
+   "t": 64.2857,
+   "dur": 2.142857142857143
+  },
+  {
+   "name": "logo_hit",
+   "t": 64.6834,
+   "i": 8
+  },
+  {
+   "name": "route_draw",
+   "t": 66.4286
+  },
+  {
+   "name": "resolve",
+   "t": 67.4286
+  },
+  {
+   "name": "cta_tick",
+   "t": 72.1325
+  }
+ ]
+}

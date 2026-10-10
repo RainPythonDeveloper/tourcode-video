@@ -1,11 +1,11 @@
 # TourCode — 60 s launch teaser · storyboard v2
 
 **Key message:** Understand any codebase, one step at a time.
-**Format:** 1920×1080, 60 fps, 60.0 s. Dark, precise, generous negative space, one idea per moment.
+**Format:** 1920×1080, 60 fps, 75.0 s (approved: longer than 60 s, with an export scene added). Dark, precise, generous negative space, one idea per moment.
 
 ## Grid
 
-- **112 BPM**, 4/4 → beat 0.536 s, bar 2.143 s. **28 bars = exactly 60.0 s.**
+- **112 BPM**, 4/4 → beat 0.536 s, bar 2.143 s. **35 bars = exactly 75.0 s.**
 - Every scene cut sits on a bar line; every in-scene event sits on a beat or an 8th.
 - The music builds from a near-silent hook to **the drop on bar 10 (0:19.29) = the tour map reveal**.
 - Recurring motif: **the route line from the logo**. It leaves the command, connects the files,
@@ -18,9 +18,11 @@
 | 3 | The agent studies the code | 7–9 | 0:12.86–0:19.29 | Shape play: nodes and route lines (subway map) |
 | 4 | **The reveal: tour map** | 10–13 | 0:19.29–0:27.86 | Match cut on the lines + camera pull-back, on the drop |
 | 5 | Step by step | 14–18 | 0:27.86–0:38.57 | Camera dive + travelling green highlight (match cuts between steps) |
-| 6 | Go deeper | 19–22 | 0:38.57–0:47.14 | Z-axis fly-through into the sub-tour |
-| 7 | For teams, everywhere | 23–25 | 0:47.14–0:53.57 | Grid snap: cards and logos lock in on the beat |
-| 8 | Final frame | 26–28 | 0:53.57–1:00.00 | The route line draws the logo |
+| 6 | Go deeper | 19–23 | 0:38.57–0:49.29 | Z-axis fly-through into the sub-tour |
+| 7 | For teams | 24–26 | 0:49.29–0:55.71 | Cards lock into place on the beat |
+| 8 | **Export (new)** | 27–29 | 0:55.71–1:02.14 | The tour folds into a page and flies out to the team's wiki |
+| 9 | Works everywhere | 30–31 | 1:02.14–1:06.43 | Grid snap: logos lock in on the beat |
+| 10 | Final frame | 32–35 | 1:06.43–1:15.00 | The route line draws the logo |
 
 ---
 
@@ -103,71 +105,82 @@
 - **Sound:** **the highlight chime** — one short, warm two-note chime, identical every time a line range lights
   (3× here); a tiny tick per progress segment; a soft pop on the glossary card.
 
-## 6 · Go deeper — 0:38.57–0:47.14 (bars 19–22)
+## 6 · Go deeper — 0:38.57–0:49.29 (bars 19–23)
 
 - **Idea:** go as deep as you need.
 - **Technique:** a Z-axis fly-through — the camera moves *into* the code.
-- **Narration:** *"Ask about any step. See what can break. Go deeper, and the Path shows where you are."*
-- **On screen:** key words in sync: "Ask about any step." · "See what can break." · "Go deeper." · "The Path"
+- **Narration:** *"Ask about any step."* (bar 19) · *"See what can break."* (bar 21) · *"Go deeper, and the Path shows where you are."* (bar 22)
 - **Visual:**
-  - Bar 19: back on step 1. The suggested question chip "Why return a result object instead of throwing an error?"
+  - Bars 19–20: back on step 1. The suggested question chip "Why return a result object instead of throwing an error?"
     is clicked; the answer streams in under it (`step-answering.html` → `step.html`).
-  - Bar 20: the "Risks" switch turns on; a red marker appears on line 6 with its note
+  - Bar 21: the "Risks" switch turns on; the risk marker appears on line 6 with its note
     (Low · Breaks on change: "verifyPassword returns a boolean synchronously; this guard relies on that…").
-    Red is the only extra accent in this shot.
-  - Bar 21: "Explain deeper" — the camera flies through the highlighted lines (depth-of-field blur) and lands
-    in the sub-tour "Inside handleLogin" (`step-subtour.html`, "● SUB-TOUR · 5 STEPS"), its step 2
-    "The guard before any session", `auth.ts` lines 5–8 lit green.
-  - Bar 22: the sidebar shows the Path (`sidebar-subtour.html`): "How login works ← step 1" → "● Inside handleLogin".
+  - Bar 22: "Explain deeper" — the camera flies through the highlighted lines (depth-of-field blur) and lands
+    in the sub-tour "Inside handleLogin" (`step-subtour.html`, "● STEP 2 OF 5"), "The guard before any session",
+    `auth.ts` lines 5–8 lit green.
+  - Bar 23: the sidebar shows the Path (`sidebar-subtour.html`): "How login works ← step 1" → "● Inside handleLogin".
 - **Sound:** a click on the chip; a soft typing texture while the answer streams; a toggle click and a low,
   soft, non-alarming tone for the risk marker; a deep whoosh with reverse reverb on the dive; the highlight chime
   as the sub-tour lines light; a light slide as the Path appears.
 
-## 7 · For teams, everywhere — 0:47.14–0:53.57 (bars 23–25)
+## 7 · For teams — 0:49.29–0:55.71 (bars 24–26)
 
-- **Idea:** built for teams, in the tools you already use.
-- **Technique:** grid snap — cards and logos lock into place on the beat.
-- **Narration:** *"Pin a tour to Start here for every newcomer. Your editor. Your agent."*
-- **On screen:** "Start here for every newcomer." → "Your editor. Your agent."
-- **Visual:**
-  - Bar 23: the sidebar home (`sidebar-home.html`): the tour "How login works" drops into **START HERE**
-    and pins (green pin, soft pulse); the team group "Authentication" slides in below.
-  - Bars 24–25: the sidebar slides away; a clean row of editor marks snaps in, one per beat —
-    VS Code, Cursor, Kiro, Windsurf — then a second row of agents — Claude Code, Cursor, Kiro — and the Jupyter
-    mark with the label "Jupyter notebooks". Monochrome on dark, equal optical size.
-- **Sound:** a satisfying pin snap; a soft slide for the group; one soft percussive hit per logo, on the beat;
-  the drums thin out to make room for the ending; a riser starts under the last bar.
+- **Idea:** a tour every newcomer starts from.
+- **Technique:** cards lock into place on the beat.
+- **Narration:** *"Pin a tour to Start here, for every newcomer."*
+- **Visual:** the sidebar home (`sidebar-home.html`) large and centred: the tour "How login works" drops into
+  **START HERE** and pins (green pin, soft pulse); the team group "Authentication" slides in below; a tour flagged
+  as changed is rebuilt with one click and turns fresh.
+- **Sound:** a pin snap; a soft slide for the group; a swirl + light chime on rebuild.
 
-## 8 · Final frame — 0:53.57–1:00.00 (bars 26–28)
+## 8 · Export — 0:55.71–1:02.14 (bars 27–29) · new
 
-- **Narration:** *"TourCode. Understand any codebase, one step at a time."*
-- **Visual:** everything clears to #0D1117. On the downbeat of bar 26 the route line from the logo
+- **Idea:** the tour leaves the editor and lives where the team reads.
+- **Technique:** the tour folds into a single page, which flies out and docks into the team's wiki.
+- **Narration:** *"Export any tour as a page, for Confluence, Notion, or your wiki."*
+- **Visual:** the sidebar's "Export" link is clicked; the tour's steps, map and code collapse into one page
+  (the look of the exported page, `assets/tours/how-login-works.page.html`); the page flies to the right and
+  docks between the Confluence and Notion marks, landing as a wiki page.
+- **Sound:** a click; a paper-like swish as the page folds; a soft landing thump.
+
+## 9 · Works everywhere — 1:02.14–1:06.43 (bars 30–31)
+
+- **Narration:** *"Your editor. Your agent. Even your notebooks."*
+- **Visual:** a clean row of editor marks snaps in, one per beat — VS Code, Cursor, Kiro, Windsurf — then the
+  agents — Claude Code, Cursor, Kiro — then the Jupyter mark. Monochrome on dark, equal optical size.
+- **Sound:** one soft percussive hit per logo, on the beat; a riser under the last bar.
+
+## 10 · Final frame — 1:06.43–1:15.00 (bars 32–35)
+
+- **Narration:** *"TourCode."* (bar 32) · *"Understand any codebase, one step at a time."* (bar 33)
+- **Visual:** everything clears to #0D1117. On the downbeat of bar 32 the route line from the logo
   draws itself (start dot → curves → arrowhead), then the #2DA44E circle blooms behind it — the full
   `tourcode-logo.svg`. "TourCode" sets beside it, then the line
   **"Understand any codebase, one step at a time."** appears word by word with the voice, then
-  **"Try it: github.com/RainPythonDeveloper/tourcode"** in JetBrains Mono, secondary grey with the URL in white.
-  Hold still for the last ~2.5 s: a clean, memorable final frame (it is also poster frame 3).
+  **"Try it: github.com/RainPythonDeveloper/tourcode"** in JetBrains Mono. Hold still for the last ~3 s.
 - **Sound:** the riser resolves into a warm, shimmering hit as the line completes; the music lands on its
-  final chord and rings out to silence at 1:00.
+  final chord and rings out to silence at 1:15.
 
 ---
 
-## Narration script (≈95 words, eleven_v3, warm, calm, neutral American English)
+## Narration script (eleven_v3 was the brief; see the README for the voice actually used)
 
 1. You open a codebase you've never seen. Where do you even start?
-2. Ask your coding agent: slash tour, how does login work.
+2. Ask your coding agent: slash tour, how does login work?
 3. It studies the code, and finds the route through it.
 4. A tour map: the whole answer. Each box leads to its step.
 5. Step by step, the right file opens. The exact lines light up, explained right under the code.
 6. Ask about any step. See what can break. Go deeper, and the Path shows where you are.
-7. Pin a tour to Start here for every newcomer. Your editor. Your agent.
-8. TourCode. Understand any codebase, one step at a time.
+7. Pin a tour to Start here, for every newcomer.
+8. Export any tour as a page, for Confluence, Notion, or your wiki.
+9. Your editor. Your agent. Even your notebooks.
+10. TourCode. Understand any codebase, one step at a time.
 
-Each line is generated and placed in its own scene, starting on a beat. If a line runs long for its scene:
-speed up by at most 8 %, then cut words — never scenes.
+Each sentence is generated separately and placed on its beat (`source/narration/script.json`); the
+word timings come from the voice model and drive every on-screen word.
 
 ## Poster frames
 
 1. The tour map at the moment of the reveal (≈0:22).
 2. Step 1 with `auth.ts` lines 4–10 lit green and the panel under the code (≈0:30).
-3. The final frame: logo, line, call to action (≈0:58).
+3. The final frame: logo, line, call to action (≈1:13).

@@ -1,0 +1,25 @@
+{
+  "bpm": 112,
+  "voice": "af_heart",
+  "speed": 1.0,
+  "segments": [
+    {"id": "s1a", "scene": 1, "at": [1, 2],   "text": "You open a codebase you've never seen."},
+    {"id": "s1b", "scene": 1, "at": [2, 4],   "text": "Where do you even start?"},
+    {"id": "s2",  "scene": 2, "at": [4, 2],   "text": "Ask your coding agent: slash tour, how does login work?"},
+    {"id": "s3",  "scene": 3, "at": [7, 2],   "text": "It studies the code, and finds the route through it."},
+    {"id": "s4a", "scene": 4, "at": [10, 3],  "text": "A tour map: the whole answer."},
+    {"id": "s4b", "scene": 4, "at": [12, 1],  "text": "Each box leads to its step."},
+    {"id": "s5a", "scene": 5, "at": [14, 2],  "text": "Step by step, the right file opens."},
+    {"id": "s5b", "scene": 5, "at": [15, 4],  "text": "The exact lines light up, explained right under the code."},
+    {"id": "s6a", "scene": 6, "at": [19, 1.5],"text": "Ask about any step."},
+    {"id": "s6b", "scene": 6, "at": [21, 1],  "text": "See what can break."},
+    {"id": "s6c", "scene": 6, "at": [22, 1],  "text": "Go deeper, and the Path shows where you are."},
+    {"id": "s7",  "scene": 7, "at": [24, 2],  "text": "Pin a tour to Start here, for every newcomer."},
+    {"id": "s8",  "scene": 8, "at": [27, 2],  "text": "Export any tour as a page, for Confluence, Notion, or your wiki."},
+    {"id": "s9",  "scene": 9, "at": [30, 1.5],"text": "Your editor. Your agent. Even your notebooks."},
+    {"id": "s10a","scene": 10,"at": [32, 3],  "text": "TourCode."},
+    {"id": "s10b","scene": 10,"at": [33, 2],  "text": "Understand any codebase, one step at a time."}
+  ],
+  "scenes": {"1": [1, 4], "2": [4, 7], "3": [7, 10], "4": [10, 14], "5": [14, 19], "6": [19, 24],
+             "7": [24, 27], "8": [27, 30], "9": [30, 32], "10": [32, 36]}
+}

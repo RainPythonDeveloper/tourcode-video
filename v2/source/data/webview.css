@@ -1,0 +1,2282 @@
+:root {
+  --accent: var(--vscode-tourcode-stepBorder, var(--vscode-charts-green, #3fb950));
+  --accent-soft: var(--vscode-tourcode-stepBackground, rgba(63, 185, 80, 0.14));
+  --surface: var(--vscode-sideBar-background, var(--vscode-editor-background));
+  --raised: color-mix(in srgb, var(--vscode-foreground) 4%, var(--surface));
+  --border: var(
+    --vscode-widget-border,
+    color-mix(in srgb, var(--vscode-foreground) 16%, transparent)
+  );
+  --muted: var(--vscode-descriptionForeground);
+  --radius: 8px;
+  --motion: 160ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--vscode-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+button:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Tour in progress */
+
+.session {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding: 16px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.tour-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.tour-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.tour-question {
+  color: var(--muted);
+}
+
+.tour-question::before {
+  content: "“";
+}
+
+.tour-question::after {
+  content: "”";
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-bar {
+  display: flex;
+  gap: 3px;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: var(--border);
+  cursor: pointer;
+  transition: background-color var(--motion) ease;
+}
+
+.progress-segment.is-done {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.progress-segment.is-current {
+  background: var(--accent);
+}
+
+.progress-segment:hover {
+  background: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.progress-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.progress-step {
+  color: var(--vscode-foreground);
+  font-weight: 600;
+}
+
+.progress-file {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--vscode-editor-font-family);
+}
+
+.overview-summary {
+  color: var(--muted);
+}
+
+/* Map */
+
+.overview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 46px;
+  padding: 28px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--raised);
+}
+
+.overview-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 12px;
+}
+
+.overview-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 7px 14px 7px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 13px;
+  text-align: left;
+}
+
+div.overview-node {
+  padding-left: 10px;
+}
+
+button.overview-node {
+  cursor: pointer;
+  transition:
+    border-color var(--motion) ease,
+    background-color var(--motion) ease;
+}
+
+button.overview-node:hover {
+  border-color: var(--accent);
+}
+
+.overview-node.is-done {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.overview-node.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.overview-node-number {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.overview-node.is-done .overview-node-number {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.overview-node.is-current .overview-node-number {
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+}
+
+.overview-node-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overview-edges {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.overview-edge {
+  fill: none;
+  stroke: var(--muted);
+  stroke-opacity: 0.55;
+  stroke-width: 1.3;
+}
+
+.overview-edge.is-active {
+  stroke: var(--accent);
+  stroke-opacity: 1;
+  stroke-width: 1.6;
+}
+
+.overview-arrow-head {
+  fill: var(--muted);
+  fill-opacity: 0.55;
+}
+
+.overview-arrow-active-head {
+  fill: var(--accent);
+}
+
+.overview-edge-label {
+  font-size: 11px;
+  fill: var(--muted);
+  paint-order: stroke;
+  stroke: var(--raised);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+/* Steps */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.step {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.step:hover {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.step.is-current {
+  background: var(--accent-soft);
+}
+
+.step-badge {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.step.is-done .step-badge {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+}
+
+.step.is-current .step-badge {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+}
+
+.step-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.step-title {
+  line-height: 1.4;
+}
+
+.step.is-ahead .step-title {
+  color: color-mix(in srgb, var(--vscode-foreground) 82%, transparent);
+}
+
+.step.is-current .step-title {
+  font-weight: 600;
+}
+
+.step-file {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--vscode-editor-font-family);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.step-stale {
+  align-self: flex-start;
+  margin-top: 3px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 18%, transparent);
+  color: var(--vscode-editorWarning-foreground);
+  font-size: 11px;
+}
+
+/* Path: the tours above a sub-tour, down to the one the reader is in */
+
+.path,
+.path-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.path-children {
+  margin-left: 12px;
+  padding-left: 8px;
+  border-left: 1px solid var(--border);
+}
+
+.path-tour {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+}
+
+.path-tour:hover {
+  background: var(--vscode-list-hoverBackground);
+  color: var(--vscode-foreground);
+}
+
+.path-tour.is-current {
+  color: var(--vscode-foreground);
+  font-weight: 600;
+  cursor: default;
+}
+
+.path-tour.is-current:hover {
+  background: none;
+}
+
+.path-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.path-tour-title,
+.step-subtour-title {
+  flex: 1;
+  display: -webkit-box;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.path-tour-step {
+  flex: none;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sub-tours under the step they go deeper from */
+
+.step-subtours {
+  list-style: none;
+  margin: 0 0 4px 40px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.step-subtour {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+}
+
+.step-subtour:hover {
+  background: var(--vscode-list-hoverBackground);
+  color: var(--vscode-foreground);
+}
+
+.step-subtour > .icon {
+  color: var(--accent);
+}
+
+.step-subtour-meta {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.step-subtour-meta.is-done {
+  color: var(--accent);
+}
+
+.step-subtour-meta .icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* Controls */
+
+.controls {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.controls-row {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 8px;
+}
+
+.controls-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.button-primary {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+.button-primary:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+.button-secondary {
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+}
+
+.button-secondary:not(:disabled):hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--vscode-textLink-foreground);
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  color: var(--vscode-textLink-activeForeground);
+  text-decoration: underline;
+}
+
+/* Home */
+
+.home {
+  padding: 20px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 4px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.hero-mark .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.hero-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.hero-text {
+  color: var(--muted);
+}
+
+.how {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  counter-reset: how;
+}
+
+.how-item {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  counter-increment: how;
+}
+
+.how-item::before {
+  content: counter(how);
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.command {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 4px 4px 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--vscode-textCodeBlock-background, var(--raised));
+}
+
+.command-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12px;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--vscode-toolbar-hoverBackground);
+  color: var(--vscode-foreground);
+}
+
+.tour-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tour-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--raised);
+  transition: border-color var(--motion) ease;
+}
+
+.tour-card:hover {
+  border-color: var(--accent);
+}
+
+.tour-card.is-pinned {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: var(--accent-soft);
+}
+
+.tour-card-open {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 40px 10px 12px;
+  border: 0;
+  background: none;
+  color: var(--vscode-foreground);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* The actions of a card stay out of the way until the reader points at the card or tabs into it. */
+.tour-card-actions {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 2px;
+  padding: 1px;
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+.tour-card-pin.is-pinned {
+  color: var(--accent);
+}
+
+.tour-card-actions .icon-button {
+  opacity: 0;
+}
+
+.tour-card:hover .tour-card-actions .icon-button,
+.tour-card:focus-within .tour-card-actions .icon-button,
+.tour-card-actions .tour-card-pin.is-pinned {
+  opacity: 1;
+}
+
+.tour-card.is-pinned .tour-card-actions {
+  background: transparent;
+}
+
+.tour-card.is-dragging {
+  opacity: 0.5;
+}
+
+.tour-card-tag {
+  margin-left: 6px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 16%, transparent);
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.tour-card.is-editing {
+  padding: 10px 12px;
+  border-color: var(--accent);
+}
+
+.tour-card-stale {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 10px;
+  margin: 0 12px 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 12%, transparent);
+  font-size: 12px;
+}
+
+.tour-card-stale-text {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.tour-card-stale .link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tour-card-title {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.tour-card-question {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: var(--muted);
+}
+
+.tour-card-meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.empty {
+  color: var(--muted);
+}
+
+.unreadable-hint {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.unreadable-tour {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 12px;
+  border: 1px dashed color-mix(in srgb, var(--vscode-editorWarning-foreground) 60%, var(--border));
+  border-radius: var(--radius);
+}
+
+.unreadable-tour-title {
+  font-weight: 600;
+}
+
+.unreadable-tour-path {
+  color: var(--muted);
+  font-family: var(--vscode-editor-font-family);
+  font-size: 11.5px;
+  overflow-wrap: anywhere;
+}
+
+.unreadable-tour-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.unreadable-tour-problem {
+  color: var(--vscode-editorWarning-foreground);
+  font-size: 11.5px;
+  overflow-wrap: anywhere;
+}
+
+.banner {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+}
+
+.banner-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+}
+
+.banner-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+/* Map button and paused list */
+
+.overview-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--motion) ease;
+}
+
+.overview-button:hover,
+.overview-button.is-open {
+  border-color: var(--accent);
+}
+
+.overview-button.is-open {
+  background: var(--accent-soft);
+}
+
+.overview-button .icon {
+  color: var(--accent);
+}
+
+.steps.is-paused .step.is-current {
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.steps.is-paused .step.is-current .step-title {
+  font-weight: normal;
+}
+
+.controls > .button {
+  width: 100%;
+}
+
+/* Overview page in the editor area */
+
+body[data-surface="overview"] {
+  background: var(--vscode-editor-background);
+}
+
+.overview-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 40px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.overview-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.overview-title {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.overview-page .tour-question {
+  font-size: 14px;
+}
+
+.overview-page .overview-summary {
+  max-width: 72ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--vscode-foreground);
+}
+
+.overview-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.button-large {
+  padding: 9px 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.button-large .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.route {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 4px 16px;
+}
+
+/* Explanation panel under the code */
+
+body[data-surface="step"] {
+  background: var(--vscode-panel-background, var(--vscode-editor-background));
+}
+
+.step-page {
+  container-type: inline-size;
+  padding: 12px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* A narrow panel shows one column, with the diagram right under the short text and before the
+   button that opens the full explanation. A wide panel puts the diagram beside the text and lets
+   the full explanation run across the whole width in columns: the bottom panel is wide but low. */
+.step-page-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-page-main {
+  display: contents;
+}
+
+.step-page-title {
+  order: 1;
+}
+
+.step-page-lead {
+  order: 2;
+}
+
+.step-page-stale,
+.step-page-changed {
+  order: 3;
+}
+
+.risk-list {
+  order: 4;
+}
+
+.diagram-frame {
+  order: 5;
+}
+
+.step-page-toggles,
+.subtours {
+  order: 6;
+}
+
+.details-body {
+  order: 7;
+}
+
+.ask {
+  order: 8;
+}
+
+@container (min-width: 760px) {
+  .step-page-body {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(0, max-content);
+    grid-template-areas:
+      "main diagram"
+      "details details"
+      "ask ask";
+    align-items: start;
+    gap: 14px 32px;
+  }
+
+  .step-page-main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .diagram-frame {
+    grid-area: diagram;
+    min-width: 0;
+  }
+
+  .step-page-body.has-wide-diagram {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "main"
+      "diagram"
+      "details"
+      "ask";
+  }
+
+  .ask {
+    grid-area: ask;
+  }
+
+  .details-body {
+    grid-area: details;
+    column-width: 40ch;
+    column-gap: 36px;
+  }
+}
+
+.step-page-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.step-page-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+}
+
+.step-page-place {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.step-page-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.step-page-progress {
+  grid-column: 1 / -1;
+}
+
+.step-page-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.step-page-lead {
+  max-width: 75ch;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.step-page-stale {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 14%, transparent);
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.step-page-changed {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 10%, transparent);
+}
+
+.step-page-changed-text {
+  margin: 0;
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.step-page-changed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+.step-page-changed-actions .link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.step-page-hint {
+  margin-top: 4px;
+}
+
+.step-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  color: var(--muted);
+}
+
+.step-placeholder-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.details-toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px 5px 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--vscode-foreground);
+  cursor: pointer;
+  transition: border-color var(--motion) ease;
+}
+
+.details-toggle:hover {
+  border-color: var(--accent);
+}
+
+.details-toggle .icon {
+  color: var(--accent);
+  transition: transform var(--motion) ease;
+}
+
+.details-toggle.is-open .icon {
+  transform: rotate(180deg);
+}
+
+.details-body {
+  padding-left: 14px;
+  border-left: 2px solid var(--accent);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.markdown > * + * {
+  margin-top: 10px;
+}
+
+.markdown p,
+.markdown h3,
+.markdown ul,
+.markdown ol,
+.markdown pre {
+  margin: 0;
+}
+
+.markdown h3 {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.markdown ul,
+.markdown ol {
+  padding-left: 20px;
+}
+
+.markdown li + li {
+  margin-top: 4px;
+}
+
+.markdown code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--vscode-textCodeBlock-background, var(--raised));
+  font-family: var(--vscode-editor-font-family);
+  font-size: 0.92em;
+}
+
+.markdown pre {
+  overflow-x: auto;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--vscode-textCodeBlock-background, var(--raised));
+  line-height: 1.5;
+}
+
+.markdown pre code {
+  padding: 0;
+  background: none;
+}
+
+.markdown blockquote {
+  margin: 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--vscode-editorWarning-foreground);
+  border-radius: 0 6px 6px 0;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 10%, transparent);
+}
+
+.markdown-table {
+  overflow-x: auto;
+}
+
+.markdown table {
+  border-collapse: collapse;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.markdown th,
+.markdown td {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown th {
+  background: var(--raised);
+  font-weight: 600;
+}
+
+.markdown pre,
+.markdown blockquote,
+.markdown-table {
+  break-inside: avoid;
+}
+
+/* Step diagram */
+
+.diagram-frame {
+  overflow-x: auto;
+}
+
+.diagram {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  width: max-content;
+  margin-inline: auto;
+  margin: 0;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--raised);
+}
+
+.diagram-layer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.diagram.is-vertical {
+  flex-direction: column;
+  gap: 36px;
+  width: auto;
+}
+
+.diagram.is-vertical .diagram-layer {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.diagram-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 220px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--vscode-foreground);
+  font: inherit;
+  text-align: left;
+}
+
+.diagram-node.is-link {
+  cursor: pointer;
+  transition: border-color var(--motion) ease;
+}
+
+.diagram-node.is-link:hover {
+  border-color: var(--accent);
+}
+
+.diagram-node.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.diagram-node-label {
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12.5px;
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+
+.diagram-node-note {
+  font-size: 11.5px;
+  color: var(--muted);
+  overflow-wrap: break-word;
+}
+
+.diagram-node-here,
+.diagram-node-step {
+  position: absolute;
+  top: -9px;
+  right: 8px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.diagram-node-here {
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+}
+
+.diagram-node-step {
+  background: var(--border);
+  color: var(--vscode-foreground);
+}
+
+.diagram-edges {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.diagram-edge {
+  fill: none;
+  stroke: var(--muted);
+  stroke-opacity: 0.6;
+  stroke-width: 1.3;
+}
+
+.diagram-edge.is-active {
+  stroke: var(--accent);
+  stroke-opacity: 1;
+  stroke-width: 1.6;
+}
+
+.diagram-arrow-head {
+  fill: var(--muted);
+  fill-opacity: 0.6;
+}
+
+.diagram-arrow-active-head {
+  fill: var(--accent);
+}
+
+.diagram-edge-label {
+  font-size: 11px;
+  fill: var(--muted);
+  paint-order: stroke;
+  stroke: var(--raised);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion: 0ms;
+  }
+}
+
+/* Risks */
+
+.risk-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.risk {
+  --risk-color: var(--vscode-editorInfo-foreground);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 10px;
+  border-left: 3px solid var(--risk-color);
+  border-radius: 0 6px 6px 0;
+  background: color-mix(in srgb, var(--risk-color) 9%, transparent);
+}
+
+.risk-high {
+  --risk-color: var(--vscode-editorError-foreground);
+}
+
+.risk-medium {
+  --risk-color: var(--vscode-editorWarning-foreground);
+}
+
+.risk-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.risk-title {
+  color: var(--risk-color);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.risk-line {
+  color: var(--muted);
+  font-family: var(--vscode-editor-font-family);
+  font-size: 11.5px;
+}
+
+.risk-text {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.risk-marker {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: var(--vscode-editorError-foreground);
+  vertical-align: middle;
+}
+
+.step-page-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.risks-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--vscode-foreground);
+  cursor: pointer;
+}
+
+.risks-toggle:hover {
+  border-color: var(--vscode-editorError-foreground);
+}
+
+.risks-toggle-switch {
+  position: relative;
+  width: 24px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--border);
+  transition: background-color var(--motion) ease;
+}
+
+.risks-toggle-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--vscode-foreground);
+  transition: transform var(--motion) ease;
+}
+
+.risks-toggle.is-on .risks-toggle-switch {
+  background: var(--vscode-editorError-foreground);
+}
+
+.risks-toggle.is-on .risks-toggle-switch::after {
+  transform: translateX(10px);
+}
+
+/* Glossary */
+
+/* The underline goes on the inner code too: a code background would hide the term's own line. */
+.term,
+.markdown .term > code {
+  text-decoration: underline dotted var(--accent);
+  text-underline-offset: 3px;
+}
+
+.term {
+  position: relative;
+  cursor: help;
+}
+
+.term-definition {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.term-tooltip {
+  position: fixed;
+  z-index: 100;
+  display: none;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(340px, calc(100vw - 16px));
+  overflow-y: auto;
+  padding: 7px 10px;
+  border: 1px solid var(--vscode-editorHoverWidget-border, var(--border));
+  border-radius: 6px;
+  background: var(--vscode-editorHoverWidget-background, var(--raised));
+  color: var(--vscode-editorHoverWidget-foreground, var(--vscode-foreground));
+  box-shadow: 0 4px 16px var(--vscode-widget-shadow, transparent);
+  font-size: 12.5px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.term-tooltip.is-shown {
+  display: block;
+}
+
+.glossary {
+  display: grid;
+  gap: 2px 0;
+  margin: 0;
+}
+
+.glossary-term {
+  margin-top: 8px;
+  font-family: var(--vscode-editor-font-family);
+  font-weight: 600;
+}
+
+.glossary-definition {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Questions to Claude */
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 100ch;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.ask-exchange {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ask-question {
+  align-self: flex-start;
+  max-width: 80ch;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 10px 10px 10px 2px;
+  background: var(--accent-soft);
+  font-weight: 500;
+}
+
+.ask-answer {
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.ask-status,
+.build-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.build-status {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--raised);
+}
+
+.build-status-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.build-status-text strong {
+  color: var(--vscode-foreground);
+}
+
+.build-status-reading,
+.ask-status-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ask-spinner {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: ask-spin 0.9s linear infinite;
+}
+
+@keyframes ask-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-spinner {
+    animation: none;
+  }
+}
+
+.ask-failure {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorError-foreground) 12%, transparent);
+  color: var(--vscode-editorError-foreground);
+}
+
+.ask-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ask-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 52px;
+  resize: vertical;
+  padding: 8px 10px;
+  border: 1px solid var(--vscode-input-border, var(--border));
+  border-radius: 6px;
+  background: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  font: inherit;
+}
+
+.ask-input:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+
+.ask-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.code-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--vscode-textLink-foreground);
+  cursor: pointer;
+}
+
+.markdown .code-link code {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Sub-tours */
+
+.parent-trail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  min-width: 0;
+  padding: 6px 8px 6px 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-radius: 8px;
+  background: var(--accent-soft);
+  font-size: 12.5px;
+}
+
+.parent-trail-back {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--vscode-foreground);
+  font: inherit;
+  cursor: pointer;
+}
+
+.parent-trail-back:hover {
+  border-color: var(--accent);
+}
+
+.parent-trail-kind {
+  flex: none;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.parent-trail-place {
+  display: flex;
+  flex: 1 1 180px;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.parent-trail-tour,
+.parent-trail-step {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.parent-trail-link {
+  min-width: 0;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.parent-trail-link:hover {
+  color: var(--vscode-textLink-activeForeground, var(--accent));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.parent-trail-step {
+  color: var(--vscode-foreground);
+}
+
+.subtours {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subtours-title {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.subtour-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--raised);
+  color: var(--vscode-foreground);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--motion) ease,
+    background-color var(--motion) ease;
+}
+
+.subtour-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.subtour-card.is-new {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.subtour-card-mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.subtour-card-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.subtour-card-title {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subtour-card-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.subtour-card-new {
+  flex: none;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.subtour-card-enter {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.subtour-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 6px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.subtour-count svg {
+  width: 12px;
+  height: 12px;
+}
+
+.subtour-busy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 5px 6px 5px 11px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent-soft);
+}
+
+.subtour-busy-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.subtour-busy-title {
+  font-weight: 600;
+}
+
+.subtour-busy-reading {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subtour-busy-stop {
+  flex: none;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--vscode-foreground);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.subtour-busy-stop:hover {
+  border-color: var(--vscode-editorError-foreground);
+}
+
+.ask-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ask-suggestions-title {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ask-suggestions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ask-suggestion {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  max-width: 100%;
+  padding: 6px 12px 6px 9px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--raised);
+  color: var(--vscode-foreground);
+  font: inherit;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--motion) ease,
+    background-color var(--motion) ease;
+}
+
+.ask-suggestion:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.ask-suggestion:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.ask-suggestion svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--accent);
+}
+
+/* Sections fold like folders in the explorer. */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.section-toggle {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.section-toggle .section-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.section-toggle:hover .section-title {
+  color: var(--vscode-foreground);
+}
+
+.section-badge {
+  flex: none;
+  padding: 0 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 10.5px;
+}
+
+.section-count {
+  flex: none;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--vscode-badge-background);
+  color: var(--vscode-badge-foreground);
+  font-size: 10.5px;
+  text-align: center;
+}
+
+.section-actions {
+  display: flex;
+  gap: 2px;
+}
+
+/* Hidden actions take no room from the group's name, and still take keyboard focus. */
+.section-header:not(:hover, :focus-within) .section-actions {
+  width: 0;
+  overflow: hidden;
+}
+
+.section.is-drop-target {
+  border-radius: var(--radius);
+  outline: 1px dashed var(--accent);
+  outline-offset: 4px;
+  background: var(--accent-soft);
+}
+
+.tours-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tours-toolbar .link-button,
+.unreadable-tour-actions .link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.group-empty {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Edit forms */
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-label-text {
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.edit-field {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid var(--vscode-input-border, var(--border));
+  border-radius: 4px;
+  background: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  font: inherit;
+  resize: vertical;
+}
+
+.edit-field:focus {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+
+.edit-field-code {
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12px;
+}
+
+.edit-failure {
+  margin: 0;
+  color: var(--vscode-errorForeground);
+}
+
+.edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-toggle .group-name {
+  color: var(--vscode-foreground);
+  font-size: 12.5px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.tours-ignored {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 12%, transparent);
+  color: var(--vscode-editorWarning-foreground);
+  font-size: 12px;
+}
