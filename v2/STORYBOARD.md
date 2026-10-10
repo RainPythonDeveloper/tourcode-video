@@ -189,12 +189,23 @@
 Each sentence is generated separately and placed on its beat (`source/narration/script.json`); the
 word timings come from the voice model and drive every on-screen word.
 
-## Captions (v2.1)
+## On-screen words (v3)
 
-A dark glass pill with the product's glowing green dot (the UI's eyebrow), bottom centre. It opens from
-the dot and grows to the right as each word is spoken; every word rises out of a mask, and a thin green
-line — the logo's route — slides under the word being spoken. The line is centred once complete and never
-shifts while it is read. The hook and the final frame keep their large typography.
+No subtitles. Only the important words, large, in Instrument Serif (italic for the heart of the
+phrase), each appearing as it is spoken, letter by letter out of a mask:
+
+| Scene | Words on screen |
+|-------|-----------------|
+| 1 | A codebase / *you've never seen.* → Where do you / *even start?* |
+| 2 | Ask your *coding agent.* (the command is typed in Geist Mono) |
+| 3 | Finds *the route.* |
+| 4 | A tour map. / *The whole answer.* (the camera holds on the map, words on the left) |
+| 5 | Step *by step.* → The exact lines, / *explained.* |
+| 6 | Ask about *any step.* → See *what can break.* → Go *deeper.* → The *Path.* |
+| 7 | Start here, / *for every newcomer.* |
+| 8 | *Export.* (then the app names land with the voice) |
+| 9 | Your editor. · Your agent. · Even your *notebooks.* |
+| 10 | Understand any codebase, *one step at a time.* (wordmark in Geist) |
 
 ## Poster frames
 

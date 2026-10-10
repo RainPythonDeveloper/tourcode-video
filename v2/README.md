@@ -4,7 +4,7 @@
 
 | File | What it is |
 |------|------------|
-| `tourcode-teaser-v2.mp4` | The film (v2.1): 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS, 28.4 MB |
+| `tourcode-teaser-v2.mp4` | The film (v3): 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS, 28.4 MB |
 | `posters/poster-1-tour-map.png` | Poster frame: the tour map, just after the reveal (0:23) |
 | `posters/poster-2-step.png` | Poster frame: step 1, `auth.ts` lines 4–10 lit, the explanation under the code (0:31) |
 | `posters/poster-3-final.png` | Poster frame: the final frame (1:14) |
@@ -13,8 +13,8 @@
 | `source/` | Everything needed to re-render (see below) |
 
 The brief asked for 60 s; on review the export scene was added and the length freed, so the film
-is 75 s (35 bars at 112 BPM). v2.1 (this version) restyles the captions and rebuilds the export scene;
-the first render is in the git history (commit b8671a3).
+is 75 s (35 bars at 112 BPM). v3 (this version) drops the subtitles for large kinetic key words in
+Instrument Serif and keeps the rebuilt export scene of v2.1; earlier renders are in the git history.
 
 ## The story
 
@@ -33,10 +33,12 @@ Every cut sits on a bar line of the music (112 BPM, 2.143 s per bar); the tour m
 | 9 | 1:02 | Works everywhere | Editor and agent marks snap in on the beat | Your editor. Your agent. Even your notebooks. |
 | 10 | 1:06 | Final frame | The logo's route line draws itself, the green circle blooms | TourCode. Understand any codebase, one step at a time. |
 
-Every on-screen word appears as it is spoken (word timings from the voice model), so the film
-works muted. Captions sit in a dark glass pill with the product's green dot; the pill grows with the
-words, each word rises out of a mask, and a thin green line (the logo's route) runs under the word
-being spoken. All TourCode UI in the film is the product's own: the pages in `assets/ui` are drawn
+No subtitles: only the important words are on screen, set large in **Instrument Serif** (italic for
+the heart of each phrase) and placed in the free space of each frame. Every word appears exactly
+as it is spoken (word timings from the voice model): its letters rise out of a mask one by one with
+a small 3D turn and a blur that clears, and leave the same way when the phrase is done. The
+TourCode wordmark is set in **Geist**, the `/tour` command and the call to action in **Geist Mono**.
+The product's own screens keep their own fonts. All TourCode UI in the film is the product's own: the pages in `assets/ui` are drawn
 by the extension's `webview.js` with `webview.css` into new states (step 2, step 3, the answer
 streaming, risks on, a pinned / out-of-date tour…), and that DOM is embedded in the film with the
 same CSS. Code, step titles, diagram labels, the risk note and the glossary definition come from
@@ -100,8 +102,10 @@ No line needed speeding up; nothing was cut.
 | Asset | Source | Licence / terms |
 |-------|--------|-----------------|
 | TourCode UI, logo, demo code and tours | `assets/` in this repository | Yours |
-| Inter | `@fontsource/inter` 5 (Rasmus Andersson) | SIL Open Font License 1.1 |
-| JetBrains Mono | `@fontsource/jetbrains-mono` 5 (JetBrains) | SIL Open Font License 1.1 |
+| Instrument Serif (key words) | `@fontsource/instrument-serif` 5 (Rodrigo Fuenzalida, Jordan Egstad) | SIL Open Font License 1.1 |
+| Geist, Geist Mono (wordmark, command, call to action) | `@fontsource/geist-sans`, `@fontsource/geist-mono` 5 (Vercel) | SIL Open Font License 1.1 |
+| Inter (editor window chrome) | `@fontsource/inter` 5 (Rasmus Andersson) | SIL Open Font License 1.1 |
+| JetBrains Mono (code in the editor) | `@fontsource/jetbrains-mono` 5 (JetBrains) | SIL Open Font License 1.1 |
 | GSAP 3.13.0 | npm `gsap` | GSAP Standard "no charge" license — free, including commercial use |
 | Playwright, Chromium | npm `playwright` | Apache-2.0 (render tool, not in the film) |
 | Voice model Kokoro-82M, voice `af_heart` | hexgrad/Kokoro-82M via `kokoro-onnx` (thewh1teagle, model files from its GitHub release) | Apache-2.0 (model), MIT (`kokoro-onnx`); espeak-ng phonemizer (GPL-3.0) used as a build tool |
@@ -117,5 +121,5 @@ products (nominative use). Check each brand's guidelines before paid promotion.
 
 - **ElevenLabs:** not used in this version. If you switch to it, the free plan does not allow
   commercial use and requires attribution; a paid plan (Starter or higher) includes a commercial licence.
-- **Kokoro (the voice used), GSAP, the fonts and the synthesized audio:** commercial use allowed.
+- **Kokoro (the voice used), GSAP, the fonts (all SIL OFL) and the synthesized audio:** commercial use allowed.
 - **Logos:** trademarks of their owners (see above).

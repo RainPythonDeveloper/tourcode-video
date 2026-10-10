@@ -84,53 +84,48 @@
         list[i].start - (o.lead ?? 0.04));
     });
   }
-  const capRoot = $('#captions');
-  /* Captions: a dark glass pill with the product's glowing green dot. The pill grows to the
-     right as each word arrives, the word rises out of a mask, and a thin green line (the
-     logo's route) slides under the word being spoken. Text never shifts while it is read. */
-  function caption(id, from, to, outAt) {
-    const list = words(id).slice(from, to);
-    const pill = el('div', 'cap');
-    const dot = el('i', 'cap-dot');
-    const line = el('div', 'cap-line');
-    const under = el('b', 'cap-bar');
-    pill.append(dot, line);
-    line.appendChild(under);
-    const ws = list.map((w, i) => {
-      const m = el('span', 'cw');
-      const sp = el('span', 'cw-i', w.word);
-      m.appendChild(sp);
-      line.appendChild(m);
-      if (i < list.length - 1) line.appendChild(document.createTextNode(' '));
-      return { m, sp, w };
-    });
-    capRoot.appendChild(pill);
-    const W = pill.getBoundingClientRect().width;
-    pill.style.left = (960 - W / 2).toFixed(1) + 'px';
-    const pr = pill.getBoundingClientRect(), lr = line.getBoundingClientRect();
-    const geo = ws.map(({ m }) => { const r = m.getBoundingClientRect(); return { x: r.left - lr.left, w: r.width, right: r.right - pr.left }; });
-    const PADR = 30, R = 18;
-    const inset = (right) => `inset(0px ${Math.max(0, W - right - PADR).toFixed(1)}px 0px 0px round ${R}px)`;
-    const t0 = list[0].start;
-    gsap.set(pill, { opacity: 0, y: 12, clipPath: inset(34) }); // only the dot shows at first
-    gsap.set(ws.map((o) => o.sp), { yPercent: 118, color: '#FFFFFF' });
-    gsap.set(under, { x: geo[0].x, width: 0 });
-    tl.to(pill, { opacity: 1, y: 0, duration: 0.32, ease: 'expo.out' }, t0 - 0.24);
-    tl.fromTo(dot, { scale: 0.3 }, { scale: 1, duration: 0.5, ease: 'back.out(3)' }, t0 - 0.24);
-    ws.forEach(({ sp, w }, i) => {
-      const at = w.start - 0.05;
-      tl.to(pill, { clipPath: inset(geo[i].right), duration: 0.42, ease: 'expo.out' }, at);
-      tl.to(sp, { yPercent: 0, duration: 0.5, ease: 'expo.out' }, at);
-      tl.to(under, { x: geo[i].x, width: geo[i].w, duration: 0.34, ease: 'expo.out' }, at);
-      if (i) tl.to(ws[i - 1].sp, { color: '#C9CDD2', duration: 0.3 }, at);
-    });
-    const last = list[list.length - 1], g = geo[geo.length - 1];
-    tl.to(under, { x: g.x + g.w, width: 0, duration: 0.4, ease: 'power2.inOut' }, last.end + 0.12);
-    tl.to(ws[ws.length - 1].sp, { color: '#C9CDD2', duration: 0.4 }, last.end + 0.12);
-    const out = outAt ?? (last.end + 1.2);
-    tl.to(ws.map((o) => o.sp), { yPercent: -118, duration: 0.3, ease: 'power2.in', stagger: 0.01 }, out);
-    tl.to(pill, { opacity: 0, y: 6, duration: 0.28, ease: 'power2.in' }, out + 0.1);
-    return pill;
+  // ---------- kinetic key words ----------
+  /* Only the important words, set large in Instrument Serif. Each word appears as it is
+     spoken: its letters rise out of a mask one by one with a small 3D turn and a blur that
+     clears; italic marks the heart of the phrase. A soft shade sits behind words that
+     land over the UI. */
+  const titles = $('#titles');
+  function kinetic({ lines, x = 120, y = null, bottom = null, center = false, out = null, shade = false, parent = titles, lead = 0.06 }) {
+    const box = el('div', 'kt' + (center ? ' center' : ''));
+    if (!center) box.style.left = x + 'px';
+    if (y != null) box.style.top = y + 'px';
+    if (bottom != null) box.style.bottom = bottom + 'px';
+    const sh = shade ? el('div', 'kt-shade') : null;
+    if (sh) parent.appendChild(sh);
+    parent.appendChild(box);
+    const all = [];
+    let first = Infinity;
+    for (const L of lines) {
+      const line = el('div', 'kl');
+      line.style.fontSize = L.size + 'px';
+      if (L.gap) line.style.marginTop = L.gap + 'px';
+      box.appendChild(line);
+      const list = words(L.seg);
+      L.words.forEach((wi, k) => {
+        const w = list[wi];
+        const text = (L.text && L.text[wi]) || w.word;
+        const wEl = el('span', 'kw' + (L.it && L.it.includes(wi) ? ' it' : ''));
+        const chars = [...text].map((ch) => { const c = el('span', 'kc', ch); wEl.appendChild(c); return c; });
+        line.appendChild(wEl);
+        if (k < L.words.length - 1) line.appendChild(document.createTextNode(' '));
+        const t = w.start - lead;
+        first = Math.min(first, t);
+        gsap.set(chars, { yPercent: 112, rotationX: -75, opacity: 0, filter: 'blur(12px)' });
+        tl.to(chars, { yPercent: 0, rotationX: 0, opacity: 1, filter: 'blur(0px)', duration: 0.95, ease: 'expo.out', stagger: 0.028 }, t);
+        all.push(...chars);
+      });
+    }
+    if (sh) {
+      tl.to(sh, { opacity: 1, duration: 0.5, ease: 'power2.out' }, first - 0.2);
+      if (out != null) tl.to(sh, { opacity: 0, duration: 0.55, ease: 'power2.inOut' }, out + 0.1);
+    }
+    if (out != null) tl.to(all, { yPercent: -50, opacity: 0, filter: 'blur(10px)', duration: 0.5, ease: 'power3.in', stagger: 0.007 }, out);
+    return box;
   }
 
   // ---------- cursor ----------
@@ -289,8 +284,6 @@
   }
 
   // ---- 2 · prompt ----
-  const headWords = words('s2').slice(0, 4);
-  const headSpans = wordSpans($('#cmd-head'), headWords);
   const promptSlash = $('#prompt .slash'), promptRest = $('#prompt .rest'), caret = $('#prompt .caret');
 
   // ---- 3 · explorer ----
@@ -367,7 +360,7 @@
   ex.init('sb-home');
   const exCursor = cursor($('#cursor-export'));
   // the exported page (assets/tours/how-login-works.page.html), its real DOM and CSS
-  const PZ = 0.8625; // 1280×800 → 1104×690
+  const PZ = 1060 / 1280; // 1280×800 → 1060×662.5
   const pageFrame = $('#page-frame');
   const pageHost = el('div', 'ui-host');
   {
@@ -414,8 +407,6 @@
     row.style.top = r.y + 'px';
     const lab = el('div', 'label');
     row.appendChild(lab);
-    const list = words('s9').slice(r.label[0], r.label[1]);
-    const spans = wordSpans(lab, list);
     const items = r.items.map(([k, name], i) => {
       const it = el('div', 'logo-item');
       it.style.left = (860 + i * 235) + 'px';
@@ -425,12 +416,10 @@
       return it;
     });
     rows.appendChild(row);
-    return { row, spans, list, items };
+    return { row, lab, items };
   });
 
   // ---- 10 · final ----
-  const tagList = words('s10b');
-  const tagSpans = wordSpans($('#tagline'), tagList, 'w', [4, 5, 6, 7]); // "one step at a time." 
 
   // =====================================================================================
   //  MEASURE, THEN ANIMATE
@@ -493,15 +482,15 @@
       map: srcOf(tourHost.q('.overview-button')),
       steps: tourHost.qa('.steps-item .step .step-title').slice(0, 4).map(srcOf),
     };
-    Object.assign(pageFrame.style, { left: '408px', top: '118px', width: '1104px', height: '690px' });
+    Object.assign(pageFrame.style, { left: '760px', top: '196px', width: '1060px', height: '662.5px' });
     const pageFinal = new Map();
     for (const n of [pageHost.q('.header-title'), ...pageHost.qa('.step-list-item')]) {
       const r = rect(n);
       const cs = getComputedStyle(n);
-      pageFinal.set(n, { lx: r.x - 408 - 1, ly: r.y - 118 - 1, h: r.h, w: r.w, font: parseFloat(cs.fontSize) * PZ,
+      pageFinal.set(n, { lx: r.x - 760 - 1, ly: r.y - 196 - 1, h: r.h, w: r.w, font: parseFloat(cs.fontSize) * PZ,
         padL: parseFloat(cs.paddingLeft) * PZ, padT: parseFloat(cs.paddingTop) * PZ });
     }
-    Object.assign(pageFrame.style, { left: '0px', top: '0px', width: '578px', height: '690px' });
+    Object.assign(pageFrame.style, { left: '1150px', top: '160px', width: '578px', height: '690px' });
     const logo = $('#logo');
     const rPath = $('.r-path', logo), rHead = $('.r-head', logo), rDot = $('.r-dot', logo);
 
@@ -528,14 +517,15 @@
       }
     });
     $('#s1').style.perspective = '1100px';
-    const hookA = $('#hook-a'), hookB = $('#hook-b');
-    const aList = words('s1a'), bList = words('s1b');
-    wordsIn(wordSpans(hookA, aList), aList, { y: 34, blur: 16, scale: 0.94, dur: 0.55 });
-    tl.to(hookA, { opacity: 0, scale: 1.18, filter: 'blur(14px)', duration: 0.5, ease: 'power2.in' }, 3.28);
-    const bSpans = wordSpans(hookB, bList, 'w', [4]); // "start?" 
-    wordsIn(bSpans, bList, { y: 40, blur: 18, scale: 0.92, dur: 0.5 });
-    tl.to(hookB, { scale: 0.97, duration: 1.2, ease: 'sine.inOut' }, 4.9);
-    tl.to(hookB, { opacity: 0, filter: 'blur(10px)', duration: 0.32, ease: 'power2.in' }, 6.0);
+    kinetic({ center: true, y: 330, out: 3.22, lines: [
+      { seg: 's1a', words: [2, 3], text: { 2: 'A' }, size: 132 },
+      { seg: 's1a', words: [4, 5, 6], it: [4, 5, 6], size: 132 },
+    ] });
+    const hookQ = kinetic({ center: true, y: 300, out: 5.98, lines: [
+      { seg: 's1b', words: [0, 1, 2], size: 176 },
+      { seg: 's1b', words: [3, 4], it: [3, 4], size: 176 },
+    ] });
+    tl.to(hookQ, { scale: 0.965, duration: 1.1, ease: 'sine.inOut' }, 4.9);
     tl.fromTo('#s1 .cam', { scale: 1 }, { scale: 1.05, duration: 5.6, ease: 'none' }, 0);
     cue('hook_riser', 0.0, { dur: 4.95 });
     [1.05, 2.35, 3.4, 4.25].forEach((t, i) => cue('rush', t, { i }));
@@ -548,7 +538,9 @@
     const s2 = bar(4);
     gsap.set('#prompt', { opacity: 0, y: 30, scale: 0.97 });
     tl.to('#prompt', { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'expo.out' }, s2 + 0.05);
-    wordsIn(headSpans, headWords, { y: 20, blur: 10 });
+    kinetic({ center: true, y: 268, out: bar(6) + 0.5, lines: [
+      { seg: 's2', words: [0, 1, 2, 3], it: [2, 3], text: { 3: 'agent.' }, size: 104 },
+    ] });
     cue('cut_soft', s2);
     // typing: "/tour" on "slash tour", then each word across its own spoken time
     const sw = words('s2');
@@ -591,14 +583,14 @@
     drawPath(glow2, ENTER + 0.4, 1.75, 'power2.in');
     cue('line_swish', ENTER + 0.45);
     tl.to('#s2 .cam', { x: '-=1250', duration: bar(7) - (ENTER + 0.75), ease: 'power2.in' }, ENTER + 0.75);
-    tl.to(['#prompt', '#cmd-head'], { opacity: 0.25, duration: 0.8 }, ENTER + 1.0);
+    tl.to('#prompt', { opacity: 0.25, duration: 0.8 }, ENTER + 1.0);
 
     // =================================================================================
     // 3 · THE AGENT STUDIES THE CODE  bar 7 – bar 10
     // =================================================================================
     const s3 = bar(7);
     // the map space: identical to the tour map's first framing in scene 4
-    const MAP0 = cam(mapCenter, 1.48, { dx: 210, dy: -10 });
+    const MAP0 = cam(mapCenter, 1.48, { dx: 340, dy: -10 });
     const mapspace = $('#mapspace');
     gsap.set(mapspace, { x: MAP0.x, y: MAP0.y, scale: MAP0.scale });
     const toScreen = (P) => ({ x: 960 + MAP0.x + MAP0.scale * (P.x - 960), y: 540 + MAP0.y + MAP0.scale * (P.y - 540) });
@@ -663,12 +655,15 @@
     cue('select', bar(9, 2));
     tl.to(r3, { opacity: 0.35, duration: 1.2 }, bar(9, 1));
     tl.to(explorer, { opacity: 0.35, x: -30, duration: 1.6, ease: 'sine.inOut' }, bar(9, 1));
-    caption('s3', 0, 10, bar(9, 4));
+    kinetic({ x: 120, bottom: 118, out: bar(9, 4), lines: [
+      { seg: 's3', words: [5, 6, 7], it: [6, 7], text: { 5: 'Finds', 7: 'route.' }, size: 136 },
+    ] });
 
     // =================================================================================
     // 4 · THE REVEAL — TOUR MAP  bar 10 (the drop) – bar 14
     // =================================================================================
     const s4 = bar(10);
+    const PULL = 21.95; // the camera holds on the map while the line is spoken, then pulls back
     const m4 = $('#s4 .cam');
     gsap.set(m4, MAP0);
     // the panel and everything but the nodes assemble around them
@@ -694,19 +689,24 @@
     tl.to(glow, { opacity: 0.22, duration: 2.2, ease: 'sine.inOut' }, s4 + 0.4);
     tl.fromTo(mapHost.qa('.overview-node'), { scale: 1.06 }, { scale: 1, duration: 0.6, ease: 'expo.out', stagger: 0.05 }, s4);
     // pull back to the whole tab
-    const MAPFULL = cam({ x: 960, y: 560 }, 0.9, { dy: -40, rx: 6 });
-    tl.to(m4, { ...MAPFULL, duration: 2.0, ease: 'expo.inOut' }, s4 + 0.4);
-    cue('airy_whoosh', s4 + 0.4);
-    tl.to(mapWin, { backgroundColor: 'rgba(31,31,31,1)', borderColor: 'rgba(49,49,49,1)', boxShadow: '0 40px 120px rgba(0,0,0,.55)', duration: 0.9 }, s4 + 0.6);
-    tl.to(mapBodyBg, { backgroundColor: 'rgba(31,31,31,1)', duration: 0.9 }, s4 + 0.6);
-    tl.to(mapHost.q('.overview'), { borderColor: '#313131', duration: 0.9 }, s4 + 0.9);
-    tl.to($('.tabstrip', mapWin), { opacity: 1, duration: 0.6 }, s4 + 1.1);
-    tl.to(mapParts, { opacity: 1, y: 0, duration: 0.7, stagger: 0.14, ease: 'expo.out' }, s4 + 1.15);
+    tl.to(m4, { scale: MAP0.scale * 1.025, x: MAP0.x * 1.025, y: MAP0.y * 1.025, duration: PULL - s4, ease: 'sine.inOut' }, s4);
+    kinetic({ x: 120, y: 318, out: PULL - 0.15, lines: [
+      { seg: 's4a', words: [0, 1, 2], text: { 2: 'map.' }, size: 150 },
+      { seg: 's4a', words: [3, 4, 5], it: [3, 4, 5], text: { 3: 'The' }, size: 116, gap: 14 },
+    ] });
+    const MAPFULL = cam({ x: 960, y: 650 }, 0.88, { dy: -40, rx: 5 });
+    tl.to(m4, { ...MAPFULL, duration: 1.6, ease: 'expo.inOut' }, PULL);
+    cue('airy_whoosh', PULL);
+    tl.to(mapWin, { backgroundColor: 'rgba(31,31,31,1)', borderColor: 'rgba(49,49,49,1)', boxShadow: '0 40px 120px rgba(0,0,0,.55)', duration: 0.9 }, PULL + 0.05);
+    tl.to(mapBodyBg, { backgroundColor: 'rgba(31,31,31,1)', duration: 0.9 }, PULL + 0.05);
+    tl.to(mapHost.q('.overview'), { borderColor: '#313131', duration: 0.9 }, PULL + 0.3);
+    tl.to($('.tabstrip', mapWin), { opacity: 1, duration: 0.6 }, PULL + 0.2);
+    tl.to(mapParts, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'expo.out' }, PULL + 0.3);
     const routeItems = mapHost.qa('.route-item');
     gsap.set(routeItems, { opacity: 0, y: 10 });
-    tl.to(routeItems, { opacity: 1, y: 0, duration: 0.5, stagger: BEAT / 2, ease: 'expo.out' }, bar(11, 2));
-    routeItems.forEach((_, i) => cue('route_tick', bar(11, 2) + i * BEAT / 2, { i }));
-    caption('s4a', 0, 6, words('s4b')[0].start - 0.62);
+    tl.to(routeItems, { opacity: 1, y: 0, duration: 0.5, stagger: BEAT / 4, ease: 'expo.out' }, bar(11, 4));
+    routeItems.forEach((_, i) => cue('route_tick', bar(11, 4) + i * BEAT / 4, { i }));
+
     // "Each box leads to its step": box n and route item n glow together, one per beat
     const nodesEls = mapHost.qa('.overview-node');
     const steps = mapHost.qa('.route-step');
@@ -721,8 +721,7 @@
       if (i > 0) tl.to(steps[i], { backgroundColor: 'rgba(63,185,80,0)', duration: 0.5 }, t + 0.45);
       cue('node_ping', t, { i });
     }
-    caption('s4b', 0, 6, bar(13, 3));
-    tl.to(m4, { ...cam({ x: 960, y: 690 }, 0.88, { dy: -40, rx: 5 }), duration: 1.6, ease: 'sine.inOut' }, bar(11, 4));
+
     // dive into box 1
     const mapCursor = el('div', 'cursor'); m4.appendChild(mapCursor);
     const mc = cursor(mapCursor);
@@ -766,8 +765,13 @@
     tl.to($('.panel-title', editor), { opacity: 1, duration: 0.4 }, bar(15, 2));
     tl.to($('#panel-stack'), { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, bar(15, 2));
     cue('panel_rise', bar(15, 2));
-    caption('s5a', 0, 7, words('s5b')[0].start - 0.62);
-    caption('s5b', 0, 10, bar(18, 1));
+    kinetic({ x: 120, bottom: 110, shade: true, out: words('s5b')[0].start - 0.75, lines: [
+      { seg: 's5a', words: [0, 1, 2], it: [1, 2], text: { 2: 'step.' }, size: 150 },
+    ] });
+    kinetic({ x: 120, bottom: 104, shade: true, out: bar(18, 1) - 0.25, lines: [
+      { seg: 's5b', words: [0, 1, 2], text: { 2: 'lines,' }, size: 128 },
+      { seg: 's5b', words: [5], it: [5], text: { 5: 'explained.' }, size: 128 },
+    ] });
     // step 2: Next → lines 12–15
     edCursor.show(bar(15, 4), { x: nextBtn.cx + 140, y: nextBtn.cy + 160 });
     edCursor.move(bar(15, 4) + 0.02, { x: nextBtn.cx - 4, y: nextBtn.cy + 2 }, 0.45);
@@ -832,7 +836,9 @@
     cue('type_texture', ASK + 0.3, { dur: 2.1 });
     tl.to(c5, { ...cam({ x: chip.cx + 360, y: panelR.y + 150 }, 1.44, { ry: -3, rx: 2 }), duration: 2.4, ease: 'sine.inOut' }, ASK + 0.2);
     edCursor.move(ASK + 0.3, { x: chip.r + 240, y: chip.cy - SCR1 + 150 }, 0.8);
-    caption('s6a', 0, 4, words('s6b')[0].start - 0.62);
+    kinetic({ x: 120, bottom: 112, shade: true, out: words('s6b')[0].start - 0.95, lines: [
+      { seg: 's6a', words: [0, 1, 2, 3], it: [2, 3], size: 132 },
+    ] });
     // risks
     const RISK = bar(21, 1);
     tl.to(pn.scroller, { y: 0, duration: 0.6, ease: 'expo.inOut' }, RISK - 0.85);
@@ -845,7 +851,9 @@
     tl.to(riskDot, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(3)' }, RISK + 0.15);
     tl.fromTo(riskNote, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: 'expo.out', immediateRender: false }, RISK + 0.25);
     cue('warn_tone', RISK + 0.15);
-    caption('s6b', 0, 4, words('s6c')[0].start - 0.62);
+    kinetic({ x: 120, bottom: 112, shade: true, out: words('s6c')[0].start - 0.45, lines: [
+      { seg: 's6b', words: [0, 1, 2, 3], it: [1, 2, 3], size: 132 },
+    ] });
     // explain deeper → dive into the sub-tour
     const DEEP = bar(22, 1);
     edCursor.move(DEEP - 0.75, { x: deeperBtn.x + 34, y: deeperBtn.cy + 3 }, 0.5);
@@ -864,7 +872,12 @@
     tl.to(c5, { ...cam({ x: 1150, y: 470 }, 1.12, { ry: -5, rx: 3 }), duration: 1.0, ease: 'expo.out' }, SWAP);
     tl.to(band, { opacity: 1, duration: 0.2 }, SWAP + 0.3);
     cue('chime', SWAP + 0.3);
-    caption('s6c', 0, 9, bar(23, 4));
+    kinetic({ x: 120, bottom: 112, shade: true, out: words('s6c')[3].start - 0.32, lines: [
+      { seg: 's6c', words: [0, 1], it: [1], text: { 1: 'deeper.' }, size: 150 },
+    ] });
+    kinetic({ x: 120, bottom: 112, shade: true, out: bar(24) - 0.55, lines: [
+      { seg: 's6c', words: [3, 4], it: [4], text: { 3: 'The', 4: 'Path.' }, size: 150 },
+    ] });
     // the Path shows where you are
     const PATH = bar(23, 1);
     tl.to(c5, { ...cam({ x: pathSection.cx + 120, y: pathSection.cy + 30 }, 1.85, { ry: -4, rx: 2 }), duration: 1.0, ease: 'expo.inOut' }, PATH - 0.6);
@@ -930,7 +943,10 @@
     home.show('sb-home', REB + 0.5, 0.3);
     cue('rebuild_chime', REB + 0.55);
     homeCursor.hide(bar(26, 3));
-    caption('s7', 0, 9, bar(26, 4));
+    kinetic({ x: 120, y: 318, out: bar(27) - 0.55, lines: [
+      { seg: 's7', words: [4, 5], text: { 5: 'here,' }, size: 156 },
+      { seg: 's7', words: [6, 7, 8], it: [6, 7, 8], size: 104, gap: 10 },
+    ] });
 
     // =================================================================================
     // 8 · EXPORT  bar 27 – bar 30
@@ -956,8 +972,8 @@
     tl.to(exportLink, { color: '#3FB950', duration: 0.12 }, EXP);
     // the window becomes the page: frame morphs, the tour's own parts fly into the page's layout
     const M0 = EXP + 0.1, MD = 0.75;
-    const WIN = { left: 671, top: 160, width: 578, height: 690 };
-    const PAGE = { left: 408, top: 118, width: 1104, height: 690 };
+    const WIN = { left: 1150, top: 160, width: 578, height: 690 };
+    const PAGE = { left: 760, top: 196, width: 1060, height: 662.5 };
     gsap.set(pageFrame, { ...WIN, opacity: 0 });
     tl.set(pageFrame, { opacity: 1 }, M0);
     tl.to(exWin, { opacity: 0, duration: 0.16 }, M0 + 0.04);
@@ -993,11 +1009,11 @@
     tl.to(tail, { opacity: 1, x: 0, duration: 0.4, ease: 'expo.out', stagger: 0.05 }, M0 + 0.82);
     tl.to($('.sweep', pageFrame), { xPercent: 260, duration: 0.8, ease: 'power2.inOut' }, M0 + 0.7);
     // the page steps aside and becomes the hub of three routes
-    const H0 = M0 + 1.05;
-    const HUB = { x: -380, y: 22, scale: 0.56 };
+    const H0 = M0 + 1.1;
+    const HUB = { x: 575 - (PAGE.left + PAGE.width / 2), y: 485 - (PAGE.top + PAGE.height / 2), scale: 0.58 };
     tl.to(pageFrame, { ...HUB, transformOrigin: '50% 50%', duration: 0.62, ease: 'expo.inOut' }, H0);
     cue('airy_whoosh', H0, { soft: 1 });
-    const hubRight = { x: 960 + HUB.x + (PAGE.width / 2) * HUB.scale, y: PAGE.top + PAGE.height / 2 + HUB.y };
+    const hubRight = { x: PAGE.left + PAGE.width / 2 + HUB.x + (PAGE.width / 2) * HUB.scale, y: PAGE.top + PAGE.height / 2 + HUB.y };
     const r8 = $('#s8-route');
     const packets = $('#packets');
     const flowPaths = [];
@@ -1054,7 +1070,9 @@
       tl.fromTo(f, { strokeDashoffset: 0 }, { strokeDashoffset: -120, duration: bar(30) - FLOW, ease: 'none', immediateRender: false }, FLOW);
     });
     tl.to(c8, { ...cam({ x: 990, y: 500 }, 1.05, { ry: 3 }), duration: bar(30) - 0.45 - (s8 + 1.4), ease: 'sine.inOut' }, s8 + 1.4);
-    caption('s8', 0, 12, bar(30) - 0.5);
+    kinetic({ x: 120, y: 372, out: EXP + 0.98, lines: [
+      { seg: 's8', words: [0], it: [0], text: { 0: 'Export.' }, size: 200 },
+    ] });
     // push through to the next scene
     tl.to(c8, { scale: '+=0.1', opacity: 0, duration: 0.42, ease: 'power2.in' }, bar(30) - 0.42);
 
@@ -1064,8 +1082,9 @@
     const s9 = bar(30);
     cue('cut_soft', s9);
     rowNodes.forEach((r, ri) => {
-      wordsIn(r.spans, r.list, { y: 20, blur: 10 });
-      const t0 = r.list[r.list.length - 1].start;
+      const LAB = [[0, 1], [2, 3], [4, 5, 6]][ri];
+      kinetic({ parent: r.lab, x: 0, y: 8, lines: [{ seg: 's9', words: LAB, it: ri === 2 ? [6] : [], size: 96 }] });
+      const t0 = words('s9')[LAB[LAB.length - 1]].start;
       r.items.forEach((it, i) => {
         const t = t0 + 0.06 + i * (BEAT / 2);
         tl.fromTo(it, { opacity: 0, y: 26, scale: 0.9, filter: 'blur(8px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.45, ease: 'expo.out' }, t);
@@ -1093,7 +1112,8 @@
     const wm = $('#wordmark');
     gsap.set(wm, { opacity: 0, x: -26, filter: 'blur(10px)' });
     tl.to(wm, { opacity: 1, x: 0, filter: 'blur(0px)', duration: 0.7, ease: 'expo.out' }, words('s10a')[0].start - 0.08);
-    wordsIn(tagSpans, tagList, { y: 22, blur: 10, dur: 0.5 });
+    const tagList = words('s10b');
+    kinetic({ center: true, y: 568, lines: [{ seg: 's10b', words: [0, 1, 2, 3, 4, 5, 6, 7], it: [3, 4, 5, 6, 7], size: 92 }] });
     tl.fromTo('#cta', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, tagList[tagList.length - 1].end + 0.35);
     cue('cta_tick', tagList[tagList.length - 1].end + 0.38);
     tl.fromTo('#s10 .cam', cam({ x: 960, y: 540 }, 1.0), { ...cam({ x: 960, y: 540 }, 1.025), duration: END - s10, ease: 'sine.out' }, s10);
@@ -1128,10 +1148,8 @@
     const SC = [['#s1', 0, bar(4)], ['#s2', bar(4), bar(7)], ['#s3', bar(7), bar(10)], ['#s4', bar(10), bar(14)],
       ['#s5', bar(14), bar(24)], ['#s7', bar(24), bar(27)], ['#s8', bar(27), bar(30)], ['#s9', bar(30), bar(32)], ['#s10', bar(32), END + 1]]
       .map(([s, a, b]) => [$(s), a, b]);
-    const scrim = $('#scrim');
     R.push((t) => {
       for (const [n, a, b] of SC) n.style.visibility = t >= a && t < b ? 'visible' : 'hidden';
-      scrim.style.opacity = (0.55 * smooth(bar(7), bar(7) + 0.4, t) * (1 - smooth(bar(30) - 0.3, bar(30), t))).toFixed(3);
     });
     tl.set({}, {}, END);
 
