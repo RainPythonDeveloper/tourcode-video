@@ -1,0 +1,16 @@
+<template>
+<style>
+  #root { position: absolute; inset: 0; pointer-events: none; }
+  #fin { position: absolute; inset: 0; }
+  #fin-grain { position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='480' height='480'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='480' height='480' filter='url(%23n)'/></svg>");
+    background-size: 480px 480px; }
+  #fin-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 70% at 50% 48%, rgba(0,0,0,0) 55%, rgba(0,0,0,.38) 100%); }
+</style>
+<div data-hf-id="hf-ydak" id="root" data-composition-id="finish" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-9eyd" id="fin" class="clip" data-start="0" data-duration="60" data-track-index="0"><div data-hf-id="hf-pxrm" id="fin-grain"></div><div data-hf-id="hf-3zox" id="fin-vig"></div></div>
+</div>
+<script>
+  window.__timelines["finish"] = gsap.timeline({ paused: true });
+</script>
+</template>

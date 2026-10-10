@@ -1,0 +1,137 @@
+{
+ "overview": {
+  "page": "tour-map.html",
+  "surface": "overview",
+  "width": 1280
+ },
+ "step1-full": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "step1-compact": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "step1-compact-norisk": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "step1-suggest": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "step1-answering": {
+  "page": "step-answering.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "step1-answered": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "step2-compact": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "step3-compact": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "step3-compact-norisk": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "subtour-step": {
+  "page": "step-subtour.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "sidebar-s0": {
+  "page": "sidebar-tour.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-s1": {
+  "page": "sidebar-tour.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-s2": {
+  "page": "sidebar-tour.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "step2-compact-norisk": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "sidebar-s0-norisk": {
+  "page": "sidebar-tour.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-s1-norisk": {
+  "page": "sidebar-tour.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-s2-norisk": {
+  "page": "sidebar-tour.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-build-0": {
+  "page": "sidebar-home.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-build-1": {
+  "page": "sidebar-home.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-build-2": {
+  "page": "sidebar-home.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-build-3": {
+  "page": "sidebar-home.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "step1-building-subtour": {
+  "page": "step.html",
+  "surface": "step",
+  "width": 1280
+ },
+ "sidebar-subtour": {
+  "page": "sidebar-subtour.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-home": {
+  "page": "sidebar-home.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-home-stale": {
+  "page": "sidebar-home.html",
+  "surface": "sidebar",
+  "width": 360
+ },
+ "sidebar-home-unpinned": {
+  "page": "sidebar-home.html",
+  "surface": "sidebar",
+  "width": 360
+ }
+}

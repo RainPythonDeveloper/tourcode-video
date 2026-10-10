@@ -1,0 +1,85 @@
+<template>
+<style>
+  @font-face{font-family:"Inter";src:url("assets/fonts/inter-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:block}
+  @font-face{font-family:"Inter";src:url("assets/fonts/inter-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:block}
+  @font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:block}
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f10-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 42%, #141c26 0%, #0d1117 60%, #090c10 100%); }
+  #f10-glow { position: absolute; left: 610px; top: 50px; width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(63,185,80,.30), rgba(63,185,80,0)); }
+  #f10-logo { position: absolute; left: 832px; top: 236px; width: 256px; height: 256px; overflow: visible; }
+  #f10-word { position: absolute; left: 0; right: 0; top: 540px; text-align: center; font-family: "Inter", sans-serif; font-weight: 600;
+    font-size: 80px; letter-spacing: -0.03em; color: #e6e6e6; line-height: 1; }
+  #f10-tag { position: absolute; left: 0; right: 0; top: 648px; text-align: center; font-family: "Inter", sans-serif; font-weight: 500;
+    font-size: 34px; letter-spacing: -0.01em; color: #9d9d9d; line-height: 1.2; }
+  #f10-cta { position: absolute; left: 0; right: 0; top: 728px; text-align: center; font-family: "JetBrains Mono", monospace; font-weight: 500;
+    font-size: 28px; color: #9d9d9d; }
+  #f10-cta b { color: #3fb950; font-weight: 500; }
+  #f10-dot { position: absolute; left: 899px; top: 399px; width: 26px; height: 26px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 20px 5px rgba(63,185,80,.7); }
+</style>
+
+<div data-hf-id="hf-o31k" id="root" data-composition-id="10-endcard" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-l41g" id="f10-bgclip" class="clip" data-start="0" data-duration="3.4" data-track-index="0">
+    <div data-hf-id="hf-eclm" id="f10-bg"></div>
+    <div data-hf-id="hf-x93o" id="f10-glow"></div>
+  </div>
+  <div data-hf-id="hf-mn2d" id="f10-main" class="clip" data-start="0" data-duration="3.4" data-track-index="1">
+    <!-- assets/brand/tourcode-logo.svg geometry, 64 → 256 px -->
+    <svg data-hf-id="hf-5qgg" id="f10-logo" viewBox="0 0 64 64">
+      <circle data-hf-id="hf-ls71" id="f10-disc" cx="32" cy="32" r="32" fill="#2da44e" />
+      <g data-hf-id="hf-xjpn" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+        <circle data-hf-id="hf-z084" id="f10-start" cx="20" cy="44" r="5" stroke="#3fb950" />
+        <path data-hf-id="hf-w8ic" id="f10-route" d="M25 44h12a7 7 0 0 0 0-14H27a7 7 0 0 1 0-14h12" stroke="#3fb950" />
+        <path data-hf-id="hf-9a9a" id="f10-arrow" d="M37 11l5 5-5 5" stroke="#3fb950" />
+      </g>
+    </svg>
+    <div data-hf-id="hf-38zs" id="f10-dot"></div>
+    <div data-hf-id="hf-whws" id="f10-word">TourCode</div>
+    <div data-hf-id="hf-wfk8" id="f10-tag">Understand any codebase, one step at a time.</div>
+    <div data-hf-id="hf-t1ox" id="f10-cta">Try it: <b data-hf-id="hf-3aqh">{{LINK}}</b></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const ID = "10-endcard";
+  const tl = gsap.timeline({ paused: true });
+  const route = document.getElementById("f10-route");
+  const L = route.getTotalLength();
+  const start = document.getElementById("f10-start");
+  const arrow = document.getElementById("f10-arrow");
+  const SL = 2 * Math.PI * 5, AL = arrow.getTotalLength();
+  gsap.set(route, { strokeDasharray: L, strokeDashoffset: L });
+  gsap.set(start, { strokeDasharray: SL, strokeDashoffset: SL });
+  gsap.set(arrow, { strokeDasharray: AL, strokeDashoffset: AL });
+  // a round-capped dash of zero length still paints a dot: keep each stroke hidden until it starts drawing
+  gsap.set([route, arrow], { opacity: 0 });
+  gsap.set("#f10-disc", { scale: 0, transformOrigin: "50% 50%", opacity: 0 });
+  gsap.set("#f10-glow", { opacity: 0.25, scale: 0.7, transformOrigin: "50% 50%" });
+  gsap.set(["#f10-word", "#f10-tag", "#f10-cta"], { opacity: 0, y: 14 });
+
+  tl.to("#f10-dot", { opacity: 0, scale: 0.6, duration: 0.35, ease: "power2.out" }, 0.05);
+  // ---- 0.0–1.8  the route line draws the logo: start dot → S-curve → arrow (riser follows)
+  tl.to(start, { strokeDashoffset: 0, duration: 0.3, ease: "power2.inOut" }, 0.0);
+  tl.set(route, { opacity: 1 }, 0.25);
+  tl.to(route, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" }, 0.25);
+  tl.set(arrow, { opacity: 1 }, 1.42);
+  tl.to(arrow, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 1.42);
+  tl.to("#f10-logo", { filter: "drop-shadow(0 0 10px rgba(63,185,80,.65))", duration: 1.6, ease: "none" }, 0);
+
+  // ---- 1.8  resolve: the green disc blooms, the route turns white — the TourCode logo
+  tl.to("#f10-disc", { scale: 1, opacity: 1, duration: 0.45, ease: "expo.out" }, 1.78);
+  tl.to([start, route, arrow], { stroke: "#ffffff", duration: 0.3, ease: "power2.out" }, 1.8);
+  tl.to("#f10-glow", { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 1.78);
+  tl.to("#f10-glow", { opacity: 0.55, duration: 1.0, ease: "power2.out" }, 2.4);
+  tl.to("#f10-logo", { filter: "drop-shadow(0 0 22px rgba(63,185,80,.45))", duration: 0.5, ease: "power2.out" }, 1.8);
+
+  // ---- wordmark, tagline, link (each ≥ 1.5 s on screen)
+  tl.to("#f10-word", { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 1.2);
+  tl.to("#f10-tag", { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 1.5);
+  tl.to("#f10-cta", { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 1.85);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

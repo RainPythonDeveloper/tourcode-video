@@ -1,0 +1,129 @@
+<template>
+<!--@css-->
+<style>
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f06-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 46%, #141c26 0%, #0d1117 62%, #090c10 100%); }
+  #f06-stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 45%; }
+  #f06-cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+  #f06-win { left: 116px; top: 41px; }
+  #f06-band { position: absolute; left: 64px; right: 0; top: 6px; height: 154px; background: rgba(63,185,80,.14); border-left: 2px solid #3fb950; }
+  .f06-state { position: absolute; left: 0; top: 0; }
+  #f06-tip { position: absolute; left: 20px; top: 129.6px; max-width: 340px; display: block; }
+  #f06-cursor { left: 0; top: 0; transform-origin: 0 0; }
+  .f06-gdot { position: absolute; left: 10px; width: 9px; height: 9px; border-radius: 50%; }
+  .f06-note { position: absolute; height: 22px; display: flex; align-items: center; gap: 8px; padding: 0 10px; border-radius: 4px; white-space: nowrap;
+    font-family: "JetBrains Mono", monospace; font-size: 14px; }
+  .f06-note b { font-weight: 600; }
+  #f06-note6 { left: 524px; top: 116px; color: #f85149; background: rgba(248,81,73,.12); }
+  #f06-note2 { left: 452px; top: 28px; color: #9d9d9d; background: rgba(157,157,157,.10); }
+  #f06-dot6 { top: 122.5px; background: #f85149; box-shadow: 0 0 8px rgba(248,81,73,.7); }
+  #f06-dot2 { top: 34.5px; background: #9d9d9d; }
+</style>
+
+<div data-hf-id="hf-vhwg" id="root" data-composition-id="06-risks" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-m478" id="f06-bgclip" class="clip" data-start="0" data-duration="6" data-track-index="0"><div data-hf-id="hf-p5ix" id="f06-bg"></div></div>
+
+  <div data-hf-id="hf-ebf0" id="f06-stage" class="clip" data-start="0" data-duration="6" data-track-index="1">
+    <div data-hf-id="hf-09jh" id="f06-cam">
+      <div data-hf-id="hf-qwbj" class="vsc" id="f06-win">
+        <div data-hf-id="hf-yvbh" class="vsc-title"><div data-hf-id="hf-ay5d" class="vsc-dots"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div><span data-hf-id="hf-o5ri">password.ts — acme-shop</span></div>
+        <div data-hf-id="hf-oiit" class="vsc-body">
+          <div data-hf-id="hf-p12f" class="vsc-act">
+            <div data-hf-id="hf-l5w2" class="ai"><!--@icon files--></div>
+            <div data-hf-id="hf-qdee" class="ai"><!--@icon search--></div>
+            <div data-hf-id="hf-qrpf" class="ai"><!--@icon scm--></div>
+            <div data-hf-id="hf-r60g" class="ai"><!--@icon run--></div>
+            <div data-hf-id="hf-odv9" class="ai"><!--@icon ext--></div>
+            <div data-hf-id="hf-0q0x" class="ai on"><!--@icon tourcode--></div>
+          </div>
+          <div data-hf-id="hf-yz7g" class="vsc-side">
+            <div data-hf-id="hf-dpi0" class="vsc-side-head">TourCode</div>
+            <div data-hf-id="hf-qm9d" class="vsc-side-body">
+              <div data-hf-id="hf-4fwg" class="ui-side" id="f06-s-off"><!--@ui sidebar-s2-norisk f06soff--></div>
+              <div data-hf-id="hf-ywwj" class="ui-side" id="f06-s-on" style="opacity:0"><!--@ui sidebar-s2 f06son--></div>
+            </div>
+          </div>
+          <div data-hf-id="hf-7suy" class="vsc-main">
+            <div data-hf-id="hf-b3z9" class="vsc-tabs">
+              <div data-hf-id="hf-uuib" class="vsc-tab"><span data-hf-id="hf-bub7" class="ts">TS</span>auth.ts</div>
+              <div data-hf-id="hf-m31b" class="vsc-tab on"><span data-hf-id="hf-tf9v" class="ts">TS</span>password.ts</div>
+            </div>
+            <div data-hf-id="hf-3h9z" class="vsc-crumbs">src <span data-hf-id="hf-ffy9">›</span> password.ts <span data-hf-id="hf-fwd1">›</span> verifyPassword</div>
+            <div data-hf-id="hf-sxdu" class="vsc-code">
+              <div data-hf-id="hf-se31" id="f06-band"></div>
+              <!--@code password.ts f06-->
+              <div data-hf-id="hf-nw4v" class="f06-gdot" id="f06-dot2"></div>
+              <div data-hf-id="hf-2pqj" class="f06-gdot" id="f06-dot6"></div>
+              <div data-hf-id="hf-gkbk" class="f06-note" id="f06-note2"><span data-hf-id="hf-ald6">●</span><b data-hf-id="hf-1p7b">Low · Risk</b><span data-hf-id="hf-jbi4">The === comparison is not constant-time, which can leak timing information in a real auth system.</span></div>
+              <div data-hf-id="hf-3ybo" class="f06-note" id="f06-note6"><span data-hf-id="hf-kl7y">●</span><b data-hf-id="hf-zqzq">High · Security</b><span data-hf-id="hf-u9su">hashPassword just reverses the string, so the stored hash is trivially reversible to the original password.</span></div>
+            </div>
+            <div data-hf-id="hf-a3hh" class="vsc-panel">
+              <div data-hf-id="hf-xhdc" class="vsc-panel-head"><span data-hf-id="hf-gaol" class="on">TourCode</span><span data-hf-id="hf-flvt">Problems</span><span data-hf-id="hf-dfp1">Terminal</span></div>
+              <div data-hf-id="hf-k4q6" class="vsc-panel-body">
+                <div data-hf-id="hf-ody2" class="ui-step f06-state" id="f06-p-off"><!--@ui step3-compact-norisk f06poff--></div>
+                <div data-hf-id="hf-hat9" class="ui-step f06-state" id="f06-p-on" style="opacity:0"><!--@ui step3-compact f06pon--></div>
+                <div data-hf-id="hf-xjzq" class="tc-ui"><div data-hf-id="hf-ze78" class="term-tooltip is-shown" id="f06-tip" data-layout-allow-overlap="">Hashes the submitted password and checks whether it equals the stored hash.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-m3q3" class="vsc-status"><div data-hf-id="hf-yeow"><span data-hf-id="hf-4res"><!--@icon branch--> main</span><span data-hf-id="hf-hwhe">⊗ 0 ⚠ 0</span></div><div data-hf-id="hf-y7yw"><span data-hf-id="hf-51xm">Ln 6, Col 1</span><span data-hf-id="hf-t6ze">Spaces: 2</span><span data-hf-id="hf-9cl3">UTF-8</span><span data-hf-id="hf-gu0z">LF</span><span data-hf-id="hf-yrza">TypeScript</span></div></div>
+      </div>
+      <div data-hf-id="hf-6tlv" class="cursor" id="f06-cursor"><!--@icon cursor--></div>
+    </div>
+  </div>
+
+  <div data-hf-id="hf-qirf" id="f06-outclip" class="clip" data-start="5.3" data-duration="0.7" data-track-index="3"><div data-hf-id="hf-bfcc" id="f06-out"><div data-hf-id="hf-mlg5" class="gfield" id="f06-of"></div><div data-hf-id="hf-xl2r" class="gedge" id="f06-oe"></div></div></div>
+</div>
+
+<script>
+(function () {
+  const ID = "06-risks";
+  const CX = 960, CY = 540;
+  const cam = (P, s, T, extra) => Object.assign({ x: T[0] - CX - s * (P[0] - CX), y: T[1] - CY - s * (P[1] - CY), scale: s }, extra || {});
+  const E2 = cam([760, 400], 1.49, [960, 440], { rotationX: 0, rotationY: 0 });   // = frame 05's last camera
+  const R1 = cam([960, 470], 1.3, [960, 450], { rotationY: -2, rotationX: 1 });
+  const R2 = cam([1150, 259], 1.7, [960, 420], { rotationY: 0, rotationX: 0 });
+
+  const tl = gsap.timeline({ paused: true });
+  gsap.set("#f06-cam", E2);
+  gsap.set("#f06-cursor", { x: 628, y: 624, scale: 0.75 });
+
+  // ---- 0.3–1.2  the cursor leaves the term (tooltip hides) and goes to the Risks toggle
+  tl.set("#f06-tip", { opacity: 0 }, 0.35);
+  tl.to("#f06-cam", Object.assign({ duration: 1.0, ease: "power3.inOut" }, R1), 0.25);
+  // Risks toggle (risks off): panel-local (146, 178) → stage (524+146, 507+178)
+  tl.to("#f06-cursor", { x: 664, y: 682, duration: 0.8, ease: "power3.inOut" }, 0.3);
+
+  // ---- 1.2  click: the toggle turns on — the real panel and sidebar switch to "risks on"
+  tl.to("#f06-cursor", { scale: 0.68, duration: 0.07, ease: "power2.out" }, 1.13);
+  tl.to("#f06-cursor", { scale: 0.75, duration: 0.12, ease: "power2.out" }, 1.21);
+  tl.set("#f06-p-off", { opacity: 0 }, 1.2);
+  tl.set("#f06-p-on", { opacity: 1 }, 1.2);
+  tl.set("#f06-s-off", { opacity: 0 }, 1.2);
+  tl.set("#f06-s-on", { opacity: 1 }, 1.2);
+  tl.fromTo("#f06-p-on .risk", { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", stagger: 0.08 }, 1.2);
+  tl.to("#f06-cursor", { x: 760, y: 900, opacity: 0, duration: 0.6, ease: "power2.in" }, 1.5);
+
+  // ---- 1.8 / 2.4  risk markers land on their lines (line 6 high, line 2 low)
+  tl.fromTo("#f06-dot6", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25, ease: "back.out(2)" }, 1.8);
+  tl.fromTo("#f06-note6", { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, 1.8);
+  tl.fromTo("#f06-dot2", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25, ease: "back.out(2)" }, 2.4);
+  tl.fromTo("#f06-note2", { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, 2.4);
+
+  // ---- 2.6–5.3  slow push to line 6 and its note
+  tl.to("#f06-cam", Object.assign({ duration: 2.7, ease: "power2.inOut" }, R2), 2.6);
+
+  // ---- 5.3–6.0  the line band expands to fill the frame (hand-off to frame 07)
+  // band (lines 1–7) on screen under R2: x from code-gutter edge, y lines 1–7
+  const bx = 960 + R2.scale * (116 + 408 + 64 - CX) + R2.x;
+  const by = 540 + R2.scale * (41 + 97 - CY) + R2.y;
+  const bh = 154 * R2.scale;
+  tl.fromTo("#f06-of", { x: bx, y: by, scaleX: (1920 - bx + 40) / 1920, scaleY: bh / 1080, backgroundColor: "rgba(35,52,37,0)" },
+    { x: 0, y: 0, scaleX: 1, scaleY: 1, backgroundColor: "rgba(35,52,37,1)", duration: 0.7, ease: "expo.inOut" }, 5.3);
+  tl.fromTo("#f06-oe", { x: bx, y: by, scaleX: R2.scale, scaleY: bh / 1080 }, { x: -4, y: 0, scaleX: 0, scaleY: 1, duration: 0.7, ease: "expo.inOut" }, 5.3);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

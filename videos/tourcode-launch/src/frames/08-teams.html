@@ -1,0 +1,114 @@
+<template>
+<!--@css-->
+<style>
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f08-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 45% 46%, #141c26 0%, #0d1117 62%, #090c10 100%); }
+  #f08-stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 40% 45%; }
+  #f08-cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+  #f08-win { left: 116px; top: 41px; }
+  #f08-win .vsc-main { filter: blur(3px); opacity: .55; }
+  #f08-side .tour-card { position: relative; }
+  #f08-pulse { position: absolute; left: 16px; top: 474.5px; width: 328px; height: 81.5px; border-radius: 8px; border: 2px solid #3fb950; pointer-events: none; }
+  #f08-cursor { left: 0; top: 0; transform-origin: 0 0; }
+  #f08-line { position: absolute; left: 0; top: 538.5px; width: 1920px; height: 3px; transform-origin: 0 50%; background: #3fb950; box-shadow: 0 0 14px rgba(63,185,80,.75); }
+  #f08-linehead { position: absolute; left: 0; top: 0; margin: -9px 0 0 -9px; width: 18px; height: 18px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 18px 4px rgba(63,185,80,.7); }
+  #f08-side .tour-card-stale { overflow: hidden; }
+</style>
+
+<div data-hf-id="hf-7pfs" id="root" data-composition-id="08-teams" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-6sh2" id="f08-bgclip" class="clip" data-start="0" data-duration="6" data-track-index="0"><div data-hf-id="hf-sodj" id="f08-bg"></div></div>
+
+  <div data-hf-id="hf-af0y" id="f08-stage" class="clip" data-start="0" data-duration="6" data-track-index="1">
+    <div data-hf-id="hf-s89n" id="f08-cam">
+      <div data-hf-id="hf-djix" class="vsc" id="f08-win">
+        <div data-hf-id="hf-yvbh" class="vsc-title"><div data-hf-id="hf-ay5d" class="vsc-dots"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div><span data-hf-id="hf-gfsj">auth.ts — acme-shop</span></div>
+        <div data-hf-id="hf-oiit" class="vsc-body">
+          <div data-hf-id="hf-p12f" class="vsc-act">
+            <div data-hf-id="hf-l5w2" class="ai"><!--@icon files--></div>
+            <div data-hf-id="hf-qdee" class="ai"><!--@icon search--></div>
+            <div data-hf-id="hf-qrpf" class="ai"><!--@icon scm--></div>
+            <div data-hf-id="hf-r60g" class="ai"><!--@icon run--></div>
+            <div data-hf-id="hf-odv9" class="ai"><!--@icon ext--></div>
+            <div data-hf-id="hf-0q0x" class="ai on"><!--@icon tourcode--></div>
+          </div>
+          <div data-hf-id="hf-yz7g" class="vsc-side">
+            <div data-hf-id="hf-dpi0" class="vsc-side-head">TourCode</div>
+            <div data-hf-id="hf-qm9d" class="vsc-side-body">
+              <div data-hf-id="hf-98o2" class="ui-side" id="f08-side"><!--@ui sidebar-home-stale f08home--><div data-hf-id="hf-olo1" id="f08-pulse"></div></div>
+              <div data-hf-id="hf-1d5g" class="ui-side" id="f08-fresh" style="opacity:0"><!--@ui sidebar-home f08fresh--></div>
+            </div>
+          </div>
+          <div data-hf-id="hf-7suy" class="vsc-main">
+            <div data-hf-id="hf-b3z9" class="vsc-tabs"><div data-hf-id="hf-p2t2" class="vsc-tab on"><span data-hf-id="hf-bub7" class="ts">TS</span>auth.ts</div></div>
+            <div data-hf-id="hf-0z7a" class="vsc-crumbs">src <span data-hf-id="hf-ffy9">›</span> auth.ts</div>
+            <div data-hf-id="hf-sxdu" class="vsc-code"><!--@code auth.ts f08--></div>
+            <div data-hf-id="hf-a3hh" class="vsc-panel">
+              <div data-hf-id="hf-xhdc" class="vsc-panel-head"><span data-hf-id="hf-gaol" class="on">TourCode</span><span data-hf-id="hf-flvt">Problems</span><span data-hf-id="hf-dfp1">Terminal</span></div>
+              <div data-hf-id="hf-k4q6" class="vsc-panel-body"><div data-hf-id="hf-ryvp" class="ui-step"><!--@ui step1-compact f08p1--></div></div>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-m3q3" class="vsc-status"><div data-hf-id="hf-yeow"><span data-hf-id="hf-4res"><!--@icon branch--> main</span><span data-hf-id="hf-hwhe">⊗ 0 ⚠ 0</span></div><div data-hf-id="hf-y7yw"><span data-hf-id="hf-t6ze">Spaces: 2</span><span data-hf-id="hf-9cl3">UTF-8</span><span data-hf-id="hf-yrza">TypeScript</span></div></div>
+      </div>
+      <div data-hf-id="hf-ya9t" class="cursor" id="f08-cursor"><!--@icon cursor--></div>
+    </div>
+  </div>
+
+  <div data-hf-id="hf-54n9" id="f08-lineclip" class="clip" data-start="0" data-duration="0.7" data-track-index="3"><div data-hf-id="hf-3n34" id="f08-line"></div><div data-hf-id="hf-kf6u" id="f08-linehead"></div></div>
+</div>
+
+<script>
+(function () {
+  const ID = "08-teams";
+  const CX = 960, CY = 540;
+  const cam = (P, s, T, extra) => Object.assign({ x: T[0] - CX - s * (P[0] - CX), y: T[1] - CY - s * (P[1] - CY), scale: s }, extra || {});
+  // sidebar-local (x, y) → stage: (164 + x, 110 + y)
+  const K0 = cam([344, 685], 1.8, [840, 500], { rotationY: -7, rotationX: 2 });
+  const K1 = cam([344, 690], 1.86, [840, 500], { rotationY: -3, rotationX: 1 });
+  const sec = document.querySelectorAll("#f08-side .section");      // [how to start, start here, authentication]
+  const startHere = sec[1], team = sec[2];
+  const teamHead = team.querySelector(".section-header"), teamCard = team.querySelector(".tour-card");
+  const stale = document.querySelector("#f08-side .tour-card-stale");
+  const rebuildIcon = stale.querySelector(".link-button svg");
+
+  const tl = gsap.timeline({ paused: true });
+  gsap.set("#f08-cam", K0);
+  gsap.set(startHere, { opacity: 0 });
+  gsap.set([teamHead, teamCard], { opacity: 0, x: 40 });
+  gsap.set("#f08-pulse", { opacity: 0 });
+  gsap.set("#f08-cursor", { x: 520, y: 980, scale: 0.75, opacity: 0 });
+
+  // ---- 0.0–0.55  the route line from frame 07 retracts into the Start-here card
+  // card left edge / center on screen under K0: sidebar-local (16, 515)
+  const sx = 960 + K0.scale * (164 + 16 - CX) + K0.x, sy = 540 + K0.scale * (110 + 515 - CY) + K0.y;
+  tl.fromTo("#f08-line", { x: 0, y: 0, scaleX: 1 }, { x: sx, y: sy - 540, scaleX: 0, duration: 0.55, ease: "expo.inOut" }, 0);
+  tl.fromTo("#f08-linehead", { x: 1920, y: 540 }, { x: sx, y: sy, duration: 0.55, ease: "expo.inOut" }, 0);
+  tl.to("#f08-linehead", { scale: 0.4, opacity: 0, duration: 0.15, ease: "power2.in" }, 0.5);
+
+  // ---- 0.6  pin snap: the tour lands in START HERE, one soft green pulse
+  tl.fromTo(startHere, { opacity: 0, scale: 0.96, transformOrigin: "20% 60%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, 0.55);
+  tl.fromTo("#f08-pulse", { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 1.08, duration: 1.0, ease: "power2.out", immediateRender: false }, 0.65);
+
+  // ---- 1.2 / 1.8  the team group slides in, then its tour (flagged out of date)
+  tl.to(teamHead, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 1.2);
+  tl.to(teamCard, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 1.8);
+  tl.to("#f08-cam", Object.assign({ duration: 5.4, ease: "sine.inOut" }, K1), 0.6);
+
+  // ---- 2.4–3.0  the cursor clicks Rebuild (sidebar-local (67, 733.6))
+  tl.to("#f08-cursor", { x: 236, y: 848, opacity: 1, duration: 0.55, ease: "power3.out" }, 2.4);
+  tl.to("#f08-cursor", { scale: 0.68, duration: 0.07 }, 2.93);
+  tl.to("#f08-cursor", { scale: 0.75, duration: 0.12 }, 3.0);
+  tl.fromTo(rebuildIcon, { rotation: 0, transformOrigin: "50% 50%" }, { rotation: 540, duration: 0.6, ease: "power2.inOut", immediateRender: false }, 3.0);
+  tl.to("#f08-cursor", { x: 420, y: 990, opacity: 0, duration: 0.5, ease: "power2.in" }, 3.3);
+
+  // ---- 3.6  fresh: the out-of-date flag folds away
+  tl.to(stale, { height: 0, opacity: 0, paddingTop: 0, paddingBottom: 0, duration: 0.35, ease: "power3.inOut" }, 3.6);
+  tl.set("#f08-side", { opacity: 0 }, 3.95);
+  tl.set("#f08-fresh", { opacity: 1 }, 3.95);
+  const freshCard = document.querySelectorAll("#f08-fresh .tour-card")[1];
+  tl.fromTo(freshCard, { borderColor: "#3fb950" }, { borderColor: "#313131", duration: 1.0, ease: "power2.out", immediateRender: false }, 3.95);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

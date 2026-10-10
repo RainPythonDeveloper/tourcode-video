@@ -1,0 +1,332 @@
+{
+ "ce04abf6": {
+  "description": "A low, resonant synthesized drone steadily swells in volume and intensity, building to an abrupt stop.",
+  "duration": 5.708,
+  "id": "ce04abf6a9759e6f",
+  "name": "Low synth riser",
+  "peak_offset": 5.29,
+  "placement": "riser",
+  "score": 0.6816452741622925,
+  "type": "sound_effects"
+ },
+ "a4855a82": {
+  "description": "A quick, airy synthesized whoosh rapidly sweeps past.",
+  "duration": 1.423,
+  "id": "a4855a82116cd4cc",
+  "name": "Fast airy whoosh",
+  "peak_offset": 0.45,
+  "placement": "hit",
+  "score": 0.6038892865180969,
+  "type": "sound_effects"
+ },
+ "97f631e2": {
+  "description": "A quick, sharp whoosh sound, resembling a thin object rapidly slicing through the air.",
+  "duration": 0.96,
+  "id": "97f631e2ebea2a17",
+  "name": "Fast whoosh",
+  "peak_offset": 0.36,
+  "placement": "hit",
+  "score": 0.6280205845832825,
+  "type": "sound_effects"
+ },
+ "9c635c34": {
+  "description": "A deep, low-frequency sub-bass drop that smoothly descends in pitch and fades out.",
+  "duration": 2.386,
+  "id": "9c635c3436654818",
+  "name": "Deep sub drop",
+  "peak_offset": 1.855,
+  "placement": "hit",
+  "score": 0.6000087857246399,
+  "type": "sound_effects"
+ },
+ "8b1ac2f2": {
+  "description": "A very short, muffled low-frequency thump or soft pop.",
+  "duration": 1.283,
+  "id": "8b1ac2f2e69edd9b",
+  "name": "Muffled bass thump",
+  "peak_offset": 0.325,
+  "placement": "hit",
+  "score": 0.6234055161476135,
+  "type": "sound_effects"
+ },
+ "0c447abf": {
+  "description": "Continuous, fast clicking and clacking of typing on a plastic computer keyboard.",
+  "duration": 54.648,
+  "id": "0c447abf8c87d552",
+  "name": "Keyboard typing",
+  "peak_offset": 19.015,
+  "placement": "bed",
+  "score": 0.6281477808952332,
+  "type": "sound_effects"
+ },
+ "eada0ef7": {
+  "description": "A very short, sharp, and dry mechanical click.",
+  "duration": 0.264,
+  "id": "eada0ef7524f3144",
+  "name": "Sharp mechanical click",
+  "peak_offset": 0.225,
+  "placement": "hit",
+  "score": 0.6535296440124512,
+  "type": "sound_effects"
+ },
+ "4558aa13": {
+  "description": "A quick, bright popping sound with a slightly hollow tone, resembling a clean digital user interface click.",
+  "duration": 0.576,
+  "id": "4558aa1365870399",
+  "name": "UI Pop",
+  "peak_offset": 0.05,
+  "placement": "hit",
+  "score": 0.7070274353027344,
+  "type": "sound_effects"
+ },
+ "7a885578": {
+  "description": "A bright, synthetic sequence of bell-like chimes rapidly ascends in pitch, leaving a shimmering, resonant tail.",
+  "duration": 3.329,
+  "id": "7a8855780e5aa978",
+  "name": "Ascending chime sparkle",
+  "peak_offset": 0.7,
+  "placement": "hit",
+  "score": 0.5939446091651917,
+  "type": "sound_effects"
+ },
+ "cf8c57bb": {
+  "description": "A very brief, sharp click.",
+  "duration": 0.24,
+  "id": "cf8c57bb210753f6",
+  "name": "Short Click",
+  "peak_offset": 0.09,
+  "placement": "hit",
+  "score": 0.6683268547058105,
+  "type": "sound_effects"
+ },
+ "00caa739": {
+  "description": "A very brief, airy whoosh sweeps past quickly.",
+  "duration": 1.056,
+  "id": "00caa739b2b0a74c",
+  "name": "Quick Whoosh",
+  "peak_offset": 0.215,
+  "placement": "hit",
+  "score": 0.596360981464386,
+  "type": "sound_effects"
+ },
+ "f6995a68": {
+  "description": "A deep, breathy whoosh builds in intensity and culminates in a soft, airy peak.",
+  "duration": 3.405,
+  "id": "f6995a6843e378b2",
+  "name": "Deep whoosh riser",
+  "peak_offset": 2.1,
+  "placement": "riser",
+  "score": 0.6739963293075562,
+  "type": "sound_effects"
+ },
+ "050666a0": {
+  "description": "A deep, low-frequency percussive boom with a brief reverberant tail.",
+  "duration": 1.871,
+  "id": "050666a0c9345558",
+  "name": "Deep heavy impact",
+  "peak_offset": 0.61,
+  "placement": "hit",
+  "score": 0.7055922746658325,
+  "type": "sound_effects"
+ },
+ "9e6eacef": {
+  "description": "A short, low-frequency sweeping whoosh that quickly fades out.",
+  "duration": 1.689,
+  "id": "9e6eacef21d4770c",
+  "name": "Low whoosh",
+  "peak_offset": 0.805,
+  "placement": "hit",
+  "score": 0.6975937485694885,
+  "type": "sound_effects"
+ },
+ "a26de62b": {
+  "description": "A bright, synthetic two-note chime ascending in pitch, resembling a digital notification.",
+  "duration": 1.326,
+  "id": "a26de62bfb206d77",
+  "name": "Ascending notification chime",
+  "peak_offset": 0.305,
+  "placement": "hit",
+  "score": 0.6611050963401794,
+  "type": "sound_effects"
+ },
+ "ef870618": {
+  "description": "A quick, bright, two-note electronic chime that ascends in pitch.",
+  "duration": 1.334,
+  "id": "ef870618d9dc92a1",
+  "name": "Bright electronic chime",
+  "peak_offset": 0.23,
+  "placement": "hit",
+  "score": 0.6470649242401123,
+  "type": "sound_effects"
+ },
+ "9eddaec3": {
+  "description": "A short, bright synthetic chime consisting of two rapid ascending tones.",
+  "duration": 0.768,
+  "id": "9eddaec30faa56e8",
+  "name": "Synthetic notification chime",
+  "peak_offset": 0.05,
+  "placement": "hit",
+  "score": 0.655388593673706,
+  "type": "sound_effects"
+ },
+ "19bd1766": {
+  "description": "A very brief, soft, and muted percussive tap with no lingering resonance.",
+  "duration": 0.264,
+  "id": "19bd1766de8cc714",
+  "name": "Soft muted tap",
+  "peak_offset": 0.055,
+  "placement": "hit",
+  "score": 0.6873053312301636,
+  "type": "sound_effects"
+ },
+ "13175e25": {
+  "description": "A single, quick, hollow popping sound.",
+  "duration": 0.216,
+  "id": "13175e257d71f2fa",
+  "name": "Single hollow pop",
+  "peak_offset": 0.055,
+  "placement": "hit",
+  "score": 0.6426196098327637,
+  "type": "sound_effects"
+ },
+ "0fae75b0": {
+  "description": "A quick, sharp, high-pitched synthetic pop resembling a digital interface blip or a small bubble bursting.",
+  "duration": 0.312,
+  "id": "0fae75b09276c9f5",
+  "name": "Synthetic Pop",
+  "peak_offset": 0.115,
+  "placement": "hit",
+  "score": 0.6675911545753479,
+  "type": "sound_effects"
+ },
+ "09a80f87": {
+  "description": "A short, sharp double click resembling a small plastic switch or computer mouse being pressed and released.",
+  "duration": 0.192,
+  "id": "09a80f87b76086e4",
+  "name": "Plastic click",
+  "peak_offset": 0.065,
+  "placement": "hit",
+  "score": 0.5669257640838623,
+  "type": "sound_effects"
+ },
+ "c47bc2fb": {
+  "description": "Two sharp, high-frequency mechanical clicks in quick succession, resembling a computer mouse button press and release.",
+  "duration": 0.288,
+  "id": "c47bc2fb4b355d71",
+  "name": "Mouse Click",
+  "peak_offset": 0.24,
+  "placement": "hit",
+  "score": 0.671539306640625,
+  "type": "sound_effects"
+ },
+ "2e34dc51": {
+  "description": "A deep, muffled low-frequency whoosh swells quickly and fades smoothly with a hollow, breathy resonance.",
+  "duration": 2.526,
+  "id": "2e34dc51fefc19c7",
+  "name": "Low Muffled Whoosh",
+  "peak_offset": 0.625,
+  "placement": "hit",
+  "score": 0.7034888863563538,
+  "type": "sound_effects"
+ },
+ "b426f7cb": {
+  "description": "A low-frequency rumble steadily swells in volume and pitch, building into an intense, rushing whoosh.",
+  "duration": 4.364,
+  "id": "b426f7cb850e09cf",
+  "name": "Rumbling whoosh riser",
+  "peak_offset": 2.52,
+  "placement": "riser",
+  "score": 0.6819320321083069,
+  "type": "sound_effects"
+ },
+ "72d0b143": {
+  "description": "A short, fast, and airy swishing sound.",
+  "duration": 0.264,
+  "id": "72d0b1439468607b",
+  "name": "Fast whoosh",
+  "peak_offset": 0.095,
+  "placement": "hit",
+  "score": 0.5660025477409363,
+  "type": "sound_effects"
+ },
+ "7e44f651": {
+  "description": "A single, sharp, dry click with a distinct snapping quality.",
+  "duration": 0.264,
+  "id": "7e44f6516086da60",
+  "name": "Sharp click",
+  "peak_offset": 0.125,
+  "placement": "hit",
+  "score": 0.6612765192985535,
+  "type": "sound_effects"
+ },
+ "35aab3e8": {
+  "description": "A bright, ascending digital chime with a brief, resonant ring.",
+  "duration": 1.273,
+  "id": "35aab3e8b2be2a98",
+  "name": "Ascending UI Chime",
+  "peak_offset": 0.2,
+  "placement": "hit",
+  "score": 0.654095470905304,
+  "type": "sound_effects"
+ },
+ "498dc33e": {
+  "description": "A digital, synthetic sweep rapidly rises in pitch and intensity before cutting off abruptly.",
+  "duration": 2.764,
+  "id": "498dc33e29e88b11",
+  "name": "Synthetic ascending sweep",
+  "peak_offset": 0.4,
+  "placement": "riser",
+  "score": 0.6059682965278625,
+  "type": "sound_effects"
+ },
+ "ca9b70d3": {
+  "description": "A brief, synthesized brass-like swell resolves into a resonant chord overlaid with bright, shimmering chimes.",
+  "duration": 3.463,
+  "id": "ca9b70d31cf9a3f2",
+  "name": "Synth musical flourish",
+  "peak_offset": 0.905,
+  "placement": "hit",
+  "score": 0.5873661637306213,
+  "type": "sound_effects"
+ },
+ "8a8c45ea": {
+  "description": "A bright, synthesized musical sting plays, featuring sparkling chimes that resolve into a clean, triumphant major chord.",
+  "duration": 4.755,
+  "id": "8a8c45eafe849252",
+  "name": "Bright musical chime sting",
+  "peak_offset": 1.245,
+  "placement": "hit",
+  "score": 0.5983629822731018,
+  "type": "sound_effects"
+ },
+ "1811c5a6": {
+  "description": "A brief reverse sweep leads into a heavy, resonant synthetic impact with a short rumbling decay.",
+  "duration": 2.871,
+  "id": "1811c5a6dbe21418",
+  "name": "Heavy synthetic impact",
+  "peak_offset": 0.455,
+  "placement": "hit",
+  "score": 0.6206340193748474,
+  "type": "sound_effects"
+ },
+ "3f701632": {
+  "description": "A single, brief, resonant synthetic pop sound.",
+  "duration": 0.696,
+  "id": "3f7016321284f57b",
+  "name": "Hollow synthetic pop",
+  "peak_offset": 0.05,
+  "placement": "hit",
+  "score": 0.6811186075210571,
+  "type": "sound_effects"
+ },
+ "f6601811": {
+  "description": "A single, high-pitched bell chime with a short, clean decay.",
+  "duration": 0.576,
+  "id": "f660181188731a1b",
+  "name": "High pitched chime",
+  "peak_offset": 0.045,
+  "placement": "hit",
+  "score": 0.6410511136054993,
+  "type": "sound_effects"
+ }
+}

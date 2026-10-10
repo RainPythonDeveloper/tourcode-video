@@ -1,0 +1,2491 @@
+<template>
+<style>
+
+@font-face{font-family:"Inter";src:url("assets/fonts/inter-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:"Inter";src:url("assets/fonts/inter-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:block}
+@font-face{font-family:"Inter";src:url("assets/fonts/inter-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:block}
+@font-face{font-family:"Inter";src:url("assets/fonts/inter-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:block}
+@font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:block}
+@font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:block}
+@font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:block}
+
+/* theme.css */
+:root {
+  --vscode-foreground: #cccccc;
+  --vscode-descriptionForeground: #9d9d9d;
+  --vscode-sideBar-background: #181818;
+  --vscode-editor-background: #1f1f1f;
+  --vscode-font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --vscode-font-size: 13px;
+  --vscode-editor-font-family: "JetBrains Mono", Menlo, monospace;
+  --vscode-list-hoverBackground: #2a2d2e;
+  --vscode-widget-border: #313131;
+  --vscode-focusBorder: #0078d4;
+  --vscode-button-background: #0078d4;
+  --vscode-button-foreground: #ffffff;
+  --vscode-button-hoverBackground: #026ec1;
+  --vscode-button-secondaryBackground: #313131;
+  --vscode-button-secondaryForeground: #cccccc;
+  --vscode-textLink-foreground: #4daafc;
+  --vscode-textLink-activeForeground: #4daafc;
+  --vscode-editorWarning-foreground: #cca700;
+  --vscode-editorError-foreground: #f85149;
+  --vscode-input-background: #313131;
+  --vscode-input-foreground: #cccccc;
+  --vscode-input-border: #3c3c3c;
+  --vscode-textCodeBlock-background: #2b2b2b;
+  --vscode-tourcode-stepBackground: #3fb95024;
+  --vscode-tourcode-stepBorder: #3fb950;
+}
+
+
+
+/* webview.css (TourCode) */
+:root {
+  --accent: var(--vscode-tourcode-stepBorder, var(--vscode-charts-green, #3fb950));
+  --accent-soft: var(--vscode-tourcode-stepBackground, rgba(63, 185, 80, 0.14));
+  --surface: var(--vscode-sideBar-background, var(--vscode-editor-background));
+  --raised: color-mix(in srgb, var(--vscode-foreground) 4%, var(--surface));
+  --border: var(
+    --vscode-widget-border,
+    color-mix(in srgb, var(--vscode-foreground) 16%, transparent)
+  );
+  --muted: var(--vscode-descriptionForeground);
+  --radius: 8px;
+  --motion: 160ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--vscode-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+button:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Tour in progress */
+
+.session {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding: 16px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.tour-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.tour-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.tour-question {
+  color: var(--muted);
+}
+
+.tour-question::before {
+  content: "“";
+}
+
+.tour-question::after {
+  content: "”";
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-bar {
+  display: flex;
+  gap: 3px;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: var(--border);
+  cursor: pointer;
+}
+
+.progress-segment.is-done {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.progress-segment.is-current {
+  background: var(--accent);
+}
+
+.progress-segment:hover {
+  background: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.progress-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.progress-step {
+  color: var(--vscode-foreground);
+  font-weight: 600;
+}
+
+.progress-file {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--vscode-editor-font-family);
+}
+
+.overview-summary {
+  color: var(--muted);
+}
+
+/* Map */
+
+.overview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 46px;
+  padding: 28px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--raised);
+}
+
+.overview-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 12px;
+}
+
+.overview-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 7px 14px 7px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 13px;
+  text-align: left;
+}
+
+div.overview-node {
+  padding-left: 10px;
+}
+
+button.overview-node {
+  cursor: pointer;
+}
+
+button.overview-node:hover {
+  border-color: var(--accent);
+}
+
+.overview-node.is-done {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.overview-node.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.overview-node-number {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.overview-node.is-done .overview-node-number {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.overview-node.is-current .overview-node-number {
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+}
+
+.overview-node-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overview-edges {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.overview-edge {
+  fill: none;
+  stroke: var(--muted);
+  stroke-opacity: 0.55;
+  stroke-width: 1.3;
+}
+
+.overview-edge.is-active {
+  stroke: var(--accent);
+  stroke-opacity: 1;
+  stroke-width: 1.6;
+}
+
+.overview-arrow-head {
+  fill: var(--muted);
+  fill-opacity: 0.55;
+}
+
+.overview-arrow-active-head {
+  fill: var(--accent);
+}
+
+.overview-edge-label {
+  font-size: 11px;
+  fill: var(--muted);
+  paint-order: stroke;
+  stroke: var(--raised);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+/* Steps */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.step {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.step:hover {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.step.is-current {
+  background: var(--accent-soft);
+}
+
+.step-badge {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.step.is-done .step-badge {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+}
+
+.step.is-current .step-badge {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+}
+
+.step-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.step-title {
+  line-height: 1.4;
+}
+
+.step.is-ahead .step-title {
+  color: color-mix(in srgb, var(--vscode-foreground) 82%, transparent);
+}
+
+.step.is-current .step-title {
+  font-weight: 600;
+}
+
+.step-file {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--vscode-editor-font-family);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.step-stale {
+  align-self: flex-start;
+  margin-top: 3px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 18%, transparent);
+  color: var(--vscode-editorWarning-foreground);
+  font-size: 11px;
+}
+
+/* Path: the tours above a sub-tour, down to the one the reader is in */
+
+.path,
+.path-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.path-children {
+  margin-left: 12px;
+  padding-left: 8px;
+  border-left: 1px solid var(--border);
+}
+
+.path-tour {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+}
+
+.path-tour:hover {
+  background: var(--vscode-list-hoverBackground);
+  color: var(--vscode-foreground);
+}
+
+.path-tour.is-current {
+  color: var(--vscode-foreground);
+  font-weight: 600;
+  cursor: default;
+}
+
+.path-tour.is-current:hover {
+  background: none;
+}
+
+.path-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.path-tour-title,
+.step-subtour-title {
+  flex: 1;
+  display: -webkit-box;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.path-tour-step {
+  flex: none;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sub-tours under the step they go deeper from */
+
+.step-subtours {
+  list-style: none;
+  margin: 0 0 4px 40px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.step-subtour {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+}
+
+.step-subtour:hover {
+  background: var(--vscode-list-hoverBackground);
+  color: var(--vscode-foreground);
+}
+
+.step-subtour > .icon {
+  color: var(--accent);
+}
+
+.step-subtour-meta {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.step-subtour-meta.is-done {
+  color: var(--accent);
+}
+
+.step-subtour-meta .icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* Controls */
+
+.controls {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.controls-row {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 8px;
+}
+
+.controls-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.button-primary {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+.button-primary:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+.button-secondary {
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+}
+
+.button-secondary:not(:disabled):hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--vscode-textLink-foreground);
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  color: var(--vscode-textLink-activeForeground);
+  text-decoration: underline;
+}
+
+/* Home */
+
+.home {
+  padding: 20px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 4px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.hero-mark .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.hero-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.hero-text {
+  color: var(--muted);
+}
+
+.how {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  counter-reset: how;
+}
+
+.how-item {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  counter-increment: how;
+}
+
+.how-item::before {
+  content: counter(how);
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.command {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 4px 4px 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--vscode-textCodeBlock-background, var(--raised));
+}
+
+.command-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12px;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--vscode-toolbar-hoverBackground);
+  color: var(--vscode-foreground);
+}
+
+.tour-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tour-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--raised);
+}
+
+.tour-card:hover {
+  border-color: var(--accent);
+}
+
+.tour-card.is-pinned {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: var(--accent-soft);
+}
+
+.tour-card-open {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 40px 10px 12px;
+  border: 0;
+  background: none;
+  color: var(--vscode-foreground);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* The actions of a card stay out of the way until the reader points at the card or tabs into it. */
+.tour-card-actions {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 2px;
+  padding: 1px;
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+.tour-card-pin.is-pinned {
+  color: var(--accent);
+}
+
+.tour-card-actions .icon-button {
+  opacity: 0;
+}
+
+.tour-card:hover .tour-card-actions .icon-button,
+.tour-card:focus-within .tour-card-actions .icon-button,
+.tour-card-actions .tour-card-pin.is-pinned {
+  opacity: 1;
+}
+
+.tour-card.is-pinned .tour-card-actions {
+  background: transparent;
+}
+
+.tour-card.is-dragging {
+  opacity: 0.5;
+}
+
+.tour-card-tag {
+  margin-left: 6px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 16%, transparent);
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.tour-card.is-editing {
+  padding: 10px 12px;
+  border-color: var(--accent);
+}
+
+.tour-card-stale {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 10px;
+  margin: 0 12px 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 12%, transparent);
+  font-size: 12px;
+}
+
+.tour-card-stale-text {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.tour-card-stale .link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tour-card-title {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.tour-card-question {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: var(--muted);
+}
+
+.tour-card-meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.empty {
+  color: var(--muted);
+}
+
+.unreadable-hint {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.unreadable-tour {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 12px;
+  border: 1px dashed color-mix(in srgb, var(--vscode-editorWarning-foreground) 60%, var(--border));
+  border-radius: var(--radius);
+}
+
+.unreadable-tour-title {
+  font-weight: 600;
+}
+
+.unreadable-tour-path {
+  color: var(--muted);
+  font-family: var(--vscode-editor-font-family);
+  font-size: 11.5px;
+  overflow-wrap: anywhere;
+}
+
+.unreadable-tour-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.unreadable-tour-problem {
+  color: var(--vscode-editorWarning-foreground);
+  font-size: 11.5px;
+  overflow-wrap: anywhere;
+}
+
+.banner {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+}
+
+.banner-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+}
+
+.banner-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+/* Map button and paused list */
+
+.overview-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+  text-align: left;
+  cursor: pointer;
+}
+
+.overview-button:hover,
+.overview-button.is-open {
+  border-color: var(--accent);
+}
+
+.overview-button.is-open {
+  background: var(--accent-soft);
+}
+
+.overview-button .icon {
+  color: var(--accent);
+}
+
+.steps.is-paused .step.is-current {
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.steps.is-paused .step.is-current .step-title {
+  font-weight: normal;
+}
+
+.controls > .button {
+  width: 100%;
+}
+
+/* Overview page in the editor area */
+
+
+
+.overview-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 40px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.overview-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.overview-title {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.overview-page .tour-question {
+  font-size: 14px;
+}
+
+.overview-page .overview-summary {
+  max-width: 72ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--vscode-foreground);
+}
+
+.overview-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.button-large {
+  padding: 9px 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.button-large .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.route {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 4px 16px;
+}
+
+/* Explanation panel under the code */
+
+
+
+.step-page {
+  container-type: inline-size;
+  padding: 12px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* A narrow panel shows one column, with the diagram right under the short text and before the
+   button that opens the full explanation. A wide panel puts the diagram beside the text and lets
+   the full explanation run across the whole width in columns: the bottom panel is wide but low. */
+.step-page-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-page-main {
+  display: contents;
+}
+
+.step-page-title {
+  order: 1;
+}
+
+.step-page-lead {
+  order: 2;
+}
+
+.step-page-stale,
+.step-page-changed {
+  order: 3;
+}
+
+.risk-list {
+  order: 4;
+}
+
+.diagram-frame {
+  order: 5;
+}
+
+.step-page-toggles,
+.subtours {
+  order: 6;
+}
+
+.details-body {
+  order: 7;
+}
+
+.ask {
+  order: 8;
+}
+
+@container (min-width: 760px) {
+  .step-page-body {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(0, max-content);
+    grid-template-areas:
+      "main diagram"
+      "details details"
+      "ask ask";
+    align-items: start;
+    gap: 14px 32px;
+  }
+
+  .step-page-main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .diagram-frame {
+    grid-area: diagram;
+    min-width: 0;
+  }
+
+  .step-page-body.has-wide-diagram {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "main"
+      "diagram"
+      "details"
+      "ask";
+  }
+
+  .ask {
+    grid-area: ask;
+  }
+
+  .details-body {
+    grid-area: details;
+    column-width: 40ch;
+    column-gap: 36px;
+  }
+}
+
+.step-page-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.step-page-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+}
+
+.step-page-place {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.step-page-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.step-page-progress {
+  grid-column: 1 / -1;
+}
+
+.step-page-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.step-page-lead {
+  max-width: 75ch;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.step-page-stale {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 14%, transparent);
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.step-page-changed {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 10%, transparent);
+}
+
+.step-page-changed-text {
+  margin: 0;
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.step-page-changed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+.step-page-changed-actions .link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.step-page-hint {
+  margin-top: 4px;
+}
+
+.step-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  color: var(--muted);
+}
+
+.step-placeholder-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.details-toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px 5px 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--vscode-foreground);
+  cursor: pointer;
+}
+
+.details-toggle:hover {
+  border-color: var(--accent);
+}
+
+.details-toggle .icon {
+  color: var(--accent);
+}
+
+.details-toggle.is-open .icon {
+  transform: rotate(180deg);
+}
+
+.details-body {
+  padding-left: 14px;
+  border-left: 2px solid var(--accent);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.markdown > * + * {
+  margin-top: 10px;
+}
+
+.markdown p,
+.markdown h3,
+.markdown ul,
+.markdown ol,
+.markdown pre {
+  margin: 0;
+}
+
+.markdown h3 {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.markdown ul,
+.markdown ol {
+  padding-left: 20px;
+}
+
+.markdown li + li {
+  margin-top: 4px;
+}
+
+.markdown code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--vscode-textCodeBlock-background, var(--raised));
+  font-family: var(--vscode-editor-font-family);
+  font-size: 0.92em;
+}
+
+.markdown pre {
+  overflow-x: auto;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--vscode-textCodeBlock-background, var(--raised));
+  line-height: 1.5;
+}
+
+.markdown pre code {
+  padding: 0;
+  background: none;
+}
+
+.markdown blockquote {
+  margin: 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--vscode-editorWarning-foreground);
+  border-radius: 0 6px 6px 0;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 10%, transparent);
+}
+
+.markdown-table {
+  overflow-x: auto;
+}
+
+.markdown table {
+  border-collapse: collapse;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.markdown th,
+.markdown td {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown th {
+  background: var(--raised);
+  font-weight: 600;
+}
+
+.markdown pre,
+.markdown blockquote,
+.markdown-table {
+  break-inside: avoid;
+}
+
+/* Step diagram */
+
+.diagram-frame {
+  overflow-x: auto;
+}
+
+.diagram {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  width: max-content;
+  margin-inline: auto;
+  margin: 0;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--raised);
+}
+
+.diagram-layer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.diagram.is-vertical {
+  flex-direction: column;
+  gap: 36px;
+  width: auto;
+}
+
+.diagram.is-vertical .diagram-layer {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.diagram-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 220px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--vscode-foreground);
+  font: inherit;
+  text-align: left;
+}
+
+.diagram-node.is-link {
+  cursor: pointer;
+}
+
+.diagram-node.is-link:hover {
+  border-color: var(--accent);
+}
+
+.diagram-node.is-current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.diagram-node-label {
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12.5px;
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+
+.diagram-node-note {
+  font-size: 11.5px;
+  color: var(--muted);
+  overflow-wrap: break-word;
+}
+
+.diagram-node-here,
+.diagram-node-step {
+  position: absolute;
+  top: -9px;
+  right: 8px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.diagram-node-here {
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+}
+
+.diagram-node-step {
+  background: var(--border);
+  color: var(--vscode-foreground);
+}
+
+.diagram-edges {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.diagram-edge {
+  fill: none;
+  stroke: var(--muted);
+  stroke-opacity: 0.6;
+  stroke-width: 1.3;
+}
+
+.diagram-edge.is-active {
+  stroke: var(--accent);
+  stroke-opacity: 1;
+  stroke-width: 1.6;
+}
+
+.diagram-arrow-head {
+  fill: var(--muted);
+  fill-opacity: 0.6;
+}
+
+.diagram-arrow-active-head {
+  fill: var(--accent);
+}
+
+.diagram-edge-label {
+  font-size: 11px;
+  fill: var(--muted);
+  paint-order: stroke;
+  stroke: var(--raised);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion: 0ms;
+  }
+}
+
+/* Risks */
+
+.risk-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.risk {
+  --risk-color: var(--vscode-editorInfo-foreground);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 10px;
+  border-left: 3px solid var(--risk-color);
+  border-radius: 0 6px 6px 0;
+  background: color-mix(in srgb, var(--risk-color) 9%, transparent);
+}
+
+.risk-high {
+  --risk-color: var(--vscode-editorError-foreground);
+}
+
+.risk-medium {
+  --risk-color: var(--vscode-editorWarning-foreground);
+}
+
+.risk-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.risk-title {
+  color: var(--risk-color);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.risk-line {
+  color: var(--muted);
+  font-family: var(--vscode-editor-font-family);
+  font-size: 11.5px;
+}
+
+.risk-text {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.risk-marker {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: var(--vscode-editorError-foreground);
+  vertical-align: middle;
+}
+
+.step-page-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.risks-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--vscode-foreground);
+  cursor: pointer;
+}
+
+.risks-toggle:hover {
+  border-color: var(--vscode-editorError-foreground);
+}
+
+.risks-toggle-switch {
+  position: relative;
+  width: 24px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.risks-toggle-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--vscode-foreground);
+}
+
+.risks-toggle.is-on .risks-toggle-switch {
+  background: var(--vscode-editorError-foreground);
+}
+
+.risks-toggle.is-on .risks-toggle-switch::after {
+  transform: translateX(10px);
+}
+
+/* Glossary */
+
+/* The underline goes on the inner code too: a code background would hide the term's own line. */
+.term,
+.markdown .term > code {
+  text-decoration: underline dotted var(--accent);
+  text-underline-offset: 3px;
+}
+
+.term {
+  position: relative;
+  cursor: help;
+}
+
+.term-definition {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.term-tooltip {
+  position: fixed;
+  z-index: 100;
+  display: none;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(340px, calc(100vw - 16px));
+  overflow-y: auto;
+  padding: 7px 10px;
+  border: 1px solid var(--vscode-editorHoverWidget-border, var(--border));
+  border-radius: 6px;
+  background: var(--vscode-editorHoverWidget-background, var(--raised));
+  color: var(--vscode-editorHoverWidget-foreground, var(--vscode-foreground));
+  box-shadow: 0 4px 16px var(--vscode-widget-shadow, transparent);
+  font-size: 12.5px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.term-tooltip.is-shown {
+  display: block;
+}
+
+.glossary {
+  display: grid;
+  gap: 2px 0;
+  margin: 0;
+}
+
+.glossary-term {
+  margin-top: 8px;
+  font-family: var(--vscode-editor-font-family);
+  font-weight: 600;
+}
+
+.glossary-definition {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Questions to Claude */
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 100ch;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.ask-exchange {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ask-question {
+  align-self: flex-start;
+  max-width: 80ch;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 10px 10px 10px 2px;
+  background: var(--accent-soft);
+  font-weight: 500;
+}
+
+.ask-answer {
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.ask-status,
+.build-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.build-status {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--raised);
+}
+
+.build-status-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.build-status-text strong {
+  color: var(--vscode-foreground);
+}
+
+.build-status-reading,
+.ask-status-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ask-spinner {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+}
+
+@keyframes ask-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-spinner {
+  }
+}
+
+.ask-failure {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorError-foreground) 12%, transparent);
+  color: var(--vscode-editorError-foreground);
+}
+
+.ask-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ask-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 52px;
+  resize: vertical;
+  padding: 8px 10px;
+  border: 1px solid var(--vscode-input-border, var(--border));
+  border-radius: 6px;
+  background: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  font: inherit;
+}
+
+.ask-input:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+
+.ask-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.code-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--vscode-textLink-foreground);
+  cursor: pointer;
+}
+
+.markdown .code-link code {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Sub-tours */
+
+.parent-trail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  min-width: 0;
+  padding: 6px 8px 6px 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-radius: 8px;
+  background: var(--accent-soft);
+  font-size: 12.5px;
+}
+
+.parent-trail-back {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--vscode-foreground);
+  font: inherit;
+  cursor: pointer;
+}
+
+.parent-trail-back:hover {
+  border-color: var(--accent);
+}
+
+.parent-trail-kind {
+  flex: none;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.parent-trail-place {
+  display: flex;
+  flex: 1 1 180px;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.parent-trail-tour,
+.parent-trail-step {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.parent-trail-link {
+  min-width: 0;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.parent-trail-link:hover {
+  color: var(--vscode-textLink-activeForeground, var(--accent));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.parent-trail-step {
+  color: var(--vscode-foreground);
+}
+
+.subtours {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subtours-title {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.subtour-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--raised);
+  color: var(--vscode-foreground);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.subtour-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.subtour-card.is-new {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.subtour-card-mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.subtour-card-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.subtour-card-title {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subtour-card-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.subtour-card-new {
+  flex: none;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--vscode-editor-background);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.subtour-card-enter {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.subtour-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 6px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.subtour-count svg {
+  width: 12px;
+  height: 12px;
+}
+
+.subtour-busy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 5px 6px 5px 11px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent-soft);
+}
+
+.subtour-busy-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.subtour-busy-title {
+  font-weight: 600;
+}
+
+.subtour-busy-reading {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subtour-busy-stop {
+  flex: none;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--vscode-foreground);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.subtour-busy-stop:hover {
+  border-color: var(--vscode-editorError-foreground);
+}
+
+.ask-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ask-suggestions-title {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ask-suggestions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ask-suggestion {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  max-width: 100%;
+  padding: 6px 12px 6px 9px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--raised);
+  color: var(--vscode-foreground);
+  font: inherit;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ask-suggestion:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.ask-suggestion:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.ask-suggestion svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--accent);
+}
+
+/* Sections fold like folders in the explorer. */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.section-toggle {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.section-toggle .section-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.section-toggle:hover .section-title {
+  color: var(--vscode-foreground);
+}
+
+.section-badge {
+  flex: none;
+  padding: 0 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 10.5px;
+}
+
+.section-count {
+  flex: none;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--vscode-badge-background);
+  color: var(--vscode-badge-foreground);
+  font-size: 10.5px;
+  text-align: center;
+}
+
+.section-actions {
+  display: flex;
+  gap: 2px;
+}
+
+/* Hidden actions take no room from the group's name, and still take keyboard focus. */
+.section-header:not(:hover, :focus-within) .section-actions {
+  width: 0;
+  overflow: hidden;
+}
+
+.section.is-drop-target {
+  border-radius: var(--radius);
+  outline: 1px dashed var(--accent);
+  outline-offset: 4px;
+  background: var(--accent-soft);
+}
+
+.tours-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tours-toolbar .link-button,
+.unreadable-tour-actions .link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.group-empty {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Edit forms */
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-label-text {
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.edit-field {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid var(--vscode-input-border, var(--border));
+  border-radius: 4px;
+  background: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  font: inherit;
+  resize: vertical;
+}
+
+.edit-field:focus {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+
+.edit-field-code {
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12px;
+}
+
+.edit-failure {
+  margin: 0;
+  color: var(--vscode-errorForeground);
+}
+
+.edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-toggle .group-name {
+  color: var(--vscode-foreground);
+  font-size: 12.5px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.tours-ignored {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--vscode-editorWarning-foreground) 12%, transparent);
+  color: var(--vscode-editorWarning-foreground);
+  font-size: 12px;
+}
+
+
+/* ---- video overrides: the timeline owns all motion ---- */
+:root{--motion:0ms}
+/* (transitions/animations removed from the webview.css copy above) */
+.tc-ui{color:var(--vscode-foreground);font-family:var(--vscode-font-family);font-size:var(--vscode-font-size);line-height:1.5;text-align:left}
+.tc-ui .session{min-height:0}
+.tc-ui .step-page-hint, .tc-ui .hint{display:none}
+
+
+/* ---- VS Code Dark Modern window (built in HTML: it does not exist as a file) ---- */
+.vsc{position:absolute;width:1688px;height:858px;border-radius:12px;overflow:hidden;background:#1f1f1f;
+  border:1px solid #2b2b2b;box-shadow:0 50px 140px rgba(0,0,0,.6),0 14px 40px rgba(0,0,0,.45);
+  font-family:"Inter",sans-serif;color:#cccccc}
+.vsc-title{position:absolute;left:0;top:0;right:0;height:34px;background:#181818;border-bottom:1px solid #2b2b2b;
+  display:flex;align-items:center;justify-content:center;font-size:12.5px;color:#9d9d9d;letter-spacing:.01em}
+.vsc-dots{position:absolute;left:14px;top:11px;display:flex;gap:8px}
+.vsc-dots i{display:block;width:12px;height:12px;border-radius:50%;background:#3a3a3a}
+.vsc-body{position:absolute;left:0;top:34px;right:0;bottom:22px}
+.vsc-act{position:absolute;left:0;top:0;bottom:0;width:48px;background:#181818;border-right:1px solid #2b2b2b}
+.vsc-act .ai{position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#868686}
+.vsc-act .ai svg{width:24px;height:24px}
+.vsc-act .ai.on{color:#e6e6e6}
+.vsc-act .ai.on::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:#0078d4}
+.vsc-side{position:absolute;left:48px;top:0;bottom:0;width:360px;background:#181818;border-right:1px solid #2b2b2b;overflow:hidden}
+.vsc-side-head{height:35px;display:flex;align-items:center;padding:0 20px;font-size:11px;font-weight:400;letter-spacing:.06em;color:#9d9d9d;text-transform:uppercase}
+.vsc-side-body{position:absolute;left:0;right:0;top:35px;bottom:0;overflow:hidden}
+.vsc-main{position:absolute;left:408px;top:0;right:0;bottom:0;background:#1f1f1f}
+.vsc-tabs{position:absolute;left:0;right:0;top:0;height:35px;background:#181818;border-bottom:1px solid #2b2b2b;display:flex}
+.vsc-tab{position:relative;height:35px;padding:0 14px 0 12px;display:flex;align-items:center;gap:6px;font-size:13px;color:#9d9d9d;
+  background:#181818;border-right:1px solid #2b2b2b}
+.vsc-tab.on{background:#1f1f1f;color:#ffffff}
+.vsc-tab.on::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:#0078d4}
+.vsc-tab .ts{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;color:#4d9fdc;letter-spacing:-.02em}
+.vsc-crumbs{position:absolute;left:0;right:0;top:35px;height:22px;display:flex;align-items:center;padding-left:16px;font-size:12.5px;color:#9d9d9d;gap:6px}
+.vsc-code{position:absolute;left:0;right:0;top:57px;height:340px;overflow:hidden;background:#1f1f1f}
+.vsc-panel{position:absolute;left:0;right:0;top:397px;bottom:0;background:#1f1f1f;border-top:1px solid #2b2b2b;overflow:hidden}
+.vsc-panel-head{height:35px;display:flex;align-items:center;gap:22px;padding:0 20px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9d9d9d}
+.vsc-panel-head .on{color:#e6e6e6;position:relative}
+.vsc-panel-head .on::after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:1px;background:#e6e6e6}
+.vsc-panel-body{position:absolute;left:0;right:0;top:35px;bottom:0;overflow:hidden}
+.vsc-status{position:absolute;left:0;right:0;bottom:0;height:22px;background:#181818;border-top:1px solid #2b2b2b;display:flex;align-items:center;
+  justify-content:space-between;padding:0 12px;font-size:11.5px;color:#9d9d9d}
+.vsc-status span{margin-right:16px}
+
+/* code lines */
+.code{position:absolute;left:0;top:6px;right:0;font-family:"JetBrains Mono",monospace;font-size:15px;line-height:22px;font-variant-ligatures:none}
+.ln{position:relative;height:22px;white-space:pre;display:flex}
+.ln .no{width:64px;flex:none;text-align:right;padding-right:26px;color:#8b949e}
+.ln .tx{color:#cccccc;padding-left:18px}
+.ln.cur .no{color:#cccccc}
+.hl{position:absolute;left:64px;right:0;background:rgba(63,185,80,.14);border-left:2px solid #3fb950}
+.tok-k{color:#c586c0}.tok-s{color:#62a8e3}.tok-str{color:#ce9178}.tok-fn{color:#dcdcaa}.tok-v{color:#9cdcfe}
+.tok-t{color:#4ec9b0}.tok-c{color:#4fc1ff}.tok-p{color:#cccccc}
+
+/* the real webview pages at their native widths */
+.ui-step{position:absolute;left:0;top:0;width:1280px}
+.ui-side{position:absolute;left:0;top:0;width:360px}
+.ui-side .tc-ui{background:#181818}
+
+/* green field used by the bar-expand / bar-contract seams (transform-only) */
+.gfield{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:#233425}
+.gedge{position:absolute;left:0;top:0;width:2px;height:1080px;transform-origin:0 0;background:#3fb950}
+
+/* cursor */
+.cursor{position:absolute;left:0;top:0;width:26px;height:34px;z-index:50;pointer-events:none}
+.cursor svg{width:26px;height:34px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
+
+/* eyebrow (as in the UI): glowing green dot */
+.eb{display:inline-flex;align-items:center;gap:10px;font-family:"Inter",sans-serif;font-weight:600;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:#3fb950}
+.eb::before{content:"";width:9px;height:9px;border-radius:50%;background:#3fb950;box-shadow:0 0 10px 2px rgba(63,185,80,.65)}
+
+</style>
+<style>
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f08-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 45% 46%, #141c26 0%, #0d1117 62%, #090c10 100%); }
+  #f08-stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 40% 45%; }
+  #f08-cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+  #f08-win { left: 116px; top: 41px; }
+  #f08-win .vsc-main { filter: blur(3px); opacity: .55; }
+  #f08-side .tour-card { position: relative; }
+  #f08-pulse { position: absolute; left: 16px; top: 474.5px; width: 328px; height: 81.5px; border-radius: 8px; border: 2px solid #3fb950; pointer-events: none; }
+  #f08-cursor { left: 0; top: 0; transform-origin: 0 0; }
+  #f08-line { position: absolute; left: 0; top: 538.5px; width: 1920px; height: 3px; transform-origin: 0 50%; background: #3fb950; box-shadow: 0 0 14px rgba(63,185,80,.75); }
+  #f08-linehead { position: absolute; left: 0; top: 0; margin: -9px 0 0 -9px; width: 18px; height: 18px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 18px 4px rgba(63,185,80,.7); }
+  #f08-side .tour-card-stale { overflow: hidden; }
+</style>
+
+<div data-hf-id="hf-7pfs" id="root" data-composition-id="08-teams" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-6sh2" id="f08-bgclip" class="clip" data-start="0" data-duration="6" data-track-index="0"><div data-hf-id="hf-sodj" id="f08-bg"></div></div>
+
+  <div data-hf-id="hf-af0y" id="f08-stage" class="clip" data-start="0" data-duration="6" data-track-index="1">
+    <div data-hf-id="hf-s89n" id="f08-cam">
+      <div data-hf-id="hf-djix" class="vsc" id="f08-win">
+        <div data-hf-id="hf-yvbh" class="vsc-title"><div data-hf-id="hf-ay5d" class="vsc-dots"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div><span data-hf-id="hf-gfsj">auth.ts — acme-shop</span></div>
+        <div data-hf-id="hf-oiit" class="vsc-body">
+          <div data-hf-id="hf-p12f" class="vsc-act">
+            <div data-hf-id="hf-l5w2" class="ai"><svg data-hf-id="hf-bfo4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path data-hf-id="hf-n1ex" d="M14 3H7a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V8z" /><path data-hf-id="hf-4box" d="M14 3v5h5" /><path data-hf-id="hf-t6q2" d="M3 7v13a1 1 0 0 0 1 1h11" opacity=".0" /></svg></div>
+            <div data-hf-id="hf-qdee" class="ai"><svg data-hf-id="hf-a6sg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle data-hf-id="hf-smh9" cx="11" cy="10" r="6" /><path data-hf-id="hf-4y16" d="M15.5 14.5 20 19" stroke-linecap="round" /></svg></div>
+            <div data-hf-id="hf-qrpf" class="ai"><svg data-hf-id="hf-v4yg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle data-hf-id="hf-qz86" cx="7" cy="5" r="2" /><circle data-hf-id="hf-c3dl" cx="7" cy="19" r="2" /><circle data-hf-id="hf-8ejj" cx="17" cy="9" r="2" /><path data-hf-id="hf-ants" d="M7 7v10M17 11c0 4-6 3-9.5 6.5" /></svg></div>
+            <div data-hf-id="hf-r60g" class="ai"><svg data-hf-id="hf-nz8s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path data-hf-id="hf-y4mp" d="M8 5v14l11-7z" /></svg></div>
+            <div data-hf-id="hf-odv9" class="ai"><svg data-hf-id="hf-ty1d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect data-hf-id="hf-w2z8" x="4" y="4" width="7" height="7" rx="1" /><rect data-hf-id="hf-8vuw" x="4" y="13" width="7" height="7" rx="1" /><rect data-hf-id="hf-2kek" x="13" y="13" width="7" height="7" rx="1" /><rect data-hf-id="hf-2xdi" x="14" y="3" width="7" height="7" rx="1" transform="rotate(12 17.5 6.5)" /></svg></div>
+            <div data-hf-id="hf-0q0x" class="ai on"><svg data-hf-id="hf-4vul" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle data-hf-id="hf-4zel" cx="5.5" cy="18.5" r="2.5" /><path data-hf-id="hf-00lw" d="M8 18.5h6.5a3.5 3.5 0 0 0 0-7h-5a3.5 3.5 0 0 1 0-7H16" /><path data-hf-id="hf-z2p3" d="M15.5 2l3 2.5-3 2.5" /></svg></div>
+          </div>
+          <div data-hf-id="hf-yz7g" class="vsc-side">
+            <div data-hf-id="hf-dpi0" class="vsc-side-head">TourCode</div>
+            <div data-hf-id="hf-qm9d" class="vsc-side-body">
+              <div data-hf-id="hf-98o2" class="ui-side" id="f08-side"><div data-hf-id="hf-tmb8" class="tc-ui" data-ui="sidebar-home-stale" data-layout-allow-overlap=""><div data-hf-id="hf-fc6d" class="home"><div data-hf-id="hf-hie8" class="hero"><div data-hf-id="hf-x97i" class="hero-mark"><svg data-hf-id="hf-2rmt" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-1si7" d="M4 12.5a1.5 1.5 0 1 0 0 .01M5.5 12.5H10a2.5 2.5 0 0 0 0-5H6a2.5 2.5 0 0 1 0-5h5.5M10 1l2 1.5L10 4" /></svg></div><h1 data-hf-id="hf-lhi0" class="hero-title">TourCode</h1><p data-hf-id="hf-ktqs" class="hero-text">Step-by-step tours of your code. Your coding agent finds the right places, and you walk through them right in the editor.</p></div><section data-hf-id="hf-zao9" class="section"><h2 data-hf-id="hf-r65e" class="section-title">How to start</h2><ol data-hf-id="hf-s9xk" class="how"><li data-hf-id="hf-i30g" class="how-item"><span data-hf-id="hf-w1c4">Open the chat of your coding agent in this project: Claude Code, Cursor or Kiro.</span></li><li data-hf-id="hf-mtvc" class="how-item"><span data-hf-id="hf-3mgk">Ask your question after /tour:<span data-hf-id="hf-u0fw" class="command"><code data-hf-id="hf-cdbq" class="command-text">/tour how does authentication work</code><button data-hf-id="hf-tndw" data-layout-allow-overlap="" class="icon-button" type="button" title="Copy" aria-label="Copy"><svg data-hf-id="hf-uto9" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-89cz" d="M5.5 5.5V3.5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2M3.5 5.5h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1Z" /></svg></button></span></span></li><li data-hf-id="hf-lmy9" class="how-item"><span data-hf-id="hf-ss0c">The tour opens here by itself: files open, the explained lines turn green.</span></li></ol></section><div data-hf-id="hf-69wb" class="tours-toolbar"><h2 data-hf-id="hf-o62k" class="section-title">Tours in this project</h2><button data-hf-id="hf-j3h0" data-layout-allow-overlap="" class="link-button" type="button"><svg data-hf-id="hf-w0lc" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-2xen" d="M2.5 4.5a1 1 0 0 1 1-1h2.75l1.5 1.5h4.75a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1ZM8 7.25v3.5M6.25 9h3.5" /></svg>New group</button></div><section data-hf-id="hf-brgd" class="section"><div data-hf-id="hf-k0k5" class="section-header"><button data-hf-id="hf-ew3o" data-layout-allow-overlap="" class="section-toggle" type="button" aria-expanded="true"><svg data-hf-id="hf-vmab" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-mako" d="M4 6l4 4 4-4" /></svg><span data-hf-id="hf-2j45" class="section-title">Start here</span><span data-hf-id="hf-oszz" class="section-count">1</span></button><div data-hf-id="hf-xkr3" class="section-actions"></div></div><div data-hf-id="hf-x5v7" class="tour-list"><div data-hf-id="hf-karc" class="tour-card is-pinned" draggable="true"><button data-hf-id="hf-vzf8" data-layout-allow-overlap="" class="tour-card-open" type="button"><span data-hf-id="hf-t7do" class="tour-card-title">How login works</span><span data-hf-id="hf-26f3" class="tour-card-question">how does login work in this project?</span><span data-hf-id="hf-zfin" class="tour-card-meta">4 steps · Oct 9</span></button><div data-hf-id="hf-xjuf" class="tour-card-actions"><button data-hf-id="hf-1gb4" data-layout-allow-overlap="" class="icon-button" type="button" title="Move to a group" aria-label="Move to a group"><svg data-hf-id="hf-tmr6" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-d7dp" d="M2.5 4.5a1 1 0 0 1 1-1h2.75l1.5 1.5h4.75a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1Z" /></svg></button><button data-hf-id="hf-jouk" data-layout-allow-overlap="" class="icon-button" type="button" title="Rename or change the description" aria-label="Rename or change the description"><svg data-hf-id="hf-t8g5" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-ynrp" d="M10.5 2.5l3 3L6 13H3v-3ZM9 4l3 3" /></svg></button><button data-hf-id="hf-bzi0" data-layout-allow-overlap="" class="icon-button" type="button" title="Delete the tour" aria-label="Delete the tour"><svg data-hf-id="hf-ufd8" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-evwe" d="M2.5 4.5h11M6 4.5v-2h4v2M4 4.5l.75 9h6.5l.75-9" /></svg></button><button data-hf-id="hf-q8w3" data-layout-allow-overlap="" class="icon-button tour-card-pin is-pinned" type="button" title="Unpin" aria-label="Unpin" aria-pressed="true"><svg data-hf-id="hf-u127" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-5c2y" d="M5.5 2.5h5M6.5 2.5v4l-2 2.5h7l-2-2.5v-4M8 9v4.5" /></svg></button></div></div></div></section><section data-hf-id="hf-cydg" class="section"><div data-hf-id="hf-qx3d" class="section-header"><button data-hf-id="hf-fkfw" data-layout-allow-overlap="" class="section-toggle" type="button" aria-expanded="true"><svg data-hf-id="hf-s1j2" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-48zk" d="M4 6l4 4 4-4" /></svg><svg data-hf-id="hf-rn81" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-unqp" d="M2.5 4.5a1 1 0 0 1 1-1h2.75l1.5 1.5h4.75a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1Z" /></svg><span data-hf-id="hf-bjxy" class="section-title group-name">Authentication</span><span data-hf-id="hf-ek21" class="section-badge">team</span><span data-hf-id="hf-b10v" class="section-count">1</span></button><div data-hf-id="hf-kz1r" class="section-actions"><button data-hf-id="hf-tvgs" data-layout-allow-overlap="" class="icon-button" type="button" title="The team sees this group. Keep it only for you" aria-label="The team sees this group. Keep it only for you"><svg data-hf-id="hf-lwob" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-tp34" d="M6 7.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM2.5 13a3.5 3.5 0 0 1 7 0M10.5 3.6a2 2 0 0 1 0 3.8M11.5 9.6a3.5 3.5 0 0 1 2 3.4" /></svg></button><button data-hf-id="hf-6ijg" data-layout-allow-overlap="" class="icon-button" type="button" title="Rename the group" aria-label="Rename the group"><svg data-hf-id="hf-mazc" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-w3k9" d="M10.5 2.5l3 3L6 13H3v-3ZM9 4l3 3" /></svg></button><button data-hf-id="hf-9yu8" data-layout-allow-overlap="" class="icon-button" type="button" title="Delete the group" aria-label="Delete the group"><svg data-hf-id="hf-l429" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-8d7m" d="M2.5 4.5h11M6 4.5v-2h4v2M4 4.5l.75 9h6.5l.75-9" /></svg></button></div></div><div data-hf-id="hf-fgpf" class="tour-list"><div data-hf-id="hf-43q5" class="tour-card" draggable="true"><button data-hf-id="hf-bmlo" data-layout-allow-overlap="" class="tour-card-open" type="button"><span data-hf-id="hf-wa1g" class="tour-card-title">Creating a session after login</span><span data-hf-id="hf-ydvu" class="tour-card-question">How is a session created after login?</span><span data-hf-id="hf-zhff" class="tour-card-meta">6 steps · Oct 10</span></button><div data-hf-id="hf-mnoh" class="tour-card-stale"><span data-hf-id="hf-sdmk" class="tour-card-stale-text">Out of date: the code changed in 2 of 6 steps</span><button data-hf-id="hf-xu9a" data-layout-allow-overlap="" class="link-button" type="button"><svg data-hf-id="hf-lida" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-u6y2" d="M13 8a5 5 0 1 1-1.46-3.54M13 3v2.5h-2.5" /></svg>Rebuild</button></div><div data-hf-id="hf-ujlj" class="tour-card-actions"><button data-hf-id="hf-6m5k" data-layout-allow-overlap="" class="icon-button" type="button" title="Move to a group" aria-label="Move to a group"><svg data-hf-id="hf-kbg7" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-vuns" d="M2.5 4.5a1 1 0 0 1 1-1h2.75l1.5 1.5h4.75a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1Z" /></svg></button><button data-hf-id="hf-z7hg" data-layout-allow-overlap="" class="icon-button" type="button" title="Rename or change the description" aria-label="Rename or change the description"><svg data-hf-id="hf-kpr8" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-xahc" d="M10.5 2.5l3 3L6 13H3v-3ZM9 4l3 3" /></svg></button><button data-hf-id="hf-t2z4" data-layout-allow-overlap="" class="icon-button" type="button" title="Delete the tour" aria-label="Delete the tour"><svg data-hf-id="hf-jiu5" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-8rin" d="M2.5 4.5h11M6 4.5v-2h4v2M4 4.5l.75 9h6.5l.75-9" /></svg></button><button data-hf-id="hf-pdyv" data-layout-allow-overlap="" class="icon-button tour-card-pin" type="button" title="Pin for the team" aria-label="Pin for the team" aria-pressed="false"><svg data-hf-id="hf-jx56" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-5zce" d="M5.5 2.5h5M6.5 2.5v4l-2 2.5h7l-2-2.5v-4M8 9v4.5" /></svg></button></div></div></div></section></div></div>
+<div data-hf-id="hf-olo1" id="f08-pulse"></div></div>
+              <div data-hf-id="hf-1d5g" class="ui-side" id="f08-fresh" style="opacity:0"><div data-hf-id="hf-e304" class="tc-ui" data-ui="sidebar-home" data-layout-allow-overlap=""><div data-hf-id="hf-rik9" class="home"><div data-hf-id="hf-2zq0" class="hero"><div data-hf-id="hf-z2de" class="hero-mark"><svg data-hf-id="hf-p34j" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-gfqn" d="M4 12.5a1.5 1.5 0 1 0 0 .01M5.5 12.5H10a2.5 2.5 0 0 0 0-5H6a2.5 2.5 0 0 1 0-5h5.5M10 1l2 1.5L10 4" /></svg></div><h1 data-hf-id="hf-19gw" class="hero-title">TourCode</h1><p data-hf-id="hf-3yy4" class="hero-text">Step-by-step tours of your code. Your coding agent finds the right places, and you walk through them right in the editor.</p></div><section data-hf-id="hf-ck2f" class="section"><h2 data-hf-id="hf-42bq" class="section-title">How to start</h2><ol data-hf-id="hf-mnk0" class="how"><li data-hf-id="hf-m19a" class="how-item"><span data-hf-id="hf-8ags">Open the chat of your coding agent in this project: Claude Code, Cursor or Kiro.</span></li><li data-hf-id="hf-kuc7" class="how-item"><span data-hf-id="hf-77nw">Ask your question after /tour:<span data-hf-id="hf-neb8" class="command"><code data-hf-id="hf-3w0q" class="command-text">/tour how does authentication work</code><button data-hf-id="hf-qtlo" data-layout-allow-overlap="" class="icon-button" type="button" title="Copy" aria-label="Copy"><svg data-hf-id="hf-phfk" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-i1r7" d="M5.5 5.5V3.5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2M3.5 5.5h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1Z" /></svg></button></span></span></li><li data-hf-id="hf-l8n8" class="how-item"><span data-hf-id="hf-g06c">The tour opens here by itself: files open, the explained lines turn green.</span></li></ol></section><div data-hf-id="hf-twpn" class="tours-toolbar"><h2 data-hf-id="hf-nfp0" class="section-title">Tours in this project</h2><button data-hf-id="hf-hqb0" data-layout-allow-overlap="" class="link-button" type="button"><svg data-hf-id="hf-jlow" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-qeqn" d="M2.5 4.5a1 1 0 0 1 1-1h2.75l1.5 1.5h4.75a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1ZM8 7.25v3.5M6.25 9h3.5" /></svg>New group</button></div><section data-hf-id="hf-dqzi" class="section"><div data-hf-id="hf-s40g" class="section-header"><button data-hf-id="hf-edit" data-layout-allow-overlap="" class="section-toggle" type="button" aria-expanded="true"><svg data-hf-id="hf-j7dv" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-322h" d="M4 6l4 4 4-4" /></svg><span data-hf-id="hf-pqc9" class="section-title">Start here</span><span data-hf-id="hf-ampu" class="section-count">1</span></button><div data-hf-id="hf-kkqq" class="section-actions"></div></div><div data-hf-id="hf-f2ee" class="tour-list"><div data-hf-id="hf-dpao" class="tour-card is-pinned" draggable="true"><button data-hf-id="hf-afol" data-layout-allow-overlap="" class="tour-card-open" type="button"><span data-hf-id="hf-t7kk" class="tour-card-title">How login works</span><span data-hf-id="hf-651b" class="tour-card-question">how does login work in this project?</span><span data-hf-id="hf-ymwf" class="tour-card-meta">4 steps · Oct 9</span></button><div data-hf-id="hf-u5ai" class="tour-card-actions"><button data-hf-id="hf-5f8h" data-layout-allow-overlap="" class="icon-button" type="button" title="Move to a group" aria-label="Move to a group"><svg data-hf-id="hf-it2u" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-vgcr" d="M2.5 4.5a1 1 0 0 1 1-1h2.75l1.5 1.5h4.75a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1Z" /></svg></button><button data-hf-id="hf-y0kd" data-layout-allow-overlap="" class="icon-button" type="button" title="Rename or change the description" aria-label="Rename or change the description"><svg data-hf-id="hf-iert" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-ww6b" d="M10.5 2.5l3 3L6 13H3v-3ZM9 4l3 3" /></svg></button><button data-hf-id="hf-rw21" data-layout-allow-overlap="" class="icon-button" type="button" title="Delete the tour" aria-label="Delete the tour"><svg data-hf-id="hf-i0gs" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-95to" d="M2.5 4.5h11M6 4.5v-2h4v2M4 4.5l.75 9h6.5l.75-9" /></svg></button><button data-hf-id="hf-5g5f" data-layout-allow-overlap="" class="icon-button tour-card-pin is-pinned" type="button" title="Unpin" aria-label="Unpin" aria-pressed="true"><svg data-hf-id="hf-hm5r" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-6dnf" d="M5.5 2.5h5M6.5 2.5v4l-2 2.5h7l-2-2.5v-4M8 9v4.5" /></svg></button></div></div></div></section><section data-hf-id="hf-dcoh" class="section"><div data-hf-id="hf-rppf" class="section-header"><button data-hf-id="hf-ertu" data-layout-allow-overlap="" class="section-toggle" type="button" aria-expanded="true"><svg data-hf-id="hf-h7uq" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-3gdi" d="M4 6l4 4 4-4" /></svg><svg data-hf-id="hf-gtjp" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-tgtm" d="M2.5 4.5a1 1 0 0 1 1-1h2.75l1.5 1.5h4.75a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1Z" /></svg><span data-hf-id="hf-w656" class="section-title group-name">Authentication</span><span data-hf-id="hf-5hx9" class="section-badge">team</span><span data-hf-id="hf-a8et" class="section-count">1</span></button><div data-hf-id="hf-k6fp" class="section-actions"><button data-hf-id="hf-amck" data-layout-allow-overlap="" class="icon-button" type="button" title="The team sees this group. Keep it only for you" aria-label="The team sees this group. Keep it only for you"><svg data-hf-id="hf-gf8o" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-9gzc" d="M6 7.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM2.5 13a3.5 3.5 0 0 1 7 0M10.5 3.6a2 2 0 0 1 0 3.8M11.5 9.6a3.5 3.5 0 0 1 2 3.4" /></svg></button><button data-hf-id="hf-btjo" data-layout-allow-overlap="" class="icon-button" type="button" title="Rename the group" aria-label="Rename the group"><svg data-hf-id="hf-g0xn" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-uwn6" d="M10.5 2.5l3 3L6 13H3v-3ZM9 4l3 3" /></svg></button><button data-hf-id="hf-k4ns" data-layout-allow-overlap="" class="icon-button" type="button" title="Delete the group" aria-label="Delete the group"><svg data-hf-id="hf-kdcp" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-9k4p" d="M2.5 4.5h11M6 4.5v-2h4v2M4 4.5l.75 9h6.5l.75-9" /></svg></button></div></div><div data-hf-id="hf-eo3d" class="tour-list"><div data-hf-id="hf-4v01" class="tour-card" draggable="true"><button data-hf-id="hf-atzm" data-layout-allow-overlap="" class="tour-card-open" type="button"><span data-hf-id="hf-8kx8" class="tour-card-title">Creating a session after login</span><span data-hf-id="hf-8r66" class="tour-card-question">How is a session created after login?</span><span data-hf-id="hf-9q63" class="tour-card-meta">6 steps · Oct 10</span></button><div data-hf-id="hf-tqzh" class="tour-card-actions"><button data-hf-id="hf-5tji" data-layout-allow-overlap="" class="icon-button" type="button" title="Move to a group" aria-label="Move to a group"><svg data-hf-id="hf-krnq" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-t2il" d="M2.5 4.5a1 1 0 0 1 1-1h2.75l1.5 1.5h4.75a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1Z" /></svg></button><button data-hf-id="hf-yeve" data-layout-allow-overlap="" class="icon-button" type="button" title="Rename or change the description" aria-label="Rename or change the description"><svg data-hf-id="hf-l5yr" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-uic5" d="M10.5 2.5l3 3L6 13H3v-3ZM9 4l3 3" /></svg></button><button data-hf-id="hf-sad2" data-layout-allow-overlap="" class="icon-button" type="button" title="Delete the tour" aria-label="Delete the tour"><svg data-hf-id="hf-lk9s" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-9yfq" d="M2.5 4.5h11M6 4.5v-2h4v2M4 4.5l.75 9h6.5l.75-9" /></svg></button><button data-hf-id="hf-gvsn" data-layout-allow-overlap="" class="icon-button tour-card-pin" type="button" title="Pin for the team" aria-label="Pin for the team" aria-pressed="false"><svg data-hf-id="hf-is4l" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-6ryg" d="M5.5 2.5h5M6.5 2.5v4l-2 2.5h7l-2-2.5v-4M8 9v4.5" /></svg></button></div></div></div></section></div></div>
+</div>
+            </div>
+          </div>
+          <div data-hf-id="hf-7suy" class="vsc-main">
+            <div data-hf-id="hf-b3z9" class="vsc-tabs"><div data-hf-id="hf-p2t2" class="vsc-tab on"><span data-hf-id="hf-bub7" class="ts">TS</span>auth.ts</div></div>
+            <div data-hf-id="hf-0z7a" class="vsc-crumbs">src <span data-hf-id="hf-ffy9">›</span> auth.ts</div>
+            <div data-hf-id="hf-sxdu" class="vsc-code"><div data-hf-id="hf-0v5q" class="code" id="f08-auth-ts"><div data-hf-id="hf-o233" class="ln" data-line="1"><span data-hf-id="hf-kh2n" class="no">1</span><span data-hf-id="hf-4rqh" class="tx"><span data-hf-id="hf-83c0" class="tok-k">import</span> <span data-hf-id="hf-px3f" class="tok-p">{</span> <span data-hf-id="hf-80i4" class="tok-v">verifyPassword</span> <span data-hf-id="hf-nj99" class="tok-p">}</span> <span data-hf-id="hf-1ntd" class="tok-k">from</span> <span data-hf-id="hf-unnp" class="tok-str">"./password"</span></span></div><div data-hf-id="hf-fe78" class="ln" data-line="2"><span data-hf-id="hf-k2rm" class="no">2</span><span data-hf-id="hf-0qxp" class="tx"><span data-hf-id="hf-nh7c" class="tok-k">import</span> <span data-hf-id="hf-zs4r" class="tok-p">{</span> <span data-hf-id="hf-ztp8" class="tok-v">startSession</span> <span data-hf-id="hf-id01" class="tok-p">}</span> <span data-hf-id="hf-nbd1" class="tok-k">from</span> <span data-hf-id="hf-9zra" class="tok-str">"./session"</span></span></div><div data-hf-id="hf-g5v1" class="ln" data-line="3"><span data-hf-id="hf-jogl" class="no">3</span><span data-hf-id="hf-1xus" class="tx"></span></div><div data-hf-id="hf-yxkq" class="ln" data-line="4"><span data-hf-id="hf-mgls" class="no">4</span><span data-hf-id="hf-1jjr" class="tx"><span data-hf-id="hf-rsjz" class="tok-k">export</span> <span data-hf-id="hf-67qz" class="tok-s">async</span> <span data-hf-id="hf-nlut" class="tok-s">function</span> <span data-hf-id="hf-ghax" class="tok-fn">handleLogin</span><span data-hf-id="hf-8lhq" class="tok-p">(</span><span data-hf-id="hf-k390" class="tok-v">email</span><span data-hf-id="hf-fr08" class="tok-p">:</span> <span data-hf-id="hf-8ixz" class="tok-t">string</span><span data-hf-id="hf-709m" class="tok-p">,</span> <span data-hf-id="hf-2q6l" class="tok-v">password</span><span data-hf-id="hf-9efk" class="tok-p">:</span> <span data-hf-id="hf-53lz" class="tok-t">string</span><span data-hf-id="hf-876p" class="tok-p">)</span> <span data-hf-id="hf-zdtq" class="tok-p">{</span></span></div><div data-hf-id="hf-2vor" class="ln" data-line="5"><span data-hf-id="hf-m2ar" class="no">5</span><span data-hf-id="hf-2qgu" class="tx">  <span data-hf-id="hf-bz9s" class="tok-s">const</span> <span data-hf-id="hf-i2bj" class="tok-v">user</span> <span data-hf-id="hf-cyv1" class="tok-p">=</span> <span data-hf-id="hf-iiux" class="tok-k">await</span> <span data-hf-id="hf-dsx6" class="tok-fn">findUser</span><span data-hf-id="hf-odsi" class="tok-p">(</span><span data-hf-id="hf-8m8c" class="tok-v">email</span><span data-hf-id="hf-wh9x" class="tok-p">)</span></span></div><div data-hf-id="hf-s074" class="ln" data-line="6"><span data-hf-id="hf-lnzq" class="no">6</span><span data-hf-id="hf-2c5t" class="tx">  <span data-hf-id="hf-3wma" class="tok-k">if</span> <span data-hf-id="hf-os3j" class="tok-p">(</span><span data-hf-id="hf-vtj3" class="tok-v">user</span> <span data-hf-id="hf-yrv5" class="tok-p">=</span><span data-hf-id="hf-zys8" class="tok-p">=</span><span data-hf-id="hf-zkh7" class="tok-p">=</span> <span data-hf-id="hf-gd4n" class="tok-s">undefined</span> <span data-hf-id="hf-nxka" class="tok-p">|</span><span data-hf-id="hf-nib2" class="tok-p">|</span> <span data-hf-id="hf-bdmx" class="tok-p">!</span><span data-hf-id="hf-x74y" class="tok-fn">verifyPassword</span><span data-hf-id="hf-p6ek" class="tok-p">(</span><span data-hf-id="hf-qw5d" class="tok-v">password</span><span data-hf-id="hf-hagu" class="tok-p">,</span> <span data-hf-id="hf-vf82" class="tok-v">user</span><span data-hf-id="hf-7svo" class="tok-p">.</span><span data-hf-id="hf-0a1l" class="tok-v">passwordHash</span><span data-hf-id="hf-xo70" class="tok-p">)</span><span data-hf-id="hf-x9vz" class="tok-p">)</span> <span data-hf-id="hf-yzip" class="tok-p">{</span></span></div><div data-hf-id="hf-uzgp" class="ln" data-line="7"><span data-hf-id="hf-l9op" class="no">7</span><span data-hf-id="hf-3j2w" class="tx">    <span data-hf-id="hf-8e8z" class="tok-k">return</span> <span data-hf-id="hf-yl7o" class="tok-p">{</span> <span data-hf-id="hf-ot0m" class="tok-v">ok</span><span data-hf-id="hf-87ih" class="tok-p">:</span> <span data-hf-id="hf-h29w" class="tok-s">false</span><span data-hf-id="hf-horv" class="tok-p">,</span> <span data-hf-id="hf-5ar4" class="tok-v">reason</span><span data-hf-id="hf-8lti" class="tok-p">:</span> <span data-hf-id="hf-a51o" class="tok-str">"Wrong email or password"</span> <span data-hf-id="hf-jjx4" class="tok-p">}</span></span></div><div data-hf-id="hf-bjkm" class="ln" data-line="8"><span data-hf-id="hf-hoxg" class="no">8</span><span data-hf-id="hf-34rv" class="tx">  <span data-hf-id="hf-j5m3" class="tok-p">}</span></span></div><div data-hf-id="hf-hpaf" class="ln" data-line="9"><span data-hf-id="hf-hamf" class="no">9</span><span data-hf-id="hf-4boy" class="tx">  <span data-hf-id="hf-m42r" class="tok-k">return</span> <span data-hf-id="hf-y6wn" class="tok-p">{</span> <span data-hf-id="hf-eaui" class="tok-v">ok</span><span data-hf-id="hf-7ewf" class="tok-p">:</span> <span data-hf-id="hf-snl5" class="tok-s">true</span><span data-hf-id="hf-i32w" class="tok-p">,</span> <span data-hf-id="hf-vq0o" class="tok-v">session</span><span data-hf-id="hf-7t7g" class="tok-p">:</span> <span data-hf-id="hf-hrja" class="tok-fn">startSession</span><span data-hf-id="hf-pkpl" class="tok-p">(</span><span data-hf-id="hf-v0x1" class="tok-v">user</span><span data-hf-id="hf-wz64" class="tok-p">.</span><span data-hf-id="hf-p5f5" class="tok-v">id</span><span data-hf-id="hf-ygt2" class="tok-p">)</span> <span data-hf-id="hf-h62y" class="tok-p">}</span></span></div><div data-hf-id="hf-6gmd" class="ln" data-line="10"><span data-hf-id="hf-vwy5" class="no">10</span><span data-hf-id="hf-3xdx" class="tx"><span data-hf-id="hf-grrx" class="tok-p">}</span></span></div><div data-hf-id="hf-5oyk" class="ln" data-line="11"><span data-hf-id="hf-wb96" class="no">11</span><span data-hf-id="hf-o7fb" class="tx"></span></div><div data-hf-id="hf-ecuf" class="ln" data-line="12"><span data-hf-id="hf-wpk7" class="no">12</span><span data-hf-id="hf-olqc" class="tx"><span data-hf-id="hf-2k57" class="tok-s">async</span> <span data-hf-id="hf-usvt" class="tok-s">function</span> <span data-hf-id="hf-xhf2" class="tok-fn">findUser</span><span data-hf-id="hf-pz0m" class="tok-p">(</span><span data-hf-id="hf-7fb9" class="tok-v">email</span><span data-hf-id="hf-6mad" class="tok-p">:</span> <span data-hf-id="hf-4pay" class="tok-t">string</span><span data-hf-id="hf-y2i1" class="tok-p">)</span> <span data-hf-id="hf-xslm" class="tok-p">{</span></span></div><div data-hf-id="hf-aeqe" class="ln" data-line="13"><span data-hf-id="hf-x3v8" class="no">13</span><span data-hf-id="hf-net9" class="tx">  <span data-hf-id="hf-sppk" class="tok-s">const</span> <span data-hf-id="hf-glus" class="tok-v">users</span> <span data-hf-id="hf-xky2" class="tok-p">=</span> <span data-hf-id="hf-2mwb" class="tok-p">[</span><span data-hf-id="hf-xeal" class="tok-p">{</span> <span data-hf-id="hf-hw9x" class="tok-v">id</span><span data-hf-id="hf-70le" class="tok-p">:</span> <span data-hf-id="hf-bvil" class="tok-str">"u1"</span><span data-hf-id="hf-faxp" class="tok-p">,</span> <span data-hf-id="hf-7tma" class="tok-v">email</span><span data-hf-id="hf-5tob" class="tok-p">:</span> <span data-hf-id="hf-053z" class="tok-str">"a@b.c"</span><span data-hf-id="hf-fp8q" class="tok-p">,</span> <span data-hf-id="hf-r3ql" class="tok-v">passwordHash</span><span data-hf-id="hf-67zc" class="tok-p">:</span> <span data-hf-id="hf-9bsf" class="tok-str">"x1y2"</span> <span data-hf-id="hf-hyp0" class="tok-p">}</span><span data-hf-id="hf-0925" class="tok-p">]</span></span></div><div data-hf-id="hf-j2m9" class="ln" data-line="14"><span data-hf-id="hf-xi69" class="no">14</span><span data-hf-id="hf-nt4a" class="tx">  <span data-hf-id="hf-lprq" class="tok-k">return</span> <span data-hf-id="hf-m2cc" class="tok-v">users</span><span data-hf-id="hf-vs91" class="tok-p">.</span><span data-hf-id="hf-rsu5" class="tok-fn">find</span><span data-hf-id="hf-qdbn" class="tok-p">(</span><span data-hf-id="hf-qrmo" class="tok-p">(</span><span data-hf-id="hf-xt28" class="tok-v">user</span><span data-hf-id="hf-z9f4" class="tok-p">)</span> <span data-hf-id="hf-x6n1" class="tok-p">=</span><span data-hf-id="hf-e5s4" class="tok-p">&gt;</span> <span data-hf-id="hf-xer7" class="tok-v">user</span><span data-hf-id="hf-w6k2" class="tok-p">.</span><span data-hf-id="hf-9t5f" class="tok-v">email</span> <span data-hf-id="hf-ydk4" class="tok-p">=</span><span data-hf-id="hf-xz93" class="tok-p">=</span><span data-hf-id="hf-2cme" class="tok-p">=</span> <span data-hf-id="hf-a7gg" class="tok-v">email</span><span data-hf-id="hf-yv43" class="tok-p">)</span></span></div><div data-hf-id="hf-iayg" class="ln" data-line="15"><span data-hf-id="hf-xwha" class="no">15</span><span data-hf-id="hf-psnf" class="tx"><span data-hf-id="hf-hkdz" class="tok-p">}</span></span></div></div></div>
+            <div data-hf-id="hf-a3hh" class="vsc-panel">
+              <div data-hf-id="hf-xhdc" class="vsc-panel-head"><span data-hf-id="hf-gaol" class="on">TourCode</span><span data-hf-id="hf-flvt">Problems</span><span data-hf-id="hf-dfp1">Terminal</span></div>
+              <div data-hf-id="hf-k4q6" class="vsc-panel-body"><div data-hf-id="hf-ryvp" class="ui-step"><div data-hf-id="hf-g1j3" class="tc-ui" data-ui="step1-compact" data-layout-allow-overlap=""><article data-hf-id="hf-txux" class="step-page"><header data-hf-id="hf-wbm0" class="step-page-top"><div data-hf-id="hf-t9l8" class="step-page-meta"><span data-hf-id="hf-c638" class="eyebrow">Step 1 of 4</span><span data-hf-id="hf-2bri" class="step-page-place">auth.ts:4–10</span></div><div data-hf-id="hf-1l01" class="step-page-controls"><button data-hf-id="hf-t23p" class="button button-secondary" type="button"><svg data-hf-id="hf-j6fm" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-7zu7" d="M1.5 3.5 5.5 2l5 1.5 4-1.5v10.5l-4 1.5-5-1.5-4 1.5ZM5.5 2v10.5M10.5 3.5V14" /></svg>Tour map</button><button data-hf-id="hf-426c" class="button button-primary" type="button">Next<svg data-hf-id="hf-jkqn" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-n5kf" d="M8.5 3.5 13 8l-4.5 4.5M12.5 8H3" /></svg></button></div><div data-hf-id="hf-xp2l" class="progress-bar step-page-progress"><button data-hf-id="hf-u47t" class="progress-segment is-current" type="button" title="1. The login entry point" aria-label="1. The login entry point"></button><button data-hf-id="hf-cw3l" class="progress-segment is-ahead" type="button" title="2. Looking up the user by email" aria-label="2. Looking up the user by email"></button><button data-hf-id="hf-bpvt" class="progress-segment is-ahead" type="button" title="3. Verifying the password" aria-label="3. Verifying the password"></button><button data-hf-id="hf-ncoh" class="progress-segment is-ahead" type="button" title="4. Starting a session on success" aria-label="4. Starting a session on success"></button></div></header><div data-hf-id="hf-ki35" class="step-page-body has-wide-diagram"><div data-hf-id="hf-fbng" class="step-page-main"><h1 data-hf-id="hf-r94b" class="step-page-title">The login entry point</h1><div data-hf-id="hf-oug8" class="step-page-lead markdown"><p data-hf-id="hf-ajr3"><span data-hf-id="hf-wiaj" class="term" tabindex="0" data-definition="The entry point of login: it takes an email and password and returns either a failure reason or a new session." aria-describedby="f08p1-term-1">handleLogin<span data-hf-id="hf-7fvm" class="term-definition" id="f08p1-term-1">The entry point of login: it takes an email and password and returns either a failure reason or a new session.</span></span> is where login begins. It finds the user by email, rejects the attempt if the user is missing or the password is wrong, and otherwise returns a new session.</p></div><ul data-hf-id="hf-xdi6" class="risk-list"><li data-hf-id="hf-zxz9" class="risk risk-low"><span data-hf-id="hf-zznu" class="risk-header"><span data-hf-id="hf-dplz" class="risk-title">Low · Breaks on change</span><span data-hf-id="hf-905v" class="risk-line">line 6</span></span><div data-hf-id="hf-nse2" class="risk-text markdown"><p data-hf-id="hf-n55s"><span data-hf-id="hf-14ky" class="term" tabindex="0" data-definition="Hashes the submitted password and checks whether it equals the stored hash." aria-describedby="f08p1-term-2">verifyPassword<span data-hf-id="hf-zt22" class="term-definition" id="f08p1-term-2">Hashes the submitted password and checks whether it equals the stored hash.</span></span> returns a boolean synchronously; this guard relies on that (no await). If verifyPassword became async the ! would always be false and the guard would silently pass.</p></div></li></ul><div data-hf-id="hf-fjcq" class="step-page-toggles"><button data-hf-id="hf-g4h1" class="details-toggle" type="button" aria-expanded="false" title="⌃⌥↓ opens or closes the full explanation"><svg data-hf-id="hf-jz1o" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-29gf" d="M4 6l4 4 4-4" /></svg>More</button><button data-hf-id="hf-v3jr" class="risks-toggle is-on" type="button" aria-pressed="true" title="Show or hide the risks found in this step, here and on the code"><span data-hf-id="hf-ty9p" class="risks-toggle-switch"></span>Risks</button><button data-hf-id="hf-i4qy" class="details-toggle" type="button" title="Your agent builds a sub-tour inside the main call of this step"><svg data-hf-id="hf-h6wh" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-lb6w" d="M3 2.5v5.5a3 3 0 0 0 3 3h7M10 8l3 3-3 3" /></svg>Explain deeper</button><button data-hf-id="hf-7vll" class="details-toggle" type="button" title="Your agent builds a sub-tour through the code that depends on this step and shows what breaks if it changes"><svg data-hf-id="hf-hl7i" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-58hr" d="M8 14.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13ZM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8 8.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z" /></svg>What breaks</button><button data-hf-id="hf-hvjt" class="details-toggle" type="button"><svg data-hf-id="hf-i09y" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-vp98" d="M10.5 2.5l3 3L6 13H3v-3ZM9 4l3 3" /></svg>Edit</button></div><section data-hf-id="hf-u6d7" class="subtours"><h2 data-hf-id="hf-57or" class="subtours-title">Sub-tours</h2><button data-hf-id="hf-c3ka" class="subtour-card" type="button" title="What happens inside the calls in handleLogin?"><span data-hf-id="hf-ejhs" class="subtour-card-mark"><svg data-hf-id="hf-hlyx" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-hj34" d="M3 2.5v5.5a3 3 0 0 0 3 3h7M10 8l3 3-3 3" /></svg></span><span data-hf-id="hf-6os2" class="subtour-card-text"><span data-hf-id="hf-ctgs" class="subtour-card-title">Inside handleLogin</span><span data-hf-id="hf-sssk" class="subtour-card-meta">5 steps</span></span><span data-hf-id="hf-3hhg" class="subtour-card-enter">Go in<svg data-hf-id="hf-isw0" class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path data-hf-id="hf-w6j3" d="M8.5 3.5 13 8l-4.5 4.5M12.5 8H3" /></svg></span></button></section></div><div data-hf-id="hf-v1uv" class="diagram-frame"><figure data-hf-id="hf-vc14" class="diagram" aria-label="Step diagram"><svg data-hf-id="hf-6634" class="diagram-edges" aria-hidden="true" viewBox="0 0 747.84375 88"><marker data-hf-id="hf-sc4z" id="f08p1-diagram-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path data-hf-id="hf-yy89" d="M 0 0 L 10 5 L 0 10 z" class="diagram-arrow-head" /></marker><marker data-hf-id="hf-q2x8" id="f08p1-diagram-arrow-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path data-hf-id="hf-kl3q" d="M 0 0 L 10 5 L 0 10 z" class="diagram-arrow-active-head" /></marker><path data-hf-id="hf-y11o" d="M 132.703125 44 C 163.203125 44, 163.203125 44, 193.703125 44" class="diagram-edge is-active" marker-end="url(#f08p1-diagram-arrow-active)" /><path data-hf-id="hf-0emz" d="M 353.171875 44 C 383.671875 44, 383.671875 44, 414.171875 44" class="diagram-edge" marker-end="url(#f08p1-diagram-arrow)" /><path data-hf-id="hf-uc2t" d="M 548.53125 44 C 579.03125 44, 579.03125 44, 609.53125 44" class="diagram-edge" marker-end="url(#f08p1-diagram-arrow)" /><text data-hf-id="hf-6pwm" x="163.203125" y="34" class="diagram-edge-label" text-anchor="middle" dominant-baseline="middle">email<title data-hf-id="hf-xhaz">email</title></text><text data-hf-id="hf-n03y" x="383.671875" y="34" class="diagram-edge-label" text-anchor="middle" dominant-baseline="middle">passwordHash<title data-hf-id="hf-ouj8">passwordHash</title></text><text data-hf-id="hf-swa5" x="579.03125" y="34" class="diagram-edge-label" text-anchor="middle" dominant-baseline="middle">ok → user.id<title data-hf-id="hf-avhb">ok → user.id</title></text></svg><div data-hf-id="hf-kgl3" class="diagram-layer"><div data-hf-id="hf-p9le" class="diagram-node is-current" data-node-id="handle"><span data-hf-id="hf-4yxm" class="diagram-node-here">here</span><span data-hf-id="hf-0w4j" class="diagram-node-label">handleLogin</span><span data-hf-id="hf-3eh3" class="diagram-node-note">email, password</span></div></div><div data-hf-id="hf-wctz" class="diagram-layer"><button data-hf-id="hf-nmxp" class="diagram-node is-link" type="button" title="Step 2 of 4: Looking up the user by email" data-node-id="find"><span data-hf-id="hf-6c1a" class="diagram-node-step">2</span><span data-hf-id="hf-nl88" class="diagram-node-label">findUser</span><span data-hf-id="hf-iwws" class="diagram-node-note">returns user | undefined</span></button></div><div data-hf-id="hf-vyiy" class="diagram-layer"><button data-hf-id="hf-0vfs" class="diagram-node is-link" type="button" title="Step 3 of 4: Verifying the password" data-node-id="verify"><span data-hf-id="hf-5xq9" class="diagram-node-step">3</span><span data-hf-id="hf-cwzk" class="diagram-node-label">verifyPassword</span></button></div><div data-hf-id="hf-vk7x" class="diagram-layer"><button data-hf-id="hf-sdpo" class="diagram-node is-link" type="button" title="Step 4 of 4: Starting a session on success" data-node-id="session"><span data-hf-id="hf-5jf8" class="diagram-node-step">4</span><span data-hf-id="hf-11lk" class="diagram-node-label">startSession</span></button></div></figure></div></div><p data-hf-id="hf-i14k" class="hint step-page-hint">⌃⌥ ← → move between steps</p></article></div>
+</div></div>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-m3q3" class="vsc-status"><div data-hf-id="hf-yeow"><span data-hf-id="hf-4res"><svg data-hf-id="hf-8lv5" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.3"><circle data-hf-id="hf-367b" cx="4.5" cy="3.5" r="1.5" /><circle data-hf-id="hf-wj4p" cx="4.5" cy="12.5" r="1.5" /><circle data-hf-id="hf-crsb" cx="11.5" cy="5.5" r="1.5" /><path data-hf-id="hf-14on" d="M4.5 5v6M11.5 7c0 3-4 2.5-6.2 4.6" /></svg> main</span><span data-hf-id="hf-hwhe">⊗ 0 ⚠ 0</span></div><div data-hf-id="hf-y7yw"><span data-hf-id="hf-t6ze">Spaces: 2</span><span data-hf-id="hf-9cl3">UTF-8</span><span data-hf-id="hf-yrza">TypeScript</span></div></div>
+      </div>
+      <div data-hf-id="hf-ya9t" class="cursor" id="f08-cursor"><svg data-hf-id="hf-7g4w" viewBox="0 0 26 34"><path data-hf-id="hf-dq4v" d="M2 2 L2 26 L8 20.5 L12.5 31 L16.5 29.3 L12.2 19.2 L20.5 19.2 Z" fill="#ffffff" stroke="#111" stroke-width="1.6" stroke-linejoin="round" /></svg></div>
+    </div>
+  </div>
+
+  <div data-hf-id="hf-54n9" id="f08-lineclip" class="clip" data-start="0" data-duration="0.7" data-track-index="3"><div data-hf-id="hf-3n34" id="f08-line"></div><div data-hf-id="hf-kf6u" id="f08-linehead"></div></div>
+</div>
+
+<script>
+(function () {
+  const ID = "08-teams";
+  const CX = 960, CY = 540;
+  const cam = (P, s, T, extra) => Object.assign({ x: T[0] - CX - s * (P[0] - CX), y: T[1] - CY - s * (P[1] - CY), scale: s }, extra || {});
+  // sidebar-local (x, y) → stage: (164 + x, 110 + y)
+  const K0 = cam([344, 685], 1.8, [840, 500], { rotationY: -7, rotationX: 2 });
+  const K1 = cam([344, 690], 1.86, [840, 500], { rotationY: -3, rotationX: 1 });
+  const sec = document.querySelectorAll("#f08-side .section");      // [how to start, start here, authentication]
+  const startHere = sec[1], team = sec[2];
+  const teamHead = team.querySelector(".section-header"), teamCard = team.querySelector(".tour-card");
+  const stale = document.querySelector("#f08-side .tour-card-stale");
+  const rebuildIcon = stale.querySelector(".link-button svg");
+
+  const tl = gsap.timeline({ paused: true });
+  gsap.set("#f08-cam", K0);
+  gsap.set(startHere, { opacity: 0 });
+  gsap.set([teamHead, teamCard], { opacity: 0, x: 40 });
+  gsap.set("#f08-pulse", { opacity: 0 });
+  gsap.set("#f08-cursor", { x: 520, y: 980, scale: 0.75, opacity: 0 });
+
+  // ---- 0.0–0.55  the route line from frame 07 retracts into the Start-here card
+  // card left edge / center on screen under K0: sidebar-local (16, 515)
+  const sx = 960 + K0.scale * (164 + 16 - CX) + K0.x, sy = 540 + K0.scale * (110 + 515 - CY) + K0.y;
+  tl.fromTo("#f08-line", { x: 0, y: 0, scaleX: 1 }, { x: sx, y: sy - 540, scaleX: 0, duration: 0.55, ease: "expo.inOut" }, 0);
+  tl.fromTo("#f08-linehead", { x: 1920, y: 540 }, { x: sx, y: sy, duration: 0.55, ease: "expo.inOut" }, 0);
+  tl.to("#f08-linehead", { scale: 0.4, opacity: 0, duration: 0.15, ease: "power2.in" }, 0.5);
+
+  // ---- 0.6  pin snap: the tour lands in START HERE, one soft green pulse
+  tl.fromTo(startHere, { opacity: 0, scale: 0.96, transformOrigin: "20% 60%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, 0.55);
+  tl.fromTo("#f08-pulse", { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 1.08, duration: 1.0, ease: "power2.out", immediateRender: false }, 0.65);
+
+  // ---- 1.2 / 1.8  the team group slides in, then its tour (flagged out of date)
+  tl.to(teamHead, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 1.2);
+  tl.to(teamCard, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, 1.8);
+  tl.to("#f08-cam", Object.assign({ duration: 5.4, ease: "sine.inOut" }, K1), 0.6);
+
+  // ---- 2.4–3.0  the cursor clicks Rebuild (sidebar-local (67, 733.6))
+  tl.to("#f08-cursor", { x: 236, y: 848, opacity: 1, duration: 0.55, ease: "power3.out" }, 2.4);
+  tl.to("#f08-cursor", { scale: 0.68, duration: 0.07 }, 2.93);
+  tl.to("#f08-cursor", { scale: 0.75, duration: 0.12 }, 3.0);
+  tl.fromTo(rebuildIcon, { rotation: 0, transformOrigin: "50% 50%" }, { rotation: 540, duration: 0.6, ease: "power2.inOut", immediateRender: false }, 3.0);
+  tl.to("#f08-cursor", { x: 420, y: 990, opacity: 0, duration: 0.5, ease: "power2.in" }, 3.3);
+
+  // ---- 3.6  fresh: the out-of-date flag folds away
+  tl.to(stale, { height: 0, opacity: 0, paddingTop: 0, paddingBottom: 0, duration: 0.35, ease: "power3.inOut" }, 3.6);
+  tl.set("#f08-side", { opacity: 0 }, 3.95);
+  tl.set("#f08-fresh", { opacity: 1 }, 3.95);
+  const freshCard = document.querySelectorAll("#f08-fresh .tour-card")[1];
+  tl.fromTo(freshCard, { borderColor: "#3fb950" }, { borderColor: "#313131", duration: 1.0, ease: "power2.out", immediateRender: false }, 3.95);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

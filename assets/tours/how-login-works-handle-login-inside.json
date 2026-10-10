@@ -1,0 +1,418 @@
+{
+  "id": "how-login-works-handle-login-inside",
+  "title": "Inside handleLogin",
+  "question": "What happens inside the calls in handleLogin?",
+  "language": "en",
+  "audience": "developer",
+  "overview": {
+    "summary": "When handleLogin runs, it first awaits findUser, then runs a guard that may call verifyPassword on the stored hash, and only on success calls startSession with user.id. This sub-tour follows those three calls in execution order and ends on the success return.",
+    "nodes": [
+      {
+        "id": "find",
+        "label": "findUser(email)",
+        "note": "user or undefined",
+        "step": "find-user-lookup"
+      },
+      {
+        "id": "guard",
+        "label": "credential guard",
+        "note": "line 6 in auth.ts",
+        "step": "guard-short-circuit"
+      },
+      {
+        "id": "verify",
+        "label": "verifyPassword",
+        "note": "boolean",
+        "step": "verify-and-hash"
+      },
+      {
+        "id": "session",
+        "label": "startSession",
+        "note": "session object",
+        "step": "start-session-object"
+      },
+      {
+        "id": "return",
+        "label": "ok: true + session",
+        "note": "line 9",
+        "step": "success-return"
+      }
+    ],
+    "edges": [
+      {
+        "from": "find",
+        "to": "guard",
+        "label": "user + passwordHash"
+      },
+      {
+        "from": "guard",
+        "to": "verify",
+        "label": "password, hash"
+      },
+      {
+        "from": "verify",
+        "to": "session",
+        "label": "if guard passes"
+      },
+      {
+        "from": "session",
+        "to": "return",
+        "label": "session payload"
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "passwordHash",
+      "definition": "Field on the user record from findUser; passed to verifyPassword, never compared as plain text."
+    },
+    {
+      "term": "hashPassword",
+      "definition": "Private helper in password.ts that transforms the submitted password before comparison."
+    },
+    {
+      "term": "short-circuit",
+      "definition": "JavaScript || skips the right side when the left is true; here it skips verifyPassword when user is undefined."
+    },
+    {
+      "term": "userId",
+      "definition": "The user.id string from findUser; the only argument startSession receives from handleLogin."
+    }
+  ],
+  "parent": {
+    "tourId": "how-login-works",
+    "stepId": "handle-login"
+  },
+  "steps": [
+    {
+      "id": "find-user-lookup",
+      "title": "Looking up the user by email",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 12,
+        "end": 15
+      },
+      "anchor": "async function findUser(email: string) {",
+      "text": "The first thing handleLogin awaits is findUser. It searches a tiny in-memory list and returns a user with id and passwordHash, or undefined if the email is unknown.",
+      "details": "Line 5 of `handleLogin` calls `await findUser(email)`, which jumps to this helper.\n\n- **Line 13** builds `users`, a one-element demo array. Each entry has `id`, `email`, and `passwordHash` (already hashed as `\"x1y2\"`).\n- **Line 14** runs `users.find((user) => user.email === email)`. A match returns the whole object; no match returns `undefined`.\n\nWhat flows back to `handleLogin` is either `undefined` or something like `{ id: \"u1\", email: \"a@b.c\", passwordHash: \"x1y2\" }`. The login function does not use `email` again after lookup — only `passwordHash` (for verification) and `id` (for the session on success).\n\nBecause `findUser` is `async`, `handleLogin` pauses until this returns even though there is no real I/O here. That keeps the same call shape you'd use with a database query later.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "login",
+            "label": "handleLogin",
+            "note": "line 5 await"
+          },
+          {
+            "id": "find",
+            "label": "findUser",
+            "note": "email string",
+            "step": "find-user-lookup"
+          },
+          {
+            "id": "out",
+            "label": "user | undefined",
+            "note": "includes passwordHash"
+          }
+        ],
+        "edges": [
+          {
+            "from": "login",
+            "to": "find",
+            "label": "email"
+          },
+          {
+            "from": "find",
+            "to": "out",
+            "label": "find result"
+          }
+        ]
+      },
+      "suggestedQuestions": [
+        "Why is findUser async if it only uses an array?",
+        "What happens if two users share the same email?",
+        "Where is passwordHash set when users are created?"
+      ],
+      "fingerprint": [
+        "79186342",
+        "c8aee9ff",
+        "4f82f18e",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "guard-short-circuit",
+      "title": "The guard before any session",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 5,
+        "end": 8
+      },
+      "anchor": "const user = await findUser(email)",
+      "text": "After lookup, lines 6–7 decide failure: missing user or failed password check returns the same generic reason and never reaches startSession.",
+      "details": "This block is the control flow between lookup and session creation.\n\n1. **Line 5** stores the lookup result in `user`.\n2. **Line 6** is one condition with `||`:\n   - `user === undefined` — unknown email.\n   - `!verifyPassword(password, user.passwordHash)` — user exists but password does not match the stored hash.\n3. **Short-circuit:** If the left side is true (`user` missing), JavaScript never evaluates `verifyPassword`, so `user.passwordHash` is never read on a missing user.\n4. **Line 7** returns `{ ok: false, reason: \"Wrong email or password\" }` — identical message for both failure modes.\n\nWhen the guard is true, `handleLogin` exits here. **`startSession` is not called** on this path, which is why session creation only happens after both lookup and password verification succeed.\n\n> Callers must treat `ok: false` as final: there is no partial session object on failure.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "user",
+            "label": "user",
+            "note": "from findUser"
+          },
+          {
+            "id": "guard",
+            "label": "line 6 if",
+            "note": "|| short-circuit",
+            "step": "guard-short-circuit"
+          },
+          {
+            "id": "verify",
+            "label": "verifyPassword",
+            "note": "only if user defined"
+          },
+          {
+            "id": "fail",
+            "label": "return ok: false",
+            "note": "line 7"
+          }
+        ],
+        "edges": [
+          {
+            "from": "user",
+            "to": "guard",
+            "label": "undefined?"
+          },
+          {
+            "from": "guard",
+            "to": "verify",
+            "label": "user exists"
+          },
+          {
+            "from": "guard",
+            "to": "fail",
+            "label": "missing user"
+          },
+          {
+            "from": "verify",
+            "to": "fail",
+            "label": "false → !true"
+          }
+        ]
+      },
+      "risks": [
+        {
+          "level": "medium",
+          "kind": "contract",
+          "line": 6,
+          "text": "verifyPassword is synchronous and returns boolean; if it became async, !verifyPassword(...) would always be false and wrong passwords could pass the guard."
+        }
+      ],
+      "suggestedQuestions": [
+        "Why one reason string for both failures?",
+        "Does verifyPassword run for a wrong email?",
+        "What type does handleLogin return on failure?"
+      ],
+      "fingerprint": [
+        "e00d7edd",
+        "57ea4fd5",
+        "96dc6da7",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "verify-and-hash",
+      "title": "Checking the password hash",
+      "file": "src/password.ts",
+      "lines": {
+        "start": 1,
+        "end": 7
+      },
+      "anchor": "export function verifyPassword(password: string, hash: string): boolean {",
+      "text": "When the user exists, verifyPassword hashes the typed password and compares it to passwordHash from findUser. hashPassword defines how plain text becomes a hash in this demo.",
+      "details": "`handleLogin` imports this from `./password` and calls it on line 6 as `verifyPassword(password, user.passwordHash)`.\n\n**verifyPassword (lines 1–3):**\n- Takes the raw `password` from the login attempt and the stored `hash` from the user record.\n- Calls `hashPassword(password)` and compares with `===` to `hash`.\n- Returns `true` only on an exact match; `handleLogin` negates with `!` to fail login when false.\n\n**hashPassword (lines 5–7):**\n- Splits the string into characters, reverses the array, joins back.\n- Demo seed: stored hash `\"x1y2\"` matches password whose reverse is `\"x1y2\"` (i.e. `\"2y1x\"` submitted).\n\n| Input | Output of hashPassword |\n|---|---|\n| submitted password | reversed string |\n| compare target | user.passwordHash from findUser |\n\nNothing in this file knows about sessions or `ok` results — it only answers \"does this password match this hash?\" That separation keeps `auth.ts` focused on orchestration.\n\n> Reversal is not secure for production; it is only a stand-in so you can trace login without bcrypt setup.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "auth",
+            "label": "handleLogin L6",
+            "note": "password, hash"
+          },
+          {
+            "id": "verify",
+            "label": "verifyPassword",
+            "step": "verify-and-hash"
+          },
+          {
+            "id": "hash",
+            "label": "hashPassword",
+            "note": "reverse chars"
+          },
+          {
+            "id": "bool",
+            "label": "boolean",
+            "note": "=== compare"
+          }
+        ],
+        "edges": [
+          {
+            "from": "auth",
+            "to": "verify",
+            "label": "password, passwordHash"
+          },
+          {
+            "from": "verify",
+            "to": "hash",
+            "label": "password"
+          },
+          {
+            "from": "hash",
+            "to": "verify",
+            "label": "computed hash"
+          },
+          {
+            "from": "verify",
+            "to": "bool",
+            "label": "true / false"
+          }
+        ]
+      },
+      "risks": [
+        {
+          "level": "high",
+          "kind": "security",
+          "line": 6,
+          "text": "hashPassword is trivially reversible (character reversal), so anyone who reads the hash can recover the original password in this demo."
+        }
+      ],
+      "suggestedQuestions": [
+        "Is the plain password ever stored?",
+        "What if hashPassword threw an error?",
+        "Could two passwords produce the same hash here?"
+      ],
+      "fingerprint": [
+        "eb32af4e",
+        "e21b5f0f",
+        "f80c48a8",
+        "811c9dc5",
+        "448047d9",
+        "b961af83",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "start-session-object",
+      "title": "Building the session payload",
+      "file": "src/session.ts",
+      "lines": {
+        "start": 1,
+        "end": 3
+      },
+      "anchor": "export function startSession(userId: string) {",
+      "text": "Only after the guard fails to trigger does handleLogin call startSession(user.id). It returns a fresh object with userId, startedAt, and a random token — nothing is persisted in this repo.",
+      "details": "Line 9 of `handleLogin` is:\n\n`return { ok: true, session: startSession(user.id) }`\n\nBy then TypeScript knows `user` is defined. **`user.id`** (e.g. `\"u1\"` from the demo seed) becomes the `userId` argument.\n\n**startSession (lines 1–3):**\n- **`userId`** — property shorthand for the passed id.\n- **`startedAt: Date.now()`** — milliseconds when login succeeded.\n- **`token: crypto.randomUUID()`** — new v4 UUID on every call.\n\nThe function is synchronous; `handleLogin` does not `await` it. It only **returns** the object — no cookie, database, or in-memory store in this project registers the session.\n\nThat object is nested under `session` in the success result, which is what the parent step's `{ ok: true, session: ... }` refers to.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "auth",
+            "label": "handleLogin L9",
+            "note": "user.id"
+          },
+          {
+            "id": "start",
+            "label": "startSession",
+            "step": "start-session-object"
+          },
+          {
+            "id": "obj",
+            "label": "session object",
+            "note": "userId, startedAt, token"
+          }
+        ],
+        "edges": [
+          {
+            "from": "auth",
+            "to": "start",
+            "label": "userId string"
+          },
+          {
+            "from": "start",
+            "to": "obj",
+            "label": "return value"
+          }
+        ]
+      },
+      "suggestedQuestions": [
+        "Where would token be validated on later requests?",
+        "Is startedAt used anywhere else?",
+        "Why crypto.randomUUID and not Math.random?"
+      ],
+      "fingerprint": [
+        "9f98af7e",
+        "1e921bef",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "success-return",
+      "title": "Back at the entry point: success",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 9,
+        "end": 9
+      },
+      "anchor": "return { ok: true, session: startSession(user.id) }",
+      "text": "This line is why the parent step matters: only a passed guard reaches startSession, and the caller gets ok true plus the session object in one return.",
+      "details": "After walking through `findUser`, the guard with `verifyPassword`, and `startSession`, control lands here — the **only** success exit of `handleLogin`.\n\n- **`ok: true`** signals that lookup and password verification both succeeded.\n- **`session: startSession(user.id)`** embeds the factory result from `session.ts`.\n\nCompared to the failure path on line 7, the success object has **no** `reason` field and **must** include `session`. Callers should branch on `ok` before reading either field.\n\nFor the parent tour step (lines 4–10 overview), this line is the payoff: orchestration stays in `auth.ts`, but the heavy lifting is delegated — lookup in `findUser`, crypto compare in `verifyPassword`, session shape in `startSession`. Understanding those internals is what makes the entry point's four-line body readable.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "find",
+            "label": "findUser",
+            "step": "find-user-lookup"
+          },
+          {
+            "id": "verify",
+            "label": "verifyPassword",
+            "step": "verify-and-hash"
+          },
+          {
+            "id": "start",
+            "label": "startSession",
+            "step": "start-session-object"
+          },
+          {
+            "id": "ret",
+            "label": "line 9 return",
+            "step": "success-return"
+          }
+        ],
+        "edges": [
+          {
+            "from": "find",
+            "to": "verify",
+            "label": "if user found"
+          },
+          {
+            "from": "verify",
+            "to": "start",
+            "label": "if hash matches"
+          },
+          {
+            "from": "start",
+            "to": "ret",
+            "label": "session object"
+          }
+        ]
+      },
+      "suggestedQuestions": [
+        "Who calls handleLogin in this project?",
+        "Could line 9 run without line 6 passing?",
+        "How would you add session expiry here?"
+      ],
+      "fingerprint": [
+        "65df010e"
+      ]
+    }
+  ],
+  "version": 1,
+  "createdAt": "2026-10-10T12:59:48.347Z",
+  "commit": "a90c900"
+}

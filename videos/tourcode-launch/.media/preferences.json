@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "youtube",
+      "confirmed_in": [
+        "tourcode-launch"
+      ],
+      "updated_at": "2026-10-10T17:40:44.778Z"
+    },
+    "aspect": {
+      "value": "1920x1080",
+      "confirmed_in": [
+        "tourcode-launch"
+      ],
+      "updated_at": "2026-10-10T17:40:44.805Z"
+    },
+    "language": {
+      "value": "en",
+      "confirmed_in": [
+        "tourcode-launch"
+      ],
+      "updated_at": "2026-10-10T17:40:44.829Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "tourcode-launch"
+      ],
+      "updated_at": "2026-10-10T17:40:44.855Z"
+    },
+    "storyboard": {
+      "value": "yes",
+      "confirmed_in": [
+        "tourcode-launch"
+      ],
+      "updated_at": "2026-10-10T17:40:44.879Z"
+    }
+  },
+  "sightings": {}
+}

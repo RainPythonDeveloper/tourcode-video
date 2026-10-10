@@ -1,0 +1,97 @@
+<template>
+<style>
+  @font-face{font-family:"Inter";src:url("assets/fonts/inter-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:block}
+  @font-face{font-family:"Inter";src:url("assets/fonts/inter-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:block}
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f09-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 46%, #141c26 0%, #0d1117 62%, #090c10 100%); }
+  #f09-grid { position: absolute; inset: 0; }
+  .f09-eb { position: absolute; left: 236px; display: flex; align-items: center; gap: 10px; font-family: "Inter", sans-serif; font-weight: 600;
+    font-size: 17px; letter-spacing: .12em; text-transform: uppercase; color: #9d9d9d; height: 20px; }
+  .f09-eb::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 10px 2px rgba(63,185,80,.6); }
+  .f09-line { position: absolute; left: 380px; width: 1080px; height: 3px; background: #3fb950; box-shadow: 0 0 12px rgba(63,185,80,.6); transform-origin: 0 50%; }
+  .f09-tile { position: absolute; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 18px; background: #1f1f1f; border: 1.5px solid #313131;
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 18px 40px rgba(0,0,0,.45); }
+  .f09-tile img { width: 76px; height: 76px; object-fit: contain; display: block; }
+  .f09-tile img.vs { filter: grayscale(1) brightness(1.75) contrast(.9); }
+  .f09-name { position: absolute; width: 240px; margin-left: -120px; text-align: center; font-family: "Inter", sans-serif; font-weight: 500; font-size: 22px; color: #9d9d9d; }
+  #f09-trail { position: absolute; inset: 0; overflow: visible; }
+  #f09-dot { position: absolute; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 20px 5px rgba(63,185,80,.7); }
+</style>
+
+<div data-hf-id="hf-r7f5" id="root" data-composition-id="09-everywhere" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-9r60" id="f09-bgclip" class="clip" data-start="0" data-duration="3.6" data-track-index="0"><div data-hf-id="hf-nmq8" id="f09-bg"></div></div>
+
+  <div data-hf-id="hf-i5rk" id="f09-gridclip" class="clip" data-start="0" data-duration="3.6" data-track-index="1">
+    <div data-hf-id="hf-0mpt" id="f09-grid">
+      <div data-hf-id="hf-btw7" class="f09-eb" style="top:320px">Editors</div>
+      <div data-hf-id="hf-sw4y" class="f09-eb" style="top:600px">Agents</div>
+      <div data-hf-id="hf-a338" class="f09-line" id="f09-l1" style="top:328.5px"></div>
+      <div data-hf-id="hf-qf54" class="f09-line" id="f09-l2" style="top:608.5px"></div>
+
+      <div data-hf-id="hf-n01f" class="f09-tile" style="left:600px;top:330px"><img data-hf-id="hf-8iun" class="vs" src="assets/logos/vscode.svg" alt=""></div>
+      <div data-hf-id="hf-asq5" class="f09-tile" style="left:840px;top:330px"><img data-hf-id="hf-g4nx" src="assets/logos/cursor.svg" alt=""></div>
+      <div data-hf-id="hf-s6ak" class="f09-tile" style="left:1080px;top:330px"><img data-hf-id="hf-ils6" src="assets/logos/kiro.svg" alt=""></div>
+      <div data-hf-id="hf-vt2x" class="f09-tile" style="left:1320px;top:330px"><img data-hf-id="hf-frul" src="assets/logos/windsurf.svg" alt=""></div>
+      <div data-hf-id="hf-wghs" class="f09-tile" style="left:600px;top:610px"><img data-hf-id="hf-va45" src="assets/logos/claude.svg" alt=""></div>
+      <div data-hf-id="hf-cxly" class="f09-tile" style="left:840px;top:610px"><img data-hf-id="hf-xbld" src="assets/logos/cursor-agent.svg" alt=""></div>
+      <div data-hf-id="hf-e3h7" class="f09-tile" style="left:1080px;top:610px"><img data-hf-id="hf-8342" src="assets/logos/kiro-agent.svg" alt=""></div>
+      <div data-hf-id="hf-2uay" class="f09-tile" style="left:1320px;top:610px"><img data-hf-id="hf-cez6" src="assets/logos/jupyter.svg" alt=""></div>
+
+      <div data-hf-id="hf-t4mu" class="f09-name" style="left:600px;top:422px">VS Code</div>
+      <div data-hf-id="hf-ulwi" class="f09-name" style="left:840px;top:422px">Cursor</div>
+      <div data-hf-id="hf-xcm0" class="f09-name" style="left:1080px;top:422px">Kiro</div>
+      <div data-hf-id="hf-k224" class="f09-name" style="left:1320px;top:422px">Windsurf</div>
+      <div data-hf-id="hf-vc86" class="f09-name" style="left:600px;top:702px">Claude Code</div>
+      <div data-hf-id="hf-jiuf" class="f09-name" style="left:840px;top:702px">Cursor</div>
+      <div data-hf-id="hf-5uad" class="f09-name" style="left:1080px;top:702px">Kiro</div>
+      <div data-hf-id="hf-htte" class="f09-name" style="left:1320px;top:702px">Jupyter notebooks</div>
+    </div>
+  </div>
+
+  <div data-hf-id="hf-n7an" id="f09-outclip" class="clip" data-start="2.75" data-duration="0.85" data-track-index="2">
+    <svg data-hf-id="hf-w57c" id="f09-trail" width="1920" height="1080"><path data-hf-id="hf-shhz" id="f09-path" d="M1460 610 C 1560 470, 1180 360, 912 412" fill="none" stroke="#3fb950" stroke-width="4" stroke-linecap="round" /></svg>
+    <div data-hf-id="hf-4vp2" id="f09-dot"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const ID = "09-everywhere";
+  const tl = gsap.timeline({ paused: true });
+  const tiles = [...document.querySelectorAll(".f09-tile")];
+  const names = [...document.querySelectorAll(".f09-name")];
+  gsap.set(".f09-line", { scaleX: 0 });
+  gsap.set(tiles, { opacity: 0.35, scale: 0.94 });
+  gsap.set(tiles.map((t) => t.querySelector("img")), { opacity: 0.45 });
+  gsap.set(names, { opacity: 0 });
+  gsap.set(".f09-eb", { opacity: 0, x: -12 });
+
+  // ---- the route line runs under each row; each logo lights as the line reaches it (one hit per beat-eighth)
+  tl.to(".f09-eb", { opacity: 1, x: 0, duration: 0.4, ease: "expo.out", stagger: 1.2 }, 0.0);
+  tl.to("#f09-l1", { scaleX: 1, duration: 1.35, ease: "none" }, 0.025);
+  tl.to("#f09-l2", { scaleX: 1, duration: 1.35, ease: "none" }, 1.225);
+  const hits = [0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4];
+  tiles.forEach((tile, i) => {
+    const t = hits[i];
+    tl.to(tile, { opacity: 1, scale: 1, borderColor: "#3fb950", duration: 0.16, ease: "power2.out" }, t);
+    tl.to(tile, { borderColor: "#3a3a3a", duration: 0.6, ease: "power2.out" }, t + 0.18);
+    tl.to(tile.querySelector("img"), { opacity: 1, duration: 0.2, ease: "power2.out" }, t);
+    tl.to(names[i], { opacity: 1, duration: 0.3, ease: "power2.out" }, t + 0.02);
+  });
+
+  // ---- 2.75–3.6  the grid dims; the route continues and carries the dot to where the logo will start
+  tl.to("#f09-grid", { opacity: 0.12, duration: 0.6, ease: "power2.inOut" }, 2.8);
+  const path = document.getElementById("f09-path");
+  const PL = path.getTotalLength();
+  gsap.set(path, { strokeDasharray: PL, strokeDashoffset: PL });
+  const proxy = { p: 0 };
+  const place = () => { const pt = path.getPointAtLength(PL * proxy.p); gsap.set("#f09-dot", { x: pt.x, y: pt.y }); };
+  place();
+  tl.to(path, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 2.75);
+  tl.to(proxy, { p: 1, duration: 0.8, ease: "power2.inOut", onUpdate: place }, 2.75);
+  tl.to(path, { opacity: 0, duration: 0.3, ease: "power2.in" }, 3.3);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

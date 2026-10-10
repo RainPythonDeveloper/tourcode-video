@@ -1,0 +1,44 @@
+<template>
+<style>
+  @font-face{font-family:"Inter";src:url("assets/fonts/inter-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:block}
+  #root { position: absolute; inset: 0; pointer-events: none; }
+  #cap-layer { position: absolute; inset: 0; }
+  #cap-shade { position: absolute; left: 0; right: 0; top: 760px; bottom: 0; background: linear-gradient(180deg, rgba(9,12,16,0) 0%, rgba(9,12,16,.55) 45%, rgba(9,12,16,.8) 100%); }
+  .cap { position: absolute; left: 0; right: 0; top: 916px; height: 84px; display: flex; align-items: center; justify-content: center; }
+  .cap-pill { display: inline-flex; align-items: center; gap: 18px; padding: 0 34px; height: 80px; border-radius: 16px;
+    background: rgba(10,13,18,.80); border: 1px solid #313131; box-shadow: 0 16px 40px rgba(0,0,0,.45);
+    font-family: "Inter", sans-serif; font-weight: 600; font-size: 44px; letter-spacing: -0.02em; color: #e6e6e6; white-space: nowrap; }
+  .cap-pill::before { content: ""; width: 11px; height: 11px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 12px 3px rgba(63,185,80,.6); flex: none; }
+</style>
+
+<div data-hf-id="hf-jn2k" id="root" data-composition-id="captions" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-jzpo" id="cap-layer" class="clip" data-start="0" data-duration="60" data-track-index="0" data-layout-allow-overlap="">
+    <div data-hf-id="hf-o8sz" id="cap-shade"></div>
+    <div data-hf-id="hf-g4x0" class="cap" id="cap-1"><div data-hf-id="hf-ymk3" class="cap-pill" data-layout-allow-overlap="">Your AI agent studies the code…</div></div>
+    <div data-hf-id="hf-r0en" class="cap" id="cap-2"><div data-hf-id="hf-u7nd" class="cap-pill" data-layout-allow-overlap="">…and builds a tour.</div></div>
+    <div data-hf-id="hf-n2am" class="cap" id="cap-3"><div data-hf-id="hf-b0d8" class="cap-pill" data-layout-allow-overlap="">Step by step. Right in your editor.</div></div>
+    <div data-hf-id="hf-vq6h" class="cap" id="cap-4"><div data-hf-id="hf-ep6m" class="cap-pill" data-layout-allow-overlap="">See what can break.</div></div>
+    <div data-hf-id="hf-uyio" class="cap" id="cap-5"><div data-hf-id="hf-tj9n" class="cap-pill" data-layout-allow-overlap="">Ask anything.</div></div>
+    <div data-hf-id="hf-3mej" class="cap" id="cap-6"><div data-hf-id="hf-xbnr" class="cap-pill" data-layout-allow-overlap="">Go as deep as you need.</div></div>
+    <div data-hf-id="hf-zoai" class="cap" id="cap-7"><div data-hf-id="hf-7rtp" class="cap-pill" data-layout-allow-overlap="">Onboard your team in minutes.</div></div>
+    <div data-hf-id="hf-ajs5" class="cap" id="cap-8"><div data-hf-id="hf-tlrs" class="cap-pill" data-layout-allow-overlap="">Your editor. Your agent.</div></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  // one message at a time; each holds ≥ 1.5 s (in film seconds)
+  const CAPS = [[1, 11.0, 16.0], [2, 17.4, 21.8], [3, 24.2, 28.6], [4, 35.6, 38.8], [5, 40.0, 42.8], [6, 43.6, 46.8], [7, 48.2, 52.6], [8, 53.6, 56.4]];
+  const tl = gsap.timeline({ paused: true });
+  gsap.set(".cap", { opacity: 0, y: 14 });
+  gsap.set("#cap-shade", { opacity: 0 });
+  CAPS.forEach(([n, a, b]) => {
+    tl.to("#cap-" + n, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, a);
+    tl.to("#cap-shade", { opacity: 1, duration: 0.4, ease: "power2.out" }, a - 0.1);
+    tl.to("#cap-shade", { opacity: 0, duration: 0.4, ease: "power2.in" }, b - 0.3);
+    tl.to("#cap-" + n, { opacity: 0, y: -6, duration: 0.3, ease: "power2.in" }, b - 0.3);
+  });
+  window.__timelines["captions"] = tl;
+})();
+</script>
+</template>

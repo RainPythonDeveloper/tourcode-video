@@ -1,0 +1,124 @@
+<template>
+<!--@css-->
+<style>
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f02-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 46%, #121922 0%, #0d1117 62%, #090c10 100%); }
+  #f02-stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 45%; }
+  #f02-cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+  #f02-win { left: 116px; top: 41px; }
+  #f02-empty { position: absolute; left: 0; right: 0; top: 35px; bottom: 0; display: flex; align-items: center; justify-content: center; }
+  #f02-hints { display: grid; grid-template-columns: auto auto; gap: 10px 18px; font-size: 13px; color: #6e7681; }
+  #f02-hints span:nth-child(odd) { text-align: right; }
+  #f02-hints kbd { font-family: "Inter", sans-serif; display: inline-block; min-width: 18px; padding: 1px 5px; margin-left: 3px; border-radius: 3px;
+    background: rgba(128,128,128,.17); color: #8b949e; font-size: 11px; text-align: center; }
+  #f02-chat { position: absolute; left: 1128px; top: 34px; width: 560px; height: 802px; background: #181818; border-left: 1px solid #2b2b2b; }
+  #f02-chat-head { height: 35px; display: flex; align-items: center; padding: 0 20px; font-size: 11px; letter-spacing: .06em; color: #9d9d9d; text-transform: uppercase; }
+  #f02-input { position: absolute; left: 16px; top: 666px; width: 528px; height: 112px; border-radius: 8px; background: #252526; border: 1px solid #3c3c3c; }
+  #f02-ph { position: absolute; left: 16px; top: 14px; font-size: 14px; color: #6e7681; }
+  #f02-text { position: absolute; left: 16px; top: 13px; font-family: "JetBrains Mono", monospace; font-size: 15px; line-height: 22px; white-space: pre; color: #e6e6e6; }
+  #f02-caret { position: absolute; left: 16px; top: 15px; width: 2px; height: 18px; background: #e6e6e6; }
+  #f02-send { position: absolute; right: 12px; bottom: 10px; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #9d9d9d; }
+  #f02-send svg { width: 16px; height: 16px; }
+  #f02-line { position: absolute; left: 1509px; top: 764.4px; width: 700px; height: 1.2px; background: #3fb950; box-shadow: 0 0 6px rgba(63,185,80,.8); transform-origin: 0 50%; }
+</style>
+
+<div data-hf-id="hf-njc9" id="root" data-composition-id="02-command" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-rhup" id="f02-bgclip" class="clip" data-start="0" data-duration="5.4" data-track-index="0"><div data-hf-id="hf-8m6l" id="f02-bg"></div></div>
+
+  <div data-hf-id="hf-rgwz" id="f02-stage" class="clip" data-start="0" data-duration="5.4" data-track-index="1">
+    <div data-hf-id="hf-nc6h" id="f02-cam">
+      <div data-hf-id="hf-icxn" class="vsc" id="f02-win">
+        <div data-hf-id="hf-yvbh" class="vsc-title"><div data-hf-id="hf-ay5d" class="vsc-dots"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div><span data-hf-id="hf-ugqm">acme-shop</span></div>
+        <div data-hf-id="hf-oiit" class="vsc-body">
+          <div data-hf-id="hf-p12f" class="vsc-act">
+            <div data-hf-id="hf-l5w2" class="ai"><!--@icon files--></div>
+            <div data-hf-id="hf-qdee" class="ai"><!--@icon search--></div>
+            <div data-hf-id="hf-qrpf" class="ai"><!--@icon scm--></div>
+            <div data-hf-id="hf-r60g" class="ai"><!--@icon run--></div>
+            <div data-hf-id="hf-odv9" class="ai"><!--@icon ext--></div>
+            <div data-hf-id="hf-0q0x" class="ai on"><!--@icon tourcode--></div>
+          </div>
+          <div data-hf-id="hf-yz7g" class="vsc-side">
+            <div data-hf-id="hf-dpi0" class="vsc-side-head">TourCode</div>
+            <div data-hf-id="hf-qm9d" class="vsc-side-body"><div data-hf-id="hf-fe82" class="ui-side"><!--@ui sidebar-empty f02empty--></div></div>
+          </div>
+          <div data-hf-id="hf-7suy" class="vsc-main">
+            <div data-hf-id="hf-b3z9" class="vsc-tabs"></div>
+            <div data-hf-id="hf-ctif" id="f02-empty">
+              <div data-hf-id="hf-p9au" id="f02-hints">
+                <span data-hf-id="hf-t4lj">Show All Commands</span><span data-hf-id="hf-uckh"><kbd data-hf-id="hf-gx01">⇧</kbd><kbd data-hf-id="hf-bk2k">⌘</kbd><kbd data-hf-id="hf-djuc">P</kbd></span>
+                <span data-hf-id="hf-j7zu">Go to File</span><span data-hf-id="hf-l73p"><kbd data-hf-id="hf-yvkk">⌘</kbd><kbd data-hf-id="hf-v1e4">P</kbd></span>
+                <span data-hf-id="hf-bwba">Find in Files</span><span data-hf-id="hf-me0s"><kbd data-hf-id="hf-koed">⇧</kbd><kbd data-hf-id="hf-xonh">⌘</kbd><kbd data-hf-id="hf-kpcu">F</kbd></span>
+                <span data-hf-id="hf-7ff3">Toggle Terminal</span><span data-hf-id="hf-lzpr"><kbd data-hf-id="hf-djlp">⌃</kbd><kbd data-hf-id="hf-wmjo">`</kbd></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-l4ry" id="f02-chat">
+          <div data-hf-id="hf-2yo7" id="f02-chat-head">Chat</div>
+          <div data-hf-id="hf-u4l4" id="f02-input">
+            <div data-hf-id="hf-srf3" id="f02-ph">Ask your coding agent…</div>
+            <div data-hf-id="hf-1gv5" id="f02-text"></div>
+            <div data-hf-id="hf-h0p5" id="f02-caret"></div>
+            <div data-hf-id="hf-zsau" id="f02-send"><svg data-hf-id="hf-0ldp" viewBox="0 0 16 16" fill="currentColor"><path data-hf-id="hf-2hzu" d="M1.7 14.3 15 8 1.7 1.7l.6 5.1L10 8l-7.7 1.2z" /></svg></div>
+          </div>
+        </div>
+        <div data-hf-id="hf-m3q3" class="vsc-status"><div data-hf-id="hf-yeow"><span data-hf-id="hf-4res"><!--@icon branch--> main</span><span data-hf-id="hf-hwhe">⊗ 0 ⚠ 0</span></div><div data-hf-id="hf-y7yw"><span data-hf-id="hf-rnwx">Ln 1, Col 1</span></div></div>
+      </div>
+      <div data-hf-id="hf-7jfm" id="f02-line"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const ID = "02-command";
+  const CX = 960, CY = 540;
+  const cam = (P, s, T, extra) => Object.assign({ x: T[0] - CX - s * (P[0] - CX), y: T[1] - CY - s * (P[1] - CY), scale: s }, extra || {});
+  const CMD = "/tour how does login work";
+  // char k typed at T[k] (natural rhythm); Enter at 3.6 (8.6 s in the film, on the beat)
+  const T = [0.95, 1.03, 1.12, 1.20, 1.28, 1.40, 1.50, 1.58, 1.66, 1.78, 1.88, 1.95, 2.03, 2.12, 2.24, 2.36, 2.44, 2.52, 2.60, 2.69, 2.82, 2.94, 3.02, 3.11, 3.20];
+  const CW = 9.0;                                   // JetBrains Mono 15 px advance
+  const text = document.getElementById("f02-text");
+  const chars = [...CMD].map((c) => { const s = document.createElement("span"); s.textContent = c; text.appendChild(s); return s; });
+  // window origin (116, 41); chat at window x 1128; input at (16, 666) inside the chat; text at (16, 13)
+  const TX = 116 + 1128 + 16 + 16, TY = 41 + 34 + 666 + 13 + 11;     // stage coords: text start, line middle
+  const W0 = cam([960, 470], 0.98, [960, 470], { rotationY: -3, rotationX: 2 });
+  const W1 = cam([TX + (CMD.length * CW) / 2, TY], 2.6, [960, 540], { rotationY: 0, rotationX: 0 });
+
+  const tl = gsap.timeline({ paused: true });
+  gsap.set("#f02-cam", W0);
+  gsap.set("#f02-chat", { x: 580 });
+  gsap.set(chars, { opacity: 0 });
+  gsap.set("#f02-line", { scaleX: 0 });
+
+  // ---- 0.0–0.6  the empty editor, near-silence. 0.6–1.1 the agent chat slides in
+  tl.to("#f02-chat", { x: 0, duration: 0.5, ease: "expo.out" }, 0.6);
+  // caret blinks while idle
+  [0.0, 0.5].forEach((t) => { tl.set("#f02-caret", { opacity: 0 }, 0.6 + t + 0.25); tl.set("#f02-caret", { opacity: 1 }, 0.6 + t + 0.5); });
+
+  // ---- 0.9–2.0  push in on the input while the command types
+  tl.to("#f02-cam", Object.assign({ duration: 1.1, ease: "expo.inOut" }, W1), 0.9);
+  tl.set("#f02-ph", { opacity: 0 }, T[0]);
+  chars.forEach((c, k) => {
+    tl.set(c, { opacity: 1 }, T[k]);
+    tl.set("#f02-caret", { x: (k + 1) * CW }, T[k]);
+  });
+  // caret blinks again after typing
+  tl.set("#f02-caret", { opacity: 0 }, 3.32);
+  tl.set("#f02-caret", { opacity: 1 }, 3.5);
+
+  // ---- 3.6  Enter: the command glows green (confirm + shimmer)
+  tl.set("#f02-caret", { opacity: 0 }, 3.6);
+  tl.to("#f02-text", { color: "#3fb950", textShadow: "0 0 10px rgba(63,185,80,.85)", duration: 0.25, ease: "power2.out" }, 3.6);
+  tl.to("#f02-input", { borderColor: "rgba(63,185,80,.65)", boxShadow: "0 0 0 1px rgba(63,185,80,.35), 0 0 22px rgba(63,185,80,.25)", duration: 0.3, ease: "power2.out" }, 3.6);
+  tl.to("#f02-cam", { scale: W1.scale * 1.03, x: W1.x * 1.03, y: W1.y * 1.03, duration: 1.2, ease: "sine.out" }, 3.6);
+
+  // ---- 4.8–5.4  the route line leaves the command and leads the camera out (hand-off to frame 03)
+  tl.to("#f02-line", { scaleX: 1, duration: 0.6, ease: "expo.in" }, 4.8);
+  tl.to("#f02-cam", { x: "-=140", duration: 0.6, ease: "expo.in" }, 4.8);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

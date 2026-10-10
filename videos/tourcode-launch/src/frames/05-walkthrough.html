@@ -1,0 +1,162 @@
+<template>
+<!--@css-->
+<style>
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f05-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 46%, #141c26 0%, #0d1117 62%, #090c10 100%); }
+  #f05-glow { position: absolute; left: 260px; top: 120px; width: 1400px; height: 820px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(63,185,80,.10), rgba(63,185,80,0)); }
+  #f05-stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 45%; }
+  #f05-cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+  #f05-win { left: 116px; top: 41px; }
+  #f05-band { position: absolute; left: 64px; right: 0; top: 72px; height: 154px; background: rgba(63,185,80,.14); border-left: 2px solid #3fb950; }
+  #f05-panelwrap { position: absolute; inset: 0; }
+  .f05-state { position: absolute; left: 0; top: 0; }
+  #f05-tip { position: absolute; left: 20px; top: 129.6px; max-width: 340px; display: block; transform-origin: 20px 0; }
+  #f05-cursor { left: 0; top: 0; transform-origin: 0 0; }
+  .f05-ts-pw { display: none; }
+</style>
+
+<div data-hf-id="hf-xn7z" id="root" data-composition-id="05-walkthrough" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-m5dc" id="f05-bgclip" class="clip" data-start="0" data-duration="10.2" data-track-index="0">
+    <div data-hf-id="hf-yoqs" id="f05-bg"></div>
+    <div data-hf-id="hf-fbw2" id="f05-glow"></div>
+  </div>
+
+  <div data-hf-id="hf-ek7s" id="f05-stage" class="clip" data-start="0" data-duration="10.2" data-track-index="1">
+    <div data-hf-id="hf-2ufy" id="f05-cam">
+      <div data-hf-id="hf-rvoc" class="vsc" id="f05-win">
+        <div data-hf-id="hf-yvbh" class="vsc-title"><div data-hf-id="hf-ay5d" class="vsc-dots"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div><span data-hf-id="hf-bc7o" id="f05-title">auth.ts — acme-shop</span></div>
+        <div data-hf-id="hf-oiit" class="vsc-body">
+          <div data-hf-id="hf-p12f" class="vsc-act">
+            <div data-hf-id="hf-l5w2" class="ai"><!--@icon files--></div>
+            <div data-hf-id="hf-qdee" class="ai"><!--@icon search--></div>
+            <div data-hf-id="hf-qrpf" class="ai"><!--@icon scm--></div>
+            <div data-hf-id="hf-r60g" class="ai"><!--@icon run--></div>
+            <div data-hf-id="hf-odv9" class="ai"><!--@icon ext--></div>
+            <div data-hf-id="hf-0q0x" class="ai on"><!--@icon tourcode--></div>
+          </div>
+          <div data-hf-id="hf-yz7g" class="vsc-side">
+            <div data-hf-id="hf-dpi0" class="vsc-side-head">TourCode</div>
+            <div data-hf-id="hf-qm9d" class="vsc-side-body">
+              <div data-hf-id="hf-91k8" class="ui-side f05-side" id="f05-s0"><!--@ui sidebar-s0-norisk f05s0--></div>
+              <div data-hf-id="hf-wo0g" class="ui-side f05-side" id="f05-s1" style="opacity:0"><!--@ui sidebar-s1-norisk f05s1--></div>
+              <div data-hf-id="hf-be2b" class="ui-side f05-side" id="f05-s2" style="opacity:0"><!--@ui sidebar-s2-norisk f05s2--></div>
+            </div>
+          </div>
+          <div data-hf-id="hf-7suy" class="vsc-main">
+            <div data-hf-id="hf-b3z9" class="vsc-tabs">
+              <div data-hf-id="hf-9484" class="vsc-tab on" id="f05-tab-auth"><span data-hf-id="hf-bub7" class="ts">TS</span>auth.ts</div>
+              <div data-hf-id="hf-sd14" class="vsc-tab" id="f05-tab-pw" style="opacity:0"><span data-hf-id="hf-tf9v" class="ts">TS</span>password.ts</div>
+            </div>
+            <div data-hf-id="hf-72pv" class="vsc-crumbs" id="f05-crumbs">src <span data-hf-id="hf-ffy9">›</span> <span data-hf-id="hf-erfv" id="f05-crumb-file">auth.ts</span> <span data-hf-id="hf-fwd1">›</span> <span data-hf-id="hf-22mf" id="f05-crumb-fn">handleLogin</span></div>
+            <div data-hf-id="hf-sxdu" class="vsc-code">
+              <div data-hf-id="hf-yln8" id="f05-band"></div>
+              <div data-hf-id="hf-519p" id="f05-code-auth"><!--@code auth.ts f05--></div>
+              <div data-hf-id="hf-jbch" id="f05-code-pw" style="opacity:0"><!--@code password.ts f05--></div>
+            </div>
+            <div data-hf-id="hf-vy13" class="vsc-panel" id="f05-panel">
+              <div data-hf-id="hf-xhdc" class="vsc-panel-head"><span data-hf-id="hf-gaol" class="on">TourCode</span><span data-hf-id="hf-flvt">Problems</span><span data-hf-id="hf-dfp1">Terminal</span></div>
+              <div data-hf-id="hf-k4q6" class="vsc-panel-body">
+                <div data-hf-id="hf-bfeh" id="f05-panelwrap">
+                  <div data-hf-id="hf-1plp" class="ui-step f05-state" id="f05-p1"><!--@ui step1-compact-norisk f05p1--></div>
+                  <div data-hf-id="hf-2bc7" class="ui-step f05-state" id="f05-p2" style="opacity:0"><!--@ui step2-compact-norisk f05p2--></div>
+                  <div data-hf-id="hf-99w6" class="ui-step f05-state" id="f05-p3" style="opacity:0"><!--@ui step3-compact-norisk f05p3--></div>
+                  <div data-hf-id="hf-xjzq" class="tc-ui"><div data-hf-id="hf-8s5e" class="term-tooltip is-shown" id="f05-tip" data-layout-allow-overlap="" style="opacity:0">Hashes the submitted password and checks whether it equals the stored hash.</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-m3q3" class="vsc-status"><div data-hf-id="hf-yeow"><span data-hf-id="hf-4res"><!--@icon branch--> main</span><span data-hf-id="hf-hwhe">⊗ 0 ⚠ 0</span></div><div data-hf-id="hf-y7yw"><span data-hf-id="hf-v263" id="f05-ln">Ln 4, Col 1</span><span data-hf-id="hf-t6ze">Spaces: 2</span><span data-hf-id="hf-9cl3">UTF-8</span><span data-hf-id="hf-gu0z">LF</span><span data-hf-id="hf-yrza">TypeScript</span></div></div>
+      </div>
+      <div data-hf-id="hf-x9ny" class="cursor" id="f05-cursor"><!--@icon cursor--></div>
+    </div>
+    <div data-hf-id="hf-acul" id="f05-handoff"><div data-hf-id="hf-yl0h" class="gfield" id="f05-hf"></div><div data-hf-id="hf-ritb" class="gedge" id="f05-he"></div></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const ID = "05-walkthrough";
+  const CX = 960, CY = 540;
+  // camera: put stage point P at screen point T with scale s
+  const cam = (P, s, T, extra) => Object.assign({ x: T[0] - CX - s * (P[0] - CX), y: T[1] - CY - s * (P[1] - CY), scale: s }, extra || {});
+  const LINE = (n) => 97 + (n - 1) * 22;            // window-local top of code line n
+  const WX = 116, WY = 41;                           // window origin on stage
+  const BAND = (a, b) => ({ y: 0, top: LINE(a) - 34 - 57, height: (b - a + 1) * 22 });
+
+  const A = cam([920, 281], 1.55, [960, 400], { rotationY: 0, rotationX: 0 });
+  const B = cam([960, 470], 0.98, [960, 462], { rotationY: -4, rotationX: 2 });
+  const C = cam([1010, 360], 1.22, [960, 420], { rotationY: -2, rotationX: 1 });
+  const C2 = cam([1010, 400], 1.26, [960, 420], { rotationY: -1.5, rotationX: 1 });
+  const D = cam([1010, 360], 1.24, [960, 420], { rotationY: -1, rotationX: 0.5 });
+  const E = cam([760, 400], 1.45, [960, 440], { rotationY: 0, rotationX: 0 });
+
+  const tl = gsap.timeline({ paused: true });
+  const $ = (s) => document.querySelector(s);
+
+  // ---- 0.0–0.6  handoff: the green node from frame 4 contracts into the line band (auth.ts 4–10)
+  gsap.set("#f05-cam", A);
+  gsap.set("#f05-band", BAND(4, 10));
+  gsap.set("#f05-panel", { y: 380 });
+  // band rect on screen under camera A
+  const bx = 960 + A.scale * (WX + 408 + 64 - CX) + A.x;
+  const by = 540 + A.scale * (WY + LINE(4) - CY) + A.y;
+  const bh = 154 * A.scale;
+  tl.fromTo("#f05-hf", { x: 0, y: 0, scaleX: 1, scaleY: 1, backgroundColor: "rgba(35,52,37,1)" },
+    { x: bx, y: by, scaleX: (1920 - bx + 40) / 1920, scaleY: bh / 1080, backgroundColor: "rgba(35,52,37,0)", duration: 0.6, ease: "expo.inOut" }, 0);
+  tl.fromTo("#f05-he", { x: 0, y: 0, scaleX: 0, scaleY: 1 }, { x: bx, y: by, scaleX: A.scale, scaleY: bh / 1080, duration: 0.6, ease: "expo.inOut" }, 0);
+  tl.set("#f05-handoff", { opacity: 0 }, 0.62);
+
+  // ---- 0.7–1.3  the explanation panel rises under the code
+  tl.fromTo("#f05-panel", { y: 380 }, { y: 0, duration: 0.7, ease: "expo.out" }, 0.62);
+
+  // ---- 0.9–2.2  pull back to the whole window (2.5D), then a slow floating push
+  tl.to("#f05-cam", Object.assign({ duration: 1.2, ease: "power3.inOut" }, B), 0.9);
+  tl.to("#f05-cam", Object.assign({ duration: 1.5, ease: "power2.inOut" }, C), 2.1);
+  tl.to("#f05-cam", Object.assign({ duration: 1.6, ease: "power2.inOut" }, C2), 3.6);
+  tl.to("#f05-cam", Object.assign({ duration: 0.9, ease: "expo.inOut" }, D), 5.4);
+  tl.fromTo("#f05-glow", { x: 0, y: 0 }, { x: -40, y: -16, duration: 10.2, ease: "none" }, 0);
+
+  // ---- 3.15–3.6  Next → step 2: the band glides to findUser (lines 12–15)
+  tl.to("#f05-band", Object.assign({ duration: 0.45, ease: "expo.inOut" }, BAND(12, 15)), 3.15);
+  tl.set("#f05-crumb-fn", { textContent: "findUser" }, 3.6);
+  tl.set("#f05-ln", { textContent: "Ln 12, Col 1" }, 3.6);
+  tl.set("#f05-p1", { opacity: 0 }, 3.6);
+  tl.set("#f05-p2", { opacity: 1 }, 3.6);
+  tl.set("#f05-s0", { opacity: 0 }, 3.6);
+  tl.set("#f05-s1", { opacity: 1 }, 3.6);
+  tl.fromTo("#f05-p2 .progress-segment.is-current", { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, 3.6);
+  tl.fromTo("#f05-s1 .progress-segment.is-current", { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, 3.6);
+
+  // ---- 5.7–6.0  Next → step 3: password.ts opens, lines 1–7
+  tl.set("#f05-tab-pw", { opacity: 1 }, 5.7);
+  tl.set("#f05-tab-auth", { className: "vsc-tab" }, 5.7);
+  tl.set("#f05-tab-pw", { className: "vsc-tab on" }, 5.7);
+  tl.set("#f05-code-auth", { opacity: 0 }, 5.7);
+  tl.set("#f05-code-pw", { opacity: 1 }, 5.7);
+  tl.set("#f05-title", { textContent: "password.ts — acme-shop" }, 5.7);
+  tl.set("#f05-crumb-file", { textContent: "password.ts" }, 5.7);
+  tl.set("#f05-crumb-fn", { textContent: "verifyPassword" }, 5.7);
+  tl.set("#f05-ln", { textContent: "Ln 1, Col 1" }, 5.7);
+  tl.set("#f05-band", BAND(1, 7), 5.7);
+  tl.fromTo("#f05-band", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, 5.7);
+  tl.set("#f05-p2", { opacity: 0 }, 6.0);
+  tl.set("#f05-p3", { opacity: 1 }, 6.0);
+  tl.set("#f05-s1", { opacity: 0 }, 6.0);
+  tl.set("#f05-s2", { opacity: 1 }, 6.0);
+  tl.fromTo("#f05-p3 .progress-segment.is-current", { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, 6.0);
+  tl.fromTo("#f05-s2 .progress-segment.is-current", { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, 6.0);
+
+  // ---- 7.2–8.4  push to the panel; the cursor hovers the glossary term; its definition pops up
+  tl.to("#f05-cam", Object.assign({ duration: 1.1, ease: "expo.inOut" }, E), 7.2);
+  // term "verifyPassword": panel-local (20,106.6) 102.5×17 → stage (544, 613.6)
+  tl.fromTo("#f05-cursor", { x: 1180, y: 860, scale: 0.75, opacity: 0 }, { x: 628, y: 624, opacity: 1, duration: 0.9, ease: "power3.inOut" }, 7.4);
+  tl.fromTo("#f05-tip", { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.18, ease: "power2.out" }, 8.4);
+  const E2 = cam([760, 400], 1.49, [960, 440], { rotationY: 0, rotationX: 0 });   // = frame 06's first camera
+  tl.to("#f05-cam", Object.assign({ duration: 1.8, ease: "sine.inOut" }, E2), 8.4);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

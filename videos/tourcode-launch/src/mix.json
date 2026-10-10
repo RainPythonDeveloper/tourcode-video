@@ -1,0 +1,26 @@
+{
+ "chain": {
+  "version": 1,
+  "nodes": [
+   {
+    "type": "gain",
+    "id": "n1",
+    "label": "Master gain (to -14 LUFS)",
+    "params": {
+     "gain": 4.5
+    }
+   },
+   {
+    "type": "limiter",
+    "id": "n2",
+    "label": "Ceiling (-1 dBTP)",
+    "params": {
+     "limit": -1.6,
+     "attack": 0.1,
+     "release": 80,
+     "level_out": 0
+    }
+   }
+  ]
+ }
+}

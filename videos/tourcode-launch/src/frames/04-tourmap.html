@@ -1,0 +1,104 @@
+<template>
+<!--@css-->
+<style>
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f04-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 46%, #141c26 0%, #0d1117 62%, #090c10 100%); }
+  #f04-stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 45%; }
+  #f04-cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+  #f04-win { left: 116px; top: 41px; }
+  #f04-doc { position: absolute; left: 0; top: 35px; width: 1280px; height: 767px; overflow: hidden; }
+  #f04-seam { position: absolute; inset: 0; }
+  #f04-seam-line { position: absolute; left: 958.5px; top: 285px; width: 3px; height: 510px; background: #3fb950; box-shadow: 0 0 14px rgba(63,185,80,.7); }
+  .f04-dot { position: absolute; left: 951px; width: 18px; height: 18px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 16px 3px rgba(63,185,80,.65); }
+  #f04-fill { position: absolute; inset: 0; background: #233425; }
+  .f04-tabicon { color: #3fb950; display: inline-flex; }
+  .f04-tabicon svg { width: 14px; height: 14px; }
+</style>
+
+<div data-hf-id="hf-hqg2" id="root" data-composition-id="04-tourmap" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-vuyu" id="f04-bgclip" class="clip" data-start="0" data-duration="6.6" data-track-index="0">
+    <div data-hf-id="hf-yxu3" id="f04-bg"></div>
+  </div>
+
+  <div data-hf-id="hf-7b7m" id="f04-stage" class="clip" data-start="0" data-duration="6.6" data-track-index="1">
+    <div data-hf-id="hf-5fyv" id="f04-cam">
+      <div data-hf-id="hf-l579" class="vsc" id="f04-win">
+        <div data-hf-id="hf-yvbh" class="vsc-title"><div data-hf-id="hf-ay5d" class="vsc-dots"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div><span data-hf-id="hf-wpfj">How login works — acme-shop</span></div>
+        <div data-hf-id="hf-oiit" class="vsc-body">
+          <div data-hf-id="hf-p12f" class="vsc-act">
+            <div data-hf-id="hf-l5w2" class="ai"><!--@icon files--></div>
+            <div data-hf-id="hf-qdee" class="ai"><!--@icon search--></div>
+            <div data-hf-id="hf-qrpf" class="ai"><!--@icon scm--></div>
+            <div data-hf-id="hf-r60g" class="ai"><!--@icon run--></div>
+            <div data-hf-id="hf-odv9" class="ai"><!--@icon ext--></div>
+            <div data-hf-id="hf-0q0x" class="ai on"><!--@icon tourcode--></div>
+          </div>
+          <div data-hf-id="hf-yz7g" class="vsc-side">
+            <div data-hf-id="hf-dpi0" class="vsc-side-head">TourCode</div>
+            <div data-hf-id="hf-qm9d" class="vsc-side-body"><div data-hf-id="hf-fe82" class="ui-side"><!--@ui sidebar-s0-norisk f04s0--></div></div>
+          </div>
+          <div data-hf-id="hf-7suy" class="vsc-main">
+            <div data-hf-id="hf-b3z9" class="vsc-tabs">
+              <div data-hf-id="hf-hip6" class="vsc-tab on"><span data-hf-id="hf-fvy0" class="f04-tabicon"><!--@icon tourcode--></span>How login works</div>
+            </div>
+            <div data-hf-id="hf-t140" id="f04-doc"><div data-hf-id="hf-ryvp" class="ui-step"><!--@ui overview f04ov--></div></div>
+          </div>
+        </div>
+        <div data-hf-id="hf-m3q3" class="vsc-status"><div data-hf-id="hf-yeow"><span data-hf-id="hf-4res"><!--@icon branch--> main</span><span data-hf-id="hf-hwhe">⊗ 0 ⚠ 0</span></div><div data-hf-id="hf-y7yw"><span data-hf-id="hf-umil">TourCode: How login works</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div data-hf-id="hf-1pcg" id="f04-seamclip" class="clip" data-start="0" data-duration="1" data-track-index="2">
+    <div data-hf-id="hf-snuo" id="f04-seam">
+      <div data-hf-id="hf-qmb3" id="f04-seam-line"></div>
+      <div data-hf-id="hf-sk76" class="f04-dot" style="top:276px"></div>
+      <div data-hf-id="hf-uc3p" class="f04-dot" style="top:446px"></div>
+      <div data-hf-id="hf-3mg4" class="f04-dot" style="top:616px"></div>
+      <div data-hf-id="hf-0vaa" class="f04-dot" style="top:786px"></div>
+    </div>
+  </div>
+
+  <div data-hf-id="hf-68tu" id="f04-fillclip" class="clip" data-start="5.9" data-duration="0.7" data-track-index="3">
+    <div data-hf-id="hf-k7ex" id="f04-fill"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const ID = "04-tourmap";
+  const CX = 960, CY = 540;
+  const cam = (P, s, T, extra) => Object.assign({ x: T[0] - CX - s * (P[0] - CX), y: T[1] - CY - s * (P[1] - CY), scale: s }, extra || {});
+  // overview node centers: overview-local (640, 293 + 82i) → window (408+640, 69+…) → stage (+116, +41)
+  const N0 = [116 + 408 + 640, 41 + 69 + 293];
+  const S0 = cam(N0, 2.07, [960, 285], { rotationX: 0, rotationY: 0 });
+  const S1 = cam([1164, 455], 1.3, [960, 455], { rotationY: -4, rotationX: 2 });
+  const S1b = cam([1164, 455], 1.36, [960, 450], { rotationY: -2, rotationX: 1 });
+  const S2 = cam(N0, 9, [960, 540], { rotationY: 0, rotationX: 0 });
+
+  const tl = gsap.timeline({ paused: true });
+  gsap.set("#f04-cam", S0);
+
+  // ---- 0.0–0.6  the subway line settles into the real tour map
+  tl.fromTo("#f04-win", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 0.1);
+  tl.fromTo("#f04-doc .overview-node", { scale: 0.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "expo.out", stagger: 0.05 }, 0.12);
+  tl.fromTo("#f04-doc .overview-edges, #f04-doc .overview-edge-label", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.35);
+  tl.to(".f04-dot", { scale: 2.4, opacity: 0, duration: 0.45, ease: "power2.out", stagger: 0.05 }, 0.15);
+  tl.to("#f04-seam-line", { opacity: 0, duration: 0.35, ease: "power2.out" }, 0.3);
+  // soft impact on settle (no shake): a tiny scale breath of the camera
+  tl.to("#f04-cam", Object.assign({ duration: 0.16, ease: "power2.out" }, cam(N0, 2.07 * 1.012, [960, 285])), 0.6);
+  tl.to("#f04-cam", Object.assign({ duration: 0.2, ease: "power2.inOut" }, S0), 0.76);
+
+  // ---- 0.8–2.6  pull back to the whole tour-map tab
+  tl.to("#f04-cam", Object.assign({ duration: 1.8, ease: "expo.inOut" }, S1), 1.0);
+  tl.to("#f04-cam", Object.assign({ duration: 2.4, ease: "sine.inOut" }, S1b), 2.8);
+
+  // ---- 5.2–6.6  dive into the first box
+  tl.to("#f04-cam", Object.assign({ duration: 1.25, ease: "expo.in" }, S2), 5.2);
+  tl.fromTo("#f04-win", { filter: "blur(0px)" }, { filter: "blur(6px)", duration: 0.5, ease: "power2.in", immediateRender: false }, 5.95);
+  tl.fromTo("#f04-fill", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.in" }, 6.1);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

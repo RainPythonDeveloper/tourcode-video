@@ -1,0 +1,390 @@
+{
+  "id": "session-start",
+  "title": "Creating a session after login",
+  "question": "How is a session created after login?",
+  "language": "en",
+  "audience": "developer",
+  "overview": {
+    "summary": "A session is created only on the success path of handleLogin: after findUser and verifyPassword pass, line 9 calls startSession(user.id), which builds a fresh object with userId, startedAt, and token. Nothing in this repo stores that object—it is returned to the caller inside { ok: true, session }.",
+    "nodes": [
+      {
+        "id": "login",
+        "label": "handleLogin",
+        "note": "auth entry",
+        "step": "success-branch"
+      },
+      {
+        "id": "guard",
+        "label": "user + password OK",
+        "note": "guard on line 6",
+        "step": "gate-before-session"
+      },
+      {
+        "id": "start",
+        "label": "startSession",
+        "note": "userId in",
+        "step": "build-session-object"
+      },
+      {
+        "id": "payload",
+        "label": "session object",
+        "note": "userId, token, time",
+        "step": "build-session-object"
+      },
+      {
+        "id": "caller",
+        "label": "{ ok, session }",
+        "note": "return value",
+        "step": "wrap-in-result"
+      }
+    ],
+    "edges": [
+      {
+        "from": "login",
+        "to": "guard",
+        "label": "findUser + verify"
+      },
+      {
+        "from": "guard",
+        "to": "start",
+        "label": "user.id"
+      },
+      {
+        "from": "start",
+        "to": "payload",
+        "label": "new object"
+      },
+      {
+        "from": "payload",
+        "to": "caller",
+        "label": "nested under session"
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "startSession",
+      "definition": "Exported function in session.ts that constructs the session object; it does not persist or validate tokens."
+    },
+    {
+      "term": "token",
+      "definition": "Random UUID from crypto.randomUUID() on each successful login; intended as a session identifier for callers."
+    },
+    {
+      "term": "startedAt",
+      "definition": "Numeric timestamp from Date.now() when startSession runs, recording when the session was issued."
+    },
+    {
+      "term": "ok",
+      "definition": "Boolean on handleLogin's return; session is only present when ok is true."
+    },
+    {
+      "term": "passwordHash",
+      "definition": "Stored hash on the user record; verifyPassword must match it before startSession is called."
+    }
+  ],
+  "steps": [
+    {
+      "id": "import-session",
+      "title": "Where session creation lives",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 2,
+        "end": 2
+      },
+      "anchor": "import { startSession } from \"./session\"",
+      "text": "handleLogin does not build the session inline. It imports startSession from session.ts, so all session field logic stays in one module.",
+      "details": "Line 2 wires the auth layer to the session module:\n\n`import { startSession } from \"./session\"`\n\nThat means **creation** of the session object is delegated to `session.ts`, while **when** to create it stays in `handleLogin` (only after credentials check out).\n\nSplitting modules this way keeps login orchestration (`auth.ts`) separate from the session shape (`session.ts`). If you later add persistence (Redis, a sessions table), you would likely extend `startSession` or call a store from there without rewriting the guard logic.\n\nThis tour focuses on what happens **after** login succeeds; the import is the hook that connects the success branch to the factory function.",
+      "suggestedQuestions": [
+        "Is startSession used anywhere else in the project?",
+        "What would change if sessions were async?",
+        "Why not define the session inline in auth.ts?"
+      ],
+      "fingerprint": [
+        "402f42d7"
+      ]
+    },
+    {
+      "id": "gate-before-session",
+      "title": "Session only after the guard passes",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 5,
+        "end": 8
+      },
+      "anchor": "const user = await findUser(email)",
+      "text": "startSession is never called when findUser returns undefined or verifyPassword fails. The early return on lines 7–8 ends login with no session field.",
+      "details": "Session creation is **conditional**. Execution order:\n\n1. **`const user = await findUser(email)`** (line 5) loads a user record or `undefined`.\n2. **`if (user === undefined || !verifyPassword(password, user.passwordHash))`** (line 6) fails login when the email is unknown **or** the password hash does not match. Short-circuiting means `verifyPassword` is skipped when `user` is missing.\n3. **`return { ok: false, reason: \"Wrong email or password\" }`** (line 7) returns immediately — no `session` key, no call to `startSession`.\n\nSo \"after login\" in this codebase really means **after this guard is false** (user exists and password verified). Wrong credentials never reach session creation.\n\n> If you only read `startSession`, you might assume every login attempt creates a session; this guard is what prevents that.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "find",
+            "label": "findUser",
+            "note": "user | undefined"
+          },
+          {
+            "id": "verify",
+            "label": "verifyPassword",
+            "note": "boolean"
+          },
+          {
+            "id": "fail",
+            "label": "ok: false",
+            "note": "no session"
+          },
+          {
+            "id": "next",
+            "label": "line 9",
+            "note": "success only",
+            "step": "success-branch"
+          }
+        ],
+        "edges": [
+          {
+            "from": "find",
+            "to": "verify",
+            "label": "passwordHash"
+          },
+          {
+            "from": "verify",
+            "to": "fail",
+            "label": "guard true"
+          },
+          {
+            "from": "verify",
+            "to": "next",
+            "label": "guard false"
+          }
+        ]
+      },
+      "risks": [
+        {
+          "level": "low",
+          "kind": "security",
+          "line": 7,
+          "text": "Failed attempts return the same reason string for missing user and bad password, which helps avoid email enumeration only if callers do not expose different side effects elsewhere."
+        }
+      ],
+      "suggestedQuestions": [
+        "Does verifyPassword run when the email is wrong?",
+        "What fields does findUser return on success?",
+        "Could startSession run twice for one login?"
+      ],
+      "fingerprint": [
+        "e00d7edd",
+        "57ea4fd5",
+        "96dc6da7",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "success-branch",
+      "title": "The moment startSession runs",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 9,
+        "end": 9
+      },
+      "anchor": "return { ok: true, session: startSession(user.id) }",
+      "text": "Line 9 is the only place a session is created: startSession is called with user.id and its return value becomes the session property of the success result.",
+      "details": "When control reaches line 9, TypeScript's flow analysis knows `user` is defined (the guard failed to trigger). The success return is:\n\n`return { ok: true, session: startSession(user.id) }`\n\nWalkthrough:\n\n- **`user.id`** is the account identifier from `findUser` (for the demo seed user, `\"u1\"`).\n- **`startSession(user.id)`** runs **synchronously** here — it is not awaited because `startSession` is a plain function returning an object.\n- The object returned by `startSession` is placed under the **`session`** key alongside **`ok: true`**.\n\nCallers should treat this as a discriminated result: read `session` only when `ok` is true. The session does not exist as a side effect (no global store, cookie, or database write in this project).\n\n| Piece | Role |\n|---|---|\n| `user.id` | Links the session to the authenticated account |\n| `startSession(...)` | Factory for the session payload |\n| `session` | What the caller receives to hand to the client or store |",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "user",
+            "label": "user.id",
+            "note": "e.g. u1"
+          },
+          {
+            "id": "start",
+            "label": "startSession",
+            "note": "sync call",
+            "step": "build-session-object"
+          },
+          {
+            "id": "result",
+            "label": "{ ok, session }",
+            "note": "to caller",
+            "step": "success-branch"
+          }
+        ],
+        "edges": [
+          {
+            "from": "user",
+            "to": "start",
+            "label": "userId"
+          },
+          {
+            "from": "start",
+            "to": "result",
+            "label": "session object"
+          }
+        ]
+      },
+      "suggestedQuestions": [
+        "Who calls handleLogin in this repo?",
+        "Why is startSession not awaited?",
+        "What if user.id were empty?"
+      ],
+      "fingerprint": [
+        "65df010e"
+      ]
+    },
+    {
+      "id": "user-id-source",
+      "title": "Where user.id comes from",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 12,
+        "end": 14
+      },
+      "anchor": "async function findUser(email: string) {",
+      "text": "startSession receives user.id from findUser's in-memory user list. That id is the only user-specific input to session creation.",
+      "details": "`findUser` (lines 12–14) is what populates `user` before the guard and success return.\n\n- Line 13 defines a demo `users` array with one record: `id: \"u1\"`, plus `email` and `passwordHash`.\n- Line 14 returns the matching user or `undefined`.\n\nOn a successful login for `a@b.c`, `user.id` is `\"u1\"`, and that string is exactly what `startSession` receives as `userId`.\n\nSession creation does **not** re-query the user or embed email in the session object — only `userId` is copied into the session payload (see next step). Changing how ids are assigned in `findUser` would change every session's `userId` field without touching `session.ts`.\n\nIn a production app, `findUser` would be a database lookup, but the success line would still pass `user.id` into `startSession` the same way.",
+      "suggestedQuestions": [
+        "Is email stored on the session object?",
+        "What happens if two users shared an id?",
+        "Could findUser return id without passwordHash?"
+      ],
+      "fingerprint": [
+        "79186342",
+        "c8aee9ff",
+        "4f82f18e"
+      ]
+    },
+    {
+      "id": "build-session-object",
+      "title": "What startSession constructs",
+      "file": "src/session.ts",
+      "lines": {
+        "start": 1,
+        "end": 3
+      },
+      "anchor": "export function startSession(userId: string) {",
+      "text": "startSession builds a plain object with userId, startedAt from Date.now(), and a new token from crypto.randomUUID(). It does not save or register the session anywhere.",
+      "details": "This is the entire session factory:\n\n```ts\nexport function startSession(userId: string) {\n  return { userId, startedAt: Date.now(), token: crypto.randomUUID() }\n}\n```\n\nField by field:\n\n| Field | How it is set | Purpose |\n|---|---|---|\n| `userId` | Shorthand for `userId: userId` | Ties the session to the logged-in account |\n| `startedAt` | `Date.now()` at call time | Wall-clock ms when the session was issued |\n| `token` | `crypto.randomUUID()` | New random UUID v4 per invocation |\n\n**Creation vs storage:** The function only **returns** this object. There is no server-side session table, cache, or cookie setter in the repo. \"Creating a session after login\" here means **materializing this payload** for the caller of `handleLogin`.\n\nEach successful login gets a fresh `token` and `startedAt`; there is no reuse or expiry logic in this file.\n\n> Callers must persist or transmit `token` themselves if they want later requests to be authenticated.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "in",
+            "label": "userId",
+            "note": "from user.id"
+          },
+          {
+            "id": "fn",
+            "label": "startSession",
+            "note": "this step",
+            "step": "build-session-object"
+          },
+          {
+            "id": "out",
+            "label": "{ userId, startedAt, token }",
+            "note": "plain object"
+          }
+        ],
+        "edges": [
+          {
+            "from": "in",
+            "to": "fn",
+            "label": "argument"
+          },
+          {
+            "from": "fn",
+            "to": "out",
+            "label": "return"
+          }
+        ]
+      },
+      "risks": [
+        {
+          "level": "medium",
+          "kind": "security",
+          "line": 2,
+          "text": "Sessions are not stored or bound to expiry here; a leaked token remains valid for any caller that trusts only this object with no server-side revocation."
+        },
+        {
+          "level": "low",
+          "kind": "contract",
+          "line": 2,
+          "text": "If handleLogin callers expect fields beyond userId, startedAt, and token, they must change startSession and all consumers together."
+        }
+      ],
+      "suggestedQuestions": [
+        "Is the session ever written to a database?",
+        "Could two calls produce the same token?",
+        "How would you add session expiry?"
+      ],
+      "fingerprint": [
+        "9f98af7e",
+        "1e921bef",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "wrap-in-result",
+      "title": "How the caller receives the session",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 4,
+        "end": 9
+      },
+      "anchor": "export async function handleLogin(email: string, password: string) {",
+      "text": "handleLogin wraps session creation in a result object: failures expose ok false and reason; success exposes ok true and the session from startSession. That is the full post-login session lifecycle in this project.",
+      "details": "Zooming out on `handleLogin` (lines 4–9):\n\n1. Credentials are validated (lookup + password check).\n2. On failure, the caller gets `{ ok: false, reason }` — **no session**.\n3. On success, the caller gets `{ ok: true, session }` where `session` is the object from `startSession`.\n\nThere is no further step inside this repository: no HTTP handler sets a cookie, no middleware reads `token`, no session store indexes by `token`. The tour ends at the **returned value**.\n\nIntegrating with a real app typically means: on `ok === true`, set an HTTP-only cookie or return `session.token` in JSON, and on later requests look up that token in storage you add outside `session.ts`.\n\nFor this codebase, \"session created after login\" = **`startSession` ran once** and its return value is nested in the success result from `handleLogin`.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "handle",
+            "label": "handleLogin",
+            "note": "async",
+            "step": "wrap-in-result"
+          },
+          {
+            "id": "start",
+            "label": "startSession",
+            "note": "on success",
+            "step": "build-session-object"
+          },
+          {
+            "id": "client",
+            "label": "caller",
+            "note": "checks ok"
+          }
+        ],
+        "edges": [
+          {
+            "from": "handle",
+            "to": "start",
+            "label": "user.id"
+          },
+          {
+            "from": "start",
+            "to": "handle",
+            "label": "session object"
+          },
+          {
+            "from": "handle",
+            "to": "client",
+            "label": "{ ok, session? }"
+          }
+        ]
+      },
+      "suggestedQuestions": [
+        "Is there an API route that calls handleLogin?",
+        "How should clients store the token?",
+        "What validates token on later requests?"
+      ],
+      "fingerprint": [
+        "bb46839f",
+        "e00d7edd",
+        "57ea4fd5",
+        "96dc6da7",
+        "f80c48a8",
+        "65df010e"
+      ]
+    }
+  ],
+  "version": 1,
+  "createdAt": "2026-10-10T12:07:43.122Z",
+  "commit": "a90c900"
+}

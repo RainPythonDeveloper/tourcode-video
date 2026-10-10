@@ -1,0 +1,199 @@
+<template>
+<!--@css-->
+<style>
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f07-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 46%, #141c26 0%, #0d1117 62%, #090c10 100%); }
+  #f07-stage { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 45%; }
+  #f07-cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+  #f07-win { left: 116px; top: 41px; }
+  #f07-band { position: absolute; left: 64px; right: 0; top: 72px; height: 154px; background: rgba(63,185,80,.14); border-left: 2px solid #3fb950; }
+  #f07-scroll { position: absolute; left: 0; top: 0; width: 1280px; }
+  .f07-state { position: absolute; left: 0; top: 0; }
+  #f07-cursor { left: 0; top: 0; transform-origin: 0 0; }
+  .tc-ui .ask-spinner { display: inline-block; }
+  #f07-frags { position: absolute; inset: 0; }
+  .f07-frag { position: absolute; left: 960px; top: 540px; white-space: pre; font-family: "JetBrains Mono", monospace; font-size: 30px; color: #cccccc; }
+  #f07-line { position: absolute; left: 0; top: 538.5px; width: 1920px; height: 3px; background: #3fb950; box-shadow: 0 0 14px rgba(63,185,80,.75); transform-origin: 0 50%; }
+  #f07-linehead { position: absolute; left: 0; top: 531px; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 18px 4px rgba(63,185,80,.7); }
+</style>
+
+<div data-hf-id="hf-svv0" id="root" data-composition-id="07-ask-deeper" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-mr1g" id="f07-bgclip" class="clip" data-start="0" data-duration="7.8" data-track-index="0"><div data-hf-id="hf-dqpm" id="f07-bg"></div></div>
+
+  <div data-hf-id="hf-8pxc" id="f07-stage" class="clip" data-start="0" data-duration="7.8" data-track-index="1">
+    <div data-hf-id="hf-enhw" id="f07-cam">
+      <div data-hf-id="hf-h97q" class="vsc" id="f07-win">
+        <div data-hf-id="hf-yvbh" class="vsc-title"><div data-hf-id="hf-ay5d" class="vsc-dots"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i></div><span data-hf-id="hf-gfsj">auth.ts — acme-shop</span></div>
+        <div data-hf-id="hf-oiit" class="vsc-body">
+          <div data-hf-id="hf-p12f" class="vsc-act">
+            <div data-hf-id="hf-l5w2" class="ai"><!--@icon files--></div>
+            <div data-hf-id="hf-qdee" class="ai"><!--@icon search--></div>
+            <div data-hf-id="hf-qrpf" class="ai"><!--@icon scm--></div>
+            <div data-hf-id="hf-r60g" class="ai"><!--@icon run--></div>
+            <div data-hf-id="hf-odv9" class="ai"><!--@icon ext--></div>
+            <div data-hf-id="hf-0q0x" class="ai on"><!--@icon tourcode--></div>
+          </div>
+          <div data-hf-id="hf-yz7g" class="vsc-side">
+            <div data-hf-id="hf-dpi0" class="vsc-side-head">TourCode</div>
+            <div data-hf-id="hf-qm9d" class="vsc-side-body">
+              <div data-hf-id="hf-z9k1" class="ui-side" id="f07-s-main"><!--@ui sidebar-s0 f07smain--></div>
+              <div data-hf-id="hf-45yh" class="ui-side" id="f07-s-sub" style="opacity:0"><!--@ui sidebar-subtour f07ssub--></div>
+            </div>
+          </div>
+          <div data-hf-id="hf-7suy" class="vsc-main">
+            <div data-hf-id="hf-b3z9" class="vsc-tabs">
+              <div data-hf-id="hf-f1oi" class="vsc-tab"><span data-hf-id="hf-bub7" class="ts">TS</span>password.ts</div>
+              <div data-hf-id="hf-p2t2" class="vsc-tab on"><span data-hf-id="hf-tf9v" class="ts">TS</span>auth.ts</div>
+            </div>
+            <div data-hf-id="hf-ds0d" class="vsc-crumbs">src <span data-hf-id="hf-ffy9">›</span> auth.ts <span data-hf-id="hf-fwd1">›</span> handleLogin</div>
+            <div data-hf-id="hf-sxdu" class="vsc-code">
+              <div data-hf-id="hf-fgdu" id="f07-band"></div>
+              <!--@code auth.ts f07-->
+            </div>
+            <div data-hf-id="hf-a3hh" class="vsc-panel">
+              <div data-hf-id="hf-xhdc" class="vsc-panel-head"><span data-hf-id="hf-gaol" class="on">TourCode</span><span data-hf-id="hf-flvt">Problems</span><span data-hf-id="hf-dfp1">Terminal</span></div>
+              <div data-hf-id="hf-k4q6" class="vsc-panel-body">
+                <div data-hf-id="hf-dwak" id="f07-scroll">
+                  <div data-hf-id="hf-dqak" class="ui-step f07-state" id="f07-p-sug"><!--@ui step1-suggest f07psug--></div>
+                  <div data-hf-id="hf-22oe" class="ui-step f07-state" id="f07-p-ans" style="opacity:0"><!--@ui step1-answering f07pans--></div>
+                  <div data-hf-id="hf-dimg" class="ui-step f07-state" id="f07-p-done" style="opacity:0"><!--@ui step1-answered f07pdone--></div>
+                  <div data-hf-id="hf-4u12" class="ui-step f07-state" id="f07-p-build" style="opacity:0"><!--@ui step1-building-subtour f07pbuild--></div>
+                </div>
+                <div data-hf-id="hf-cy00" class="ui-step f07-state" id="f07-p-sub" style="opacity:0"><!--@ui subtour-step f07psub--></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-m3q3" class="vsc-status"><div data-hf-id="hf-yeow"><span data-hf-id="hf-4res"><!--@icon branch--> main</span><span data-hf-id="hf-hwhe">⊗ 0 ⚠ 0</span></div><div data-hf-id="hf-y7yw"><span data-hf-id="hf-51xm">Ln 6, Col 1</span><span data-hf-id="hf-t6ze">Spaces: 2</span><span data-hf-id="hf-9cl3">UTF-8</span><span data-hf-id="hf-gu0z">LF</span><span data-hf-id="hf-yrza">TypeScript</span></div></div>
+      </div>
+      <div data-hf-id="hf-wi90" class="cursor" id="f07-cursor"><!--@icon cursor--></div>
+    </div>
+  </div>
+
+  <div data-hf-id="hf-bm69" id="f07-fragclip" class="clip" data-start="4.3" data-duration="1.3" data-track-index="2">
+    <div data-hf-id="hf-u8lu" id="f07-frags" data-layout-allow-overlap="">
+      <div data-hf-id="hf-jlp0" class="f07-frag" data-layout-allow-overlap="">const user = await findUser(email)</div>
+      <div data-hf-id="hf-9lre" class="f07-frag" data-layout-allow-overlap="">if (user === undefined || !verifyPassword(password, user.passwordHash)) {</div>
+      <div data-hf-id="hf-itvw" class="f07-frag" data-layout-allow-overlap="">return { ok: false, reason: "Wrong email or password" }</div>
+      <div data-hf-id="hf-n8md" class="f07-frag" data-layout-allow-overlap="">return users.find((user) =&gt; user.email === email)</div>
+      <div data-hf-id="hf-vojt" class="f07-frag" data-layout-allow-overlap="">return { ok: true, session: startSession(user.id) }</div>
+      <div data-hf-id="hf-02l2" class="f07-frag" data-layout-allow-overlap="">export async function handleLogin(email: string, password: string) {</div>
+    </div>
+  </div>
+
+  <div data-hf-id="hf-sj0v" id="f07-inclip" class="clip" data-start="0" data-duration="0.7" data-track-index="3"><div data-hf-id="hf-fwxu" id="f07-in"><div data-hf-id="hf-vmpk" class="gfield" id="f07-if"></div><div data-hf-id="hf-h6ba" class="gedge" id="f07-ie"></div></div></div>
+  <div data-hf-id="hf-0n0a" id="f07-lineclip" class="clip" data-start="7.15" data-duration="0.65" data-track-index="4"><div data-hf-id="hf-7xx9" id="f07-line"></div><div data-hf-id="hf-x23z" id="f07-linehead"></div></div>
+</div>
+
+<script>
+(function () {
+  const ID = "07-ask-deeper";
+  const CX = 960, CY = 540;
+  const cam = (P, s, T, extra) => Object.assign({ x: T[0] - CX - s * (P[0] - CX), y: T[1] - CY - s * (P[1] - CY), scale: s }, extra || {});
+  const LINE = (n) => 97 + (n - 1) * 22;
+  const BAND = (a, b) => ({ top: LINE(a) - 91, height: (b - a + 1) * 22 });
+  const G0 = cam([900, 475], 1.3, [960, 450], { rotationY: -2, rotationX: 1 });
+  const G1 = cam([820, 640], 1.55, [960, 400], { rotationY: 0, rotationX: 0 });
+  const G2 = cam([900, 480], 1.2, [960, 460], { rotationY: -1, rotationX: 0.5 });
+  const DIVE = cam([874, 259], 6, [960, 540], { rotationY: 0, rotationX: 0 });
+  const H = cam([720, 450], 1.3, [960, 450], { rotationY: -2, rotationX: 1 });
+  const H2 = cam([700, 440], 1.4, [960, 450], { rotationY: -1, rotationX: 0.5 });
+
+  // ---- streaming answer: the answered paragraph, word by word, inside the real "answering" exchange
+  const ans = document.querySelector("#f07-p-ans .ask-answer");
+  ans.innerHTML = document.querySelector("#f07-p-done .ask-answer").innerHTML;
+  const words = [];
+  const walk = (node) => {
+    for (const ch of [...node.childNodes]) {
+      if (ch.nodeType === 1) {
+        if (ch.classList.contains("term-definition")) continue;
+        if (ch.tagName === "CODE" || ch.classList.contains("term") || ch.classList.contains("code-link")) { words.push(ch); continue; }
+        walk(ch); continue;
+      }
+      if (ch.nodeType !== 3 || !ch.textContent.trim()) continue;
+      const frag = document.createDocumentFragment();
+      for (const part of ch.textContent.split(/(\s+)/)) {
+        if (!part) continue;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); continue; }
+        const sp = document.createElement("span"); sp.textContent = part; sp.className = "f07-w"; frag.appendChild(sp); words.push(sp);
+      }
+      ch.replaceWith(frag);
+    }
+  };
+  walk(ans);
+
+  const tl = gsap.timeline({ paused: true });
+  gsap.set("#f07-cam", G0);
+  gsap.set("#f07-band", BAND(4, 10));
+  gsap.set("#f07-scroll", { y: -300 });
+  gsap.set("#f07-cursor", { x: 1100, y: 900, scale: 0.75, opacity: 0 });
+
+  // ---- 0.0–0.6  hand-off: the green field contracts into auth.ts lines 4–10
+  const bx = 960 + G0.scale * (116 + 408 + 64 - CX) + G0.x;
+  const by = 540 + G0.scale * (41 + LINE(4) - CY) + G0.y;
+  tl.fromTo("#f07-if", { x: 0, y: 0, scaleX: 1, scaleY: 1, backgroundColor: "rgba(35,52,37,1)" },
+    { x: bx, y: by, scaleX: (1920 - bx + 40) / 1920, scaleY: 154 * G0.scale / 1080, backgroundColor: "rgba(35,52,37,0)", duration: 0.6, ease: "expo.inOut" }, 0);
+  tl.fromTo("#f07-ie", { x: -4, y: 0, scaleX: 0, scaleY: 1 }, { x: bx, y: by, scaleX: G0.scale, scaleY: 154 * G0.scale / 1080, duration: 0.6, ease: "expo.inOut" }, 0);
+  tl.set("#f07-in", { opacity: 0 }, 0.62);
+
+  // ---- 0.6–1.2  the cursor clicks the suggested question (click on the beat, 40.4 s)
+  tl.to("#f07-cursor", { x: 690, y: 744, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.6);
+  tl.to("#f07-cursor", { scale: 0.68, duration: 0.07 }, 1.13);
+  tl.to("#f07-cursor", { scale: 0.75, duration: 0.12 }, 1.21);
+
+  // ---- 0.75–3.3  the answer streams in (real "answering" state: Reading src/auth.ts · Stop)
+  tl.set("#f07-p-sug", { opacity: 0 }, 1.25);
+  tl.set("#f07-p-ans", { opacity: 1 }, 1.25);
+  gsap.set(words, { opacity: 0 });
+  const t0 = 1.6, t1 = 3.2;
+  words.forEach((w, i) => tl.set(w, { opacity: 1 }, t0 + (t1 - t0) * Math.floor(i / 2) / Math.ceil(words.length / 2)));
+  tl.fromTo("#f07-p-ans .ask-spinner", { rotation: 0 }, { rotation: 1080, duration: 2.1, ease: "none" }, 1.25);
+  tl.to("#f07-cam", Object.assign({ duration: 1.0, ease: "power3.inOut" }, G1), 1.3);
+  tl.to("#f07-cursor", { x: 980, y: 860, opacity: 0, duration: 0.6, ease: "power2.in" }, 1.4);
+  tl.set("#f07-p-ans", { opacity: 0 }, 3.3);
+  tl.set("#f07-p-done", { opacity: 1 }, 3.3);
+  tl.fromTo("#f07-p-done .ask-suggestions", { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 3.3);
+
+  // ---- 3.5–4.2  scroll up to the step's buttons; click "Explain deeper"
+  tl.to("#f07-scroll", { y: -120, duration: 0.5, ease: "power3.inOut" }, 3.5);
+  tl.to("#f07-cam", Object.assign({ duration: 0.6, ease: "power3.inOut" }, G2), 3.45);
+  tl.to("#f07-cursor", { x: 760, y: 632, opacity: 1, duration: 0.55, ease: "power3.out" }, 3.6);
+  tl.to("#f07-cursor", { scale: 0.68, duration: 0.07 }, 4.13);
+  tl.to("#f07-cursor", { scale: 0.75, duration: 0.12 }, 4.21);
+  tl.set("#f07-p-done", { opacity: 0 }, 4.2);
+  tl.set("#f07-p-build", { opacity: 1 }, 4.2);
+  tl.fromTo("#f07-p-build .ask-spinner", { rotation: 0 }, { rotation: 360, duration: 0.8, ease: "none" }, 4.2);
+  tl.set("#f07-cursor", { opacity: 0 }, 4.45);
+
+  // ---- 4.3–5.0  dive: through highlighted line 6, depth-of-field blur
+  tl.to("#f07-cam", Object.assign({ duration: 0.7, ease: "expo.in" }, DIVE), 4.3);
+  tl.fromTo("#f07-win", { filter: "blur(0px)" }, { filter: "blur(12px)", duration: 0.4, ease: "power2.in", immediateRender: false }, 4.6);
+  document.querySelectorAll(".f07-frag").forEach((el, i) => {
+    const ang = (i / 6) * Math.PI * 2 + 0.6, r0 = 60, r1 = 900 + (i % 3) * 180;
+    tl.fromTo(el, { x: Math.cos(ang) * r0 - 300, y: Math.sin(ang) * r0, scale: 0.4, opacity: 0, filter: `blur(${2 + (i % 3) * 3}px)` },
+      { x: Math.cos(ang) * r1 - 300, y: Math.sin(ang) * r1 * 0.6, scale: 2.6 + (i % 2), opacity: 0.55, duration: 0.9, ease: "power2.in" }, 4.35 + i * 0.05);
+    tl.to(el, { opacity: 0, duration: 0.25, ease: "power1.in" }, 5.05);
+  });
+
+  // ---- 5.0  inside: the sub-tour "Inside handleLogin", step 2 of 5 (auth.ts:5–8)
+  tl.set("#f07-scroll", { opacity: 0 }, 5.0);
+  tl.set("#f07-p-sub", { opacity: 1 }, 5.0);
+  tl.set("#f07-band", BAND(5, 8), 5.0);
+  tl.set("#f07-s-main", { opacity: 0 }, 5.0);
+  tl.set("#f07-s-sub", { opacity: 1 }, 5.0);
+  tl.to("#f07-cam", Object.assign({ duration: 0.75, ease: "expo.out" }, H), 5.0);
+  tl.to("#f07-win", { filter: "blur(0px)", duration: 0.6, ease: "power2.out" }, 5.0);
+
+  // ---- 5.4  the Path slides in the sidebar (How login works → Inside handleLogin)
+  tl.fromTo("#f07-s-sub .path-tour", { x: -18, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "expo.out", stagger: 0.06 }, 5.4);
+  tl.to("#f07-cam", Object.assign({ duration: 1.6, ease: "sine.inOut" }, H2), 5.75);
+
+  // ---- 7.15–7.8  the route line draws across the frame (hand-off to frame 08)
+  tl.fromTo("#f07-line", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.inOut" }, 7.15);
+  tl.fromTo("#f07-linehead", { x: 0 }, { x: 1920, duration: 0.6, ease: "expo.inOut" }, 7.15);
+  tl.to("#f07-cam", { x: "-=80", duration: 0.65, ease: "power2.in" }, 7.15);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

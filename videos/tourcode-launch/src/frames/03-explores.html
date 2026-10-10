@@ -1,0 +1,132 @@
+<template>
+<!--@css-->
+<style>
+  #root { position: absolute; inset: 0; overflow: hidden; }
+  #f03-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 45% 46%, #141c26 0%, #0d1117 62%, #090c10 100%); }
+  /* Explorer, native VS Code metrics, shown at 1.75× */
+  #f03-exp { position: absolute; left: 380px; top: 110px; width: 300px; height: 365px; transform-origin: 0 0; border-radius: 8px; background: #181818;
+    border: 1px solid #2b2b2b; box-shadow: 0 30px 80px rgba(0,0,0,.55); font-family: "Inter", sans-serif; font-size: 13px; color: #cccccc; }
+  #f03-exp-head { height: 35px; display: flex; align-items: center; padding-left: 20px; font-size: 11px; letter-spacing: .06em; color: #9d9d9d; }
+  .f03-row { position: relative; height: 22px; display: flex; align-items: center; white-space: nowrap; }
+  .f03-row .tw { width: 16px; text-align: center; color: #9d9d9d; font-size: 11px; }
+  .f03-row .ic { width: 20px; font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 700; color: #4d9fdc; letter-spacing: -0.02em; }
+  .f03-row .ic.j { color: #cbcb41; } .f03-row .ic.i { color: #519aba; } .f03-row .ic.f { color: #c09553; font-size: 11px; }
+  .f03-row .lb { padding-left: 2px; }
+  .f03-row.root .lb { font-weight: 700; font-size: 11px; letter-spacing: .02em; }
+  .f03-hl { position: absolute; left: 0; right: 0; top: 0; height: 22px; background: rgba(63,185,80,.14); border-left: 2px solid #3fb950; }
+  #f03-map { position: absolute; left: 0; top: 0; width: 400px; height: 365px; overflow: visible; }
+  .f03-st { fill: #0d1117; stroke: #3fb950; stroke-width: 3; }
+  .f03-ln { fill: none; stroke: #3fb950; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  /* the real TourCode build status (sidebar crop) */
+  #f03-card { position: absolute; left: 1210px; top: 150px; width: 360px; height: 78px; overflow: hidden; transform-origin: 0 0; border-radius: 8px;
+    background: #181818; border: 1px solid #2b2b2b; box-shadow: 0 30px 80px rgba(0,0,0,.55); }
+  #f03-card .ui-side { top: -176px; }
+  .tc-ui .ask-spinner { display: inline-block; }
+  #f03-in { position: absolute; inset: 0; overflow: visible; }
+  #f03-seam { position: absolute; inset: 0; }
+  #f03-seam-line { position: absolute; left: 958.5px; top: 285px; width: 3px; height: 510px; background: #3fb950; box-shadow: 0 0 14px rgba(63,185,80,.7); transform-origin: 50% 0; }
+  .f03-dot { position: absolute; left: 0; top: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 16px 3px rgba(63,185,80,.65); }
+</style>
+
+<div data-hf-id="hf-0t95" id="root" data-composition-id="03-explores" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-t90f" id="f03-bgclip" class="clip" data-start="0" data-duration="6" data-track-index="0"><div data-hf-id="hf-qp66" id="f03-bg"></div></div>
+
+  <div data-hf-id="hf-gko6" id="f03-main" class="clip" data-start="0" data-duration="6" data-track-index="1">
+    <div data-hf-id="hf-1q0s" id="f03-exp">
+      <div data-hf-id="hf-tbzg" id="f03-exp-head">EXPLORER</div>
+      <div data-hf-id="hf-9ohy" class="f03-row root"><span data-hf-id="hf-b1di" class="tw">⌄</span><span data-hf-id="hf-5ga0" class="lb">ACME-SHOP</span></div>
+      <div data-hf-id="hf-mdmr" class="f03-row" style="padding-left:8px"><span data-hf-id="hf-nxes" class="tw">›</span><span data-hf-id="hf-fg18" class="lb">.tourcode</span></div>
+      <div data-hf-id="hf-81kz" class="f03-row" style="padding-left:8px"><span data-hf-id="hf-ed24" class="tw">›</span><span data-hf-id="hf-6zqd" class="lb">node_modules</span></div>
+      <div data-hf-id="hf-iuy5" class="f03-row" id="f03-src" style="padding-left:8px"><span data-hf-id="hf-lna2" class="tw">⌄</span><span data-hf-id="hf-3ns7" class="lb">src</span></div>
+      <div data-hf-id="hf-yzc7" class="f03-row" style="padding-left:24px"><span data-hf-id="hf-1ga4" class="ic">TS</span><span data-hf-id="hf-hn80" class="lb">api.ts</span></div>
+      <div data-hf-id="hf-pdky" class="f03-row" id="f03-r-auth" style="padding-left:24px"><div data-hf-id="hf-ovsu" class="f03-hl"></div><span data-hf-id="hf-5bno" class="ic">TS</span><span data-hf-id="hf-086c" class="lb">auth.ts</span></div>
+      <div data-hf-id="hf-c6pz" class="f03-row" style="padding-left:24px"><span data-hf-id="hf-44ql" class="ic">TS</span><span data-hf-id="hf-xu7w" class="lb">cart.ts</span></div>
+      <div data-hf-id="hf-bsey" class="f03-row" style="padding-left:24px"><span data-hf-id="hf-4j1m" class="ic">TS</span><span data-hf-id="hf-bs7u" class="lb">checkout.ts</span></div>
+      <div data-hf-id="hf-be3x" class="f03-row" style="padding-left:24px"><span data-hf-id="hf-6ikr" class="ic">TS</span><span data-hf-id="hf-7jbw" class="lb">db.ts</span></div>
+      <div data-hf-id="hf-e694" class="f03-row" style="padding-left:24px"><span data-hf-id="hf-6wvs" class="ic">TS</span><span data-hf-id="hf-rm81" class="lb">orders.ts</span></div>
+      <div data-hf-id="hf-prtf" class="f03-row" id="f03-r-pw" style="padding-left:24px"><div data-hf-id="hf-8d7m" class="f03-hl"></div><span data-hf-id="hf-5pyp" class="ic">TS</span><span data-hf-id="hf-d6kx" class="lb">password.ts</span></div>
+      <div data-hf-id="hf-fh7e" class="f03-row" id="f03-r-sess" style="padding-left:24px"><div data-hf-id="hf-8rin" class="f03-hl"></div><span data-hf-id="hf-649q" class="ic">TS</span><span data-hf-id="hf-3x2c" class="lb">session.ts</span></div>
+      <div data-hf-id="hf-dry3" class="f03-row" style="padding-left:24px"><span data-hf-id="hf-83sv" class="ic">TS</span><span data-hf-id="hf-7j7c" class="lb">users.ts</span></div>
+      <div data-hf-id="hf-7n9y" class="f03-row" style="padding-left:8px"><span data-hf-id="hf-amav" class="ic j">{ }</span><span data-hf-id="hf-18xf" class="lb">package.json</span></div>
+      <div data-hf-id="hf-78yx" class="f03-row" style="padding-left:8px"><span data-hf-id="hf-y2zc" class="ic i">ⓘ</span><span data-hf-id="hf-yryc" class="lb">README.md</span></div>
+      <svg data-hf-id="hf-iroz" id="f03-map" viewBox="0 0 400 365">
+        <path data-hf-id="hf-xsmx" class="f03-ln" id="f03-l1" d="M250 156 H300 Q312 156 312 168 V254 Q312 266 300 266 H250" />
+        <path data-hf-id="hf-6p4q" class="f03-ln" id="f03-l2" d="M250 266 H333 Q345 266 345 276 V278 Q345 288 333 288 H250" />
+        <path data-hf-id="hf-98td" class="f03-ln" id="f03-l3" d="M250 288 H360 Q372 288 372 276 V168 Q372 156 360 156 H250" />
+        <circle data-hf-id="hf-gjph" class="f03-st" id="f03-st1" cx="250" cy="156" r="6" />
+        <circle data-hf-id="hf-29vo" class="f03-st" id="f03-st2" cx="250" cy="266" r="6" />
+        <circle data-hf-id="hf-cc05" class="f03-st" id="f03-st3" cx="250" cy="288" r="6" />
+      </svg>
+    </div>
+
+    <div data-hf-id="hf-ldcp" id="f03-card">
+      <div data-hf-id="hf-5hqc" class="ui-side" id="f03-b0"><!--@ui sidebar-build-0 f03b0--></div>
+      <div data-hf-id="hf-c9v8" class="ui-side" id="f03-b1" style="opacity:0"><!--@ui sidebar-build-1 f03b1--></div>
+      <div data-hf-id="hf-ndg7" class="ui-side" id="f03-b2" style="opacity:0"><!--@ui sidebar-build-2 f03b2--></div>
+      <div data-hf-id="hf-u3wm" class="ui-side" id="f03-b3" style="opacity:0"><!--@ui sidebar-build-3 f03b3--></div>
+    </div>
+
+    <svg data-hf-id="hf-pgxj" id="f03-in" width="1920" height="1080"><path data-hf-id="hf-9qoc" id="f03-inpath" d="M0 540 H240 Q280 540 280 500 V374 Q280 334 320 334 H380" fill="none" stroke="#3fb950" stroke-width="3" stroke-linecap="round" /></svg>
+  </div>
+
+  <div data-hf-id="hf-r46b" id="f03-seamclip" class="clip" data-start="4.1" data-duration="1.9" data-track-index="2">
+    <div data-hf-id="hf-n8yl" id="f03-seam">
+      <div data-hf-id="hf-mrxo" id="f03-seam-line"></div>
+      <div data-hf-id="hf-u0xv" class="f03-dot" id="f03-d0"></div><div data-hf-id="hf-q2tu" class="f03-dot" id="f03-d1"></div><div data-hf-id="hf-m4pt" class="f03-dot" id="f03-d2"></div><div data-hf-id="hf-ld20" class="f03-dot" id="f03-d3"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const ID = "03-explores";
+  const tl = gsap.timeline({ paused: true });
+  const S = 2.0, OX = 380, OY = 110;              // explorer: native → screen
+  const scr = (x, y) => [OX + S * x, OY + S * y];
+  const dash = (sel) => { const p = document.querySelector(sel); const L = p.getTotalLength(); gsap.set(p, { strokeDasharray: L, strokeDashoffset: L }); return p; };
+
+  gsap.set("#f03-exp", { scale: S, opacity: 0 });
+  gsap.set("#f03-card", { scale: 1.6, opacity: 0, y: 10 });
+  gsap.set(".f03-hl", { opacity: 0 });
+  gsap.set(".f03-st", { scale: 0, transformOrigin: "50% 50%" });
+  const inp = dash("#f03-inpath"), l1 = dash("#f03-l1"), l2 = dash("#f03-l2"), l3 = dash("#f03-l3");
+  gsap.set("#f03-seam-line", { scaleY: 0 });
+
+  // ---- 0.0–0.5  the route line arrives from frame 02 and leads into the project tree
+  tl.to(inp, { strokeDashoffset: 0, duration: 0.5, ease: "expo.out" }, 0);
+  tl.to("#f03-exp", { opacity: 1, duration: 0.4, ease: "power2.out" }, 0.05);
+  tl.to("#f03-card", { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 0.2);
+  tl.to(inp, { opacity: 0, duration: 0.4, ease: "power2.in" }, 0.6);
+  tl.fromTo("#f03-card .ask-spinner", { rotation: 0 }, { rotation: 1800, duration: 4.0, ease: "none" }, 0.2);
+
+  // ---- the agent reads: each file lights up, the build status follows (real TourCode strings)
+  const lit = [["#f03-r-auth", "#f03-st1", "#f03-b1", 0.6], ["#f03-r-pw", "#f03-st2", "#f03-b2", 1.8], ["#f03-r-sess", "#f03-st3", "#f03-b3", 3.0]];
+  let prev = "#f03-b0";
+  lit.forEach(([row, st, card, t]) => {
+    tl.to(row + " .f03-hl", { opacity: 1, duration: 0.2, ease: "power2.out" }, t);
+    tl.to(row + " .lb", { color: "#3fb950", duration: 0.2, ease: "power2.out" }, t);
+    tl.to(st, { scale: 1, duration: 0.3, ease: "back.out(2.2)" }, t);
+    tl.set(prev, { opacity: 0 }, t);
+    tl.set(card, { opacity: 1 }, t);
+    prev = card;
+  });
+  // ---- subway lines between the stations (soft swish each)
+  tl.to(l1, { strokeDashoffset: 0, duration: 0.45, ease: "power2.inOut" }, 1.2);
+  tl.to(l2, { strokeDashoffset: 0, duration: 0.35, ease: "power2.inOut" }, 2.4);
+  tl.to(l3, { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut" }, 3.6);
+
+  // ---- 4.1–5.6  hand-off: the stations line up into the tour's four stops
+  const st = [scr(250, 156), scr(250, 156), scr(250, 266), scr(250, 288)];
+  const seamY = [285, 455, 625, 795];
+  gsap.set("#f03-d0", { x: st[0][0], y: st[0][1] });
+  gsap.set("#f03-d1", { x: st[1][0], y: st[1][1] });
+  gsap.set("#f03-d2", { x: st[2][0], y: st[2][1] });
+  gsap.set("#f03-d3", { x: st[3][0], y: st[3][1] });
+  tl.to(["#f03-exp", "#f03-card"], { opacity: 0, filter: "blur(6px)", duration: 0.6, ease: "power2.in" }, 4.15);
+  [0, 1, 2, 3].forEach((i) => tl.to("#f03-d" + i, { x: 960, y: seamY[i], duration: 0.85, ease: "expo.inOut" }, 4.15 + i * 0.04));
+  tl.to("#f03-seam-line", { scaleY: 1, duration: 0.55, ease: "expo.inOut" }, 4.9);
+
+  window.__timelines[ID] = tl;
+})();
+</script>
+</template>

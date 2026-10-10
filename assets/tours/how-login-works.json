@@ -1,0 +1,361 @@
+{
+  "id": "how-login-works",
+  "title": "How login works",
+  "question": "how does login work in this project?",
+  "language": "en",
+  "audience": "developer",
+  "overview": {
+    "summary": "Login is driven by handleLogin: it looks up the user by email, verifies the password against the stored hash, and on success issues a session. If the user is missing or the password is wrong, it returns a generic failure reason instead.",
+    "nodes": [
+      {
+        "id": "handle",
+        "label": "handleLogin(email, password)",
+        "note": "entry point in auth.ts",
+        "step": "handle-login"
+      },
+      {
+        "id": "find",
+        "label": "findUser(email)",
+        "note": "lookup by email",
+        "step": "find-user"
+      },
+      {
+        "id": "verify",
+        "label": "verifyPassword(password, hash)",
+        "note": "hash compare",
+        "step": "verify-password"
+      },
+      {
+        "id": "session",
+        "label": "startSession(userId)",
+        "note": "issues token",
+        "step": "start-session"
+      }
+    ],
+    "edges": [
+      {
+        "from": "handle",
+        "to": "find",
+        "label": "email"
+      },
+      {
+        "from": "find",
+        "to": "verify",
+        "label": "user.passwordHash"
+      },
+      {
+        "from": "verify",
+        "to": "session",
+        "label": "if password ok"
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "handleLogin",
+      "definition": "The entry point of login: it takes an email and password and returns either a failure reason or a new session."
+    },
+    {
+      "term": "passwordHash",
+      "definition": "The stored, hashed form of a user's password. The login never compares plain passwords, only hashes."
+    },
+    {
+      "term": "verifyPassword",
+      "definition": "Hashes the submitted password and checks whether it equals the stored hash."
+    },
+    {
+      "term": "startSession",
+      "definition": "Creates a session object with the user id, a start timestamp and a random token after a successful login."
+    },
+    {
+      "term": "findUser",
+      "definition": "Looks up a user by email. Here it searches a hard-coded in-memory array."
+    }
+  ],
+  "steps": [
+    {
+      "id": "handle-login",
+      "title": "The login entry point",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 4,
+        "end": 10
+      },
+      "anchor": "export async function handleLogin(email: string, password: string) {",
+      "text": "handleLogin is where login begins. It finds the user by email, rejects the attempt if the user is missing or the password is wrong, and otherwise returns a new session.",
+      "details": "`handleLogin` is the single public function that drives login. It takes two strings, `email` and `password`, straight from the caller.\n\nStep by step:\n\n1. `const user = await findUser(email)` looks up the account by email (next step).\n2. The guard on line 6 combines two checks with `||`: `user === undefined` (no such email) and `!verifyPassword(password, user.passwordHash)` (wrong password). Thanks to short-circuit evaluation, if `user` is `undefined` the second half never runs, so `user.passwordHash` is safe.\n3. On failure it returns `{ ok: false, reason: \"Wrong email or password\" }` — one generic reason for both cases, so an attacker can't tell whether the email exists.\n4. On success it returns `{ ok: true, session: startSession(user.id) }`, passing the user id into session creation.\n\nThe shape of the return value is a small discriminated result: callers check `ok` before reading `session` or `reason`.\n\n> The function returns a result object instead of throwing; a caller that forgets to check `ok` would treat a failed login as success.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "handle",
+            "label": "handleLogin",
+            "note": "email, password",
+            "step": "handle-login"
+          },
+          {
+            "id": "find",
+            "label": "findUser",
+            "note": "returns user | undefined",
+            "step": "find-user"
+          },
+          {
+            "id": "verify",
+            "label": "verifyPassword",
+            "step": "verify-password"
+          },
+          {
+            "id": "session",
+            "label": "startSession",
+            "step": "start-session"
+          }
+        ],
+        "edges": [
+          {
+            "from": "handle",
+            "to": "find",
+            "label": "email"
+          },
+          {
+            "from": "find",
+            "to": "verify",
+            "label": "passwordHash"
+          },
+          {
+            "from": "verify",
+            "to": "session",
+            "label": "ok → user.id"
+          }
+        ]
+      },
+      "risks": [
+        {
+          "level": "low",
+          "kind": "contract",
+          "line": 6,
+          "text": "verifyPassword returns a boolean synchronously; this guard relies on that (no await). If verifyPassword became async the ! would always be false and the guard would silently pass."
+        }
+      ],
+      "suggestedQuestions": [
+        "Why return a result object instead of throwing an error?",
+        "Why is the failure reason the same for a missing user and a wrong password?",
+        "Who calls handleLogin?"
+      ],
+      "fingerprint": [
+        "bb46839f",
+        "e00d7edd",
+        "57ea4fd5",
+        "96dc6da7",
+        "f80c48a8",
+        "65df010e",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "find-user",
+      "title": "Looking up the user by email",
+      "file": "src/auth.ts",
+      "lines": {
+        "start": 12,
+        "end": 15
+      },
+      "anchor": "async function findUser(email: string) {",
+      "text": "findUser resolves an email to a user record. Here the \"database\" is a single hard-coded array, and it returns the first match or undefined.",
+      "details": "`findUser` is a private helper (not exported) that stands in for a database query. It is `async` so that `handleLogin` can `await` it, even though this implementation does no real I/O.\n\n- Line 13 defines `users`, an in-memory array with one record: `{ id, email, passwordHash }`. The password hash `\"x1y2\"` is already stored in hashed form, never as plain text.\n- Line 14 uses `Array.find` to return the first user whose `email` matches. If none match, `find` returns `undefined`, which is exactly the value `handleLogin`'s guard checks for.\n\nSo the output is either a user object carrying `passwordHash`, or `undefined`. That `passwordHash` is what flows into the next step.\n\nIn a real app this is where you'd query a users table; the rest of the login flow would stay the same as long as the returned shape (`id` and `passwordHash`) is preserved.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "email",
+            "label": "email",
+            "note": "e.g. a@b.c"
+          },
+          {
+            "id": "find",
+            "label": "users.find(...)",
+            "step": "find-user"
+          },
+          {
+            "id": "out",
+            "label": "user | undefined",
+            "note": "has id, passwordHash"
+          }
+        ],
+        "edges": [
+          {
+            "from": "email",
+            "to": "find",
+            "label": "match by email"
+          },
+          {
+            "from": "find",
+            "to": "out",
+            "label": "first match"
+          }
+        ]
+      },
+      "risks": [
+        {
+          "level": "medium",
+          "kind": "other",
+          "line": 13,
+          "text": "User data is hard-coded in the function, so every login scans a fixed array and no real accounts exist. This is a stub, not production storage."
+        }
+      ],
+      "suggestedQuestions": [
+        "How would this change with a real database?",
+        "What fields must the user object have for login to work?",
+        "Is the email match case-sensitive?"
+      ],
+      "fingerprint": [
+        "79186342",
+        "c8aee9ff",
+        "4f82f18e",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "verify-password",
+      "title": "Verifying the password",
+      "file": "src/password.ts",
+      "lines": {
+        "start": 1,
+        "end": 7
+      },
+      "anchor": "export function verifyPassword(password: string, hash: string): boolean {",
+      "text": "verifyPassword hashes the submitted password and compares it to the stored hash. It never compares plain text, and returns true only when the hashes match.",
+      "details": "This file holds the password logic that `handleLogin` depends on.\n\n- `verifyPassword(password, hash)` (line 1) hashes the incoming `password` with `hashPassword` and compares the result to the stored `hash` using `===`. It returns a plain `boolean` — the value `handleLogin` negates with `!` in its guard.\n- `hashPassword` (line 5) is the hashing scheme: it reverses the characters of the string (`split(\"\").reverse().join(\"\")`). So `\"2y1x\"` hashes to `\"x1y2\"`, matching the stored hash from `findUser`.\n\nThe key idea: login compares *hashes*, not raw passwords. Only the hash is stored, and the submitted password is hashed the same way before comparison.\n\n> The hashing here is a toy (string reversal) and is trivially reversible — fine for a demo, but a real system must use a one-way, salted algorithm such as bcrypt or argon2.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "pw",
+            "label": "password",
+            "note": "plain text in"
+          },
+          {
+            "id": "hash",
+            "label": "hashPassword",
+            "note": "reverse string",
+            "step": "verify-password"
+          },
+          {
+            "id": "cmp",
+            "label": "=== hash",
+            "note": "stored passwordHash"
+          },
+          {
+            "id": "out",
+            "label": "boolean"
+          }
+        ],
+        "edges": [
+          {
+            "from": "pw",
+            "to": "hash",
+            "label": "hash it"
+          },
+          {
+            "from": "hash",
+            "to": "cmp",
+            "label": "computed hash"
+          },
+          {
+            "from": "cmp",
+            "to": "out",
+            "label": "match?"
+          }
+        ]
+      },
+      "risks": [
+        {
+          "level": "high",
+          "kind": "security",
+          "line": 6,
+          "text": "hashPassword just reverses the string, so the stored hash is trivially reversible to the original password. Not safe for real credentials."
+        },
+        {
+          "level": "low",
+          "kind": "other",
+          "line": 2,
+          "text": "The === comparison is not constant-time, which can leak timing information in a real auth system."
+        }
+      ],
+      "suggestedQuestions": [
+        "Why compare hashes instead of plain passwords?",
+        "What would a secure hashing function look like here?",
+        "Where is the stored hash defined?"
+      ],
+      "fingerprint": [
+        "eb32af4e",
+        "e21b5f0f",
+        "f80c48a8",
+        "811c9dc5",
+        "448047d9",
+        "b961af83",
+        "f80c48a8"
+      ]
+    },
+    {
+      "id": "start-session",
+      "title": "Starting a session on success",
+      "file": "src/session.ts",
+      "lines": {
+        "start": 1,
+        "end": 3
+      },
+      "anchor": "export function startSession(userId: string) {",
+      "text": "After the password checks out, startSession builds the session that handleLogin returns. It records the user id, when it started, and a fresh random token.",
+      "details": "`startSession` runs only after `handleLogin` has confirmed the user exists and the password is correct. It receives `user.id` as `userId`.\n\nIt returns an object with three fields:\n\n| field | value | purpose |\n|---|---|---|\n| `userId` | the id passed in | who the session belongs to |\n| `startedAt` | `Date.now()` | when login happened (ms timestamp) |\n| `token` | `crypto.randomUUID()` | a unique, unguessable session identifier |\n\nThis object becomes the `session` in `handleLogin`'s `{ ok: true, session }` result, so the caller can hand the `token` back to the client and later look the session up by it.\n\n`crypto.randomUUID()` is the Web Crypto API available on modern Node and browsers; it generates a random v4 UUID, which is why each login produces a distinct token. Nothing is persisted here — the session object is just returned, so storing or expiring it is left to the caller.",
+      "diagram": {
+        "nodes": [
+          {
+            "id": "uid",
+            "label": "userId",
+            "note": "from user.id"
+          },
+          {
+            "id": "start",
+            "label": "startSession",
+            "step": "start-session"
+          },
+          {
+            "id": "sess",
+            "label": "session object",
+            "note": "userId, startedAt, token"
+          }
+        ],
+        "edges": [
+          {
+            "from": "uid",
+            "to": "start",
+            "label": "user id"
+          },
+          {
+            "from": "start",
+            "to": "sess",
+            "label": "returns"
+          }
+        ]
+      },
+      "risks": [
+        {
+          "level": "low",
+          "kind": "leak",
+          "line": 2,
+          "text": "The session is only returned, never stored or given an expiry here, so nothing invalidates old tokens unless the caller handles it."
+        }
+      ],
+      "suggestedQuestions": [
+        "Where is the session stored after it is created?",
+        "How is the token later used to authenticate requests?",
+        "Does the session ever expire?"
+      ],
+      "fingerprint": [
+        "9f98af7e",
+        "1e921bef",
+        "f80c48a8"
+      ]
+    }
+  ],
+  "version": 1,
+  "createdAt": "2026-10-09T04:02:31.730Z",
+  "commit": "c2445a0"
+}
