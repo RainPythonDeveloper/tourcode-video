@@ -431,6 +431,8 @@
     const toursTitle = rect(byText(home0, '.section-title', 'Tours in this project'));
     const homeStackR = rect($('#home-stack'));
     const cardAR = rect(cardA), cardBR = rect(cardB);
+    const pinAEl = cardA.querySelector('.tour-card-pin');
+    const pinR = pinAEl ? rect(pinAEl) : { cx: cardAR.r - 30, cy: cardAR.y + 24 };
     const rebuildBtn = rect(home1.q('.tour-card-stale .link-button'));
     const exportLink = byText(ex.hosts['sb-tour-0'], '.link-button', 'Export');
     const exportR = rect(exportLink);
@@ -745,7 +747,7 @@
     tip.style.top = (term.b - step3Body.y + 8) + 'px';
     gsap.set(tip, { opacity: 0, y: -4 });
     const HOV = bar(18, 1) + 0.3;
-    edCursor.move(bar(18, 1) - 0.35, { x: term.x + term.w * 0.55, y: term.cy + 4 }, 0.6);
+    edCursor.move(bar(18, 1) - 0.35, { x: term.x + 6, y: term.y + 2 }, 0.6);
     tl.to(tip, { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' }, HOV);
     cue('tooltip_pop', HOV);
     tl.to(c5, { ...cam({ x: term.x + 260, y: term.cy + 20 }, 1.75, { ry: -3, rx: 2 }), duration: 1.8, ease: 'expo.inOut' }, bar(18, 1) - 0.3);
@@ -849,13 +851,11 @@
     $('#s7 .cam').insertBefore(flyer, $('#cursor-home'));
     gsap.set(flyer, { x: A.x, y: A.y, opacity: 0 });
     homeCursor.show(s7 + 0.4, { x: A.x + cardAR.w * 0.7, y: A.y + 140 });
-    const pinA = cardA.querySelector('.tour-card-pin');
-    const pinR = pinA ? rect(pinA) : { cx: cardAR.r - 30, cy: cardAR.y + 24 };
     homeCursor.move(s7 + 0.45, { x: pinR.cx - 2, y: pinR.cy - scroll7 + 2 }, 0.6);
     homeCursor.click(PIN, 'pin_snap');
     tl.set(flyer, { opacity: 1 }, PIN + 0.02);
     tl.set([cardA, cardB], { visibility: 'hidden' }, PIN + 0.02);
-    home.show('sb-home-stale', PIN + 0.05, 0.4);
+    home.show('sb-home-stale', PIN + 0.05, 0.2);
     tl.to(flyer, { x: B.x, y: B.y, duration: 0.7, ease: 'expo.inOut' }, PIN + 0.05);
     cue('slide', PIN + 0.1);
     tl.set(cardB, { visibility: 'visible' }, PIN + 0.76);
@@ -884,7 +884,7 @@
     gsap.set(c8, S7END); // continues scene 7's last frame exactly
     // drill into the tour: the home view slides out, the tour slides in (same window)
     const exHome = ex.hosts['sb-home'], exTour = ex.hosts['sb-tour-0'];
-    gsap.set(exHome, { y: -scroll7 });
+    gsap.set(exHome, { y: -scroll7 / 1.6 }); // the host is zoomed 1.6×, and so is its own transform
     tl.to(exHome, { x: -70, opacity: 0, duration: 0.22, ease: 'power2.in' }, s8 + 0.02);
     tl.fromTo(exTour, { x: 70, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: 'expo.out', immediateRender: false }, s8 + 0.2);
     cue('slide', s8 + 0.02);
@@ -1005,7 +1005,7 @@
     const s9 = bar(30);
     cue('cut_soft', s9);
     rowNodes.forEach((r, ri) => {
-      lineIn(r.lab, r.list[0].start - 0.05);
+      lineIn(r.lab, r.list[0].start - 0.25);
       const t0 = r.list[r.list.length - 1].start;
       r.items.forEach((it, i) => {
         const t = t0 + 0.06 + i * (BEAT / 2);
