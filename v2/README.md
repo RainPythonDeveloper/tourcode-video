@@ -4,7 +4,7 @@
 
 | File | What it is |
 |------|------------|
-| `tourcode-teaser-v2.mp4` | The film (v3): 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS, 28.6 MB |
+| `tourcode-teaser-v2.mp4` | The film (v4): 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS, 28.6 MB |
 | `posters/poster-1-tour-map.png` | Poster frame: the tour map, just after the reveal (0:23) |
 | `posters/poster-2-step.png` | Poster frame: step 1, `auth.ts` lines 4–10 lit, the explanation under the code (0:31) |
 | `posters/poster-3-final.png` | Poster frame: the final frame (1:14) |
@@ -13,8 +13,9 @@
 | `source/` | Everything needed to re-render (see below) |
 
 The brief asked for 60 s; on review the export scene was added and the length freed, so the film
-is 75 s (35 bars at 112 BPM). v3 (this version) drops the subtitles for large kinetic key words in
-Instrument Serif and keeps the rebuilt export scene of v2.1; earlier renders are in the git history.
+is 75 s (35 bars at 112 BPM). v4 (this version): no subtitles and no extra key words, the film's text in
+Manrope + Commit Mono, lines appear whole; the rebuilt export scene of v2.1 stays. Earlier renders are in
+the git history.
 
 ## The story
 
@@ -33,12 +34,10 @@ Every cut sits on a bar line of the music (112 BPM, 2.143 s per bar); the tour m
 | 9 | 1:02 | Works everywhere | Editor and agent marks snap in on the beat | Your editor. Your agent. Even your notebooks. |
 | 10 | 1:06 | Final frame | The logo's route line draws itself, the green circle blooms | TourCode. Understand any codebase, one step at a time. |
 
-No subtitles: only the important words are on screen, set large in **Instrument Serif** (italic for
-the heart of each phrase) and placed in the free space of each frame. Every word appears exactly
-as it is spoken (word timings from the voice model): its letters rise out of a mask one by one with
-a small 3D turn and a blur that clears, and leave the same way when the phrase is done. The
-TourCode wordmark is set in **Geist**, the `/tour` command and the call to action in **Geist Mono**.
-The product's own screens keep their own fonts. All TourCode UI in the film is the product's own: the pages in `assets/ui` are drawn
+No subtitles. The film's own text is kept to a few lines — the hook, "Ask your coding agent:",
+the row labels by the logos and the final line — set in **Manrope**, with the `/tour` command and
+the call to action in **Commit Mono**. Each line appears whole, in one quick fade, as its first word
+is spoken (word timings from the voice model). The product's own screens keep their own fonts. All TourCode UI in the film is the product's own: the pages in `assets/ui` are drawn
 by the extension's `webview.js` with `webview.css` into new states (step 2, step 3, the answer
 streaming, risks on, a pinned / out-of-date tour…), and that DOM is embedded in the film with the
 same CSS. Code, step titles, diagram labels, the risk note and the glossary definition come from
@@ -102,8 +101,8 @@ No line needed speeding up; nothing was cut.
 | Asset | Source | Licence / terms |
 |-------|--------|-----------------|
 | TourCode UI, logo, demo code and tours | `assets/` in this repository | Yours |
-| Instrument Serif (key words) | `@fontsource/instrument-serif` 5 (Rodrigo Fuenzalida, Jordan Egstad) | SIL Open Font License 1.1 |
-| Geist, Geist Mono (wordmark, command, call to action) | `@fontsource/geist-sans`, `@fontsource/geist-mono` 5 (Vercel) | SIL Open Font License 1.1 |
+| Manrope (the film's text, wordmark) | `@fontsource/manrope` 5 (Mikhail Sharanda) | SIL Open Font License 1.1 |
+| Commit Mono (the `/tour` command, call to action) | `@fontsource/commit-mono` 5 (Eigil Nikolajsen) | SIL Open Font License 1.1 |
 | Inter (editor window chrome) | `@fontsource/inter` 5 (Rasmus Andersson) | SIL Open Font License 1.1 |
 | JetBrains Mono (code in the editor) | `@fontsource/jetbrains-mono` 5 (JetBrains) | SIL Open Font License 1.1 |
 | GSAP 3.13.0 | npm `gsap` | GSAP Standard "no charge" license — free, including commercial use |

@@ -189,23 +189,17 @@
 Each sentence is generated separately and placed on its beat (`source/narration/script.json`); the
 word timings come from the voice model and drive every on-screen word.
 
-## On-screen words (v3)
+## On-screen text (v4)
 
-No subtitles. Only the important words, large, in Instrument Serif (italic for the heart of the
-phrase), each appearing as it is spoken, letter by letter out of a mask:
+No subtitles. The film adds only these lines, in Manrope (command and call to action in Commit Mono),
+each appearing whole in one quick fade as its first word is spoken:
 
-| Scene | Words on screen |
-|-------|-----------------|
-| 1 | A codebase / *you've never seen.* → Where do you / *even start?* |
-| 2 | Ask your *coding agent.* (the command is typed in Geist Mono) |
-| 3 | Finds *the route.* |
-| 4 | A tour map. / *The whole answer.* (the camera holds on the map, words on the left) |
-| 5 | Step *by step.* → The exact lines, / *explained.* |
-| 6 | Ask about *any step.* → See *what can break.* → Go *deeper.* → The *Path.* |
-| 7 | Start here, / *for every newcomer.* |
-| 8 | *Export.* (then the app names land with the voice) |
-| 9 | Your editor. · Your agent. · Even your *notebooks.* |
-| 10 | Understand any codebase, *one step at a time.* (wordmark in Geist) |
+- Hook: "You open a codebase you've never seen." → "Where do you even start?"
+- The command: "Ask your coding agent:" above the typed `/tour how does login work`
+- Works everywhere: "Your editor." · "Your agent." · "Even your notebooks."
+- Final frame: "TourCode", "Understand any codebase, one step at a time.", "Try it: github.com/RainPythonDeveloper/tourcode"
+
+Everything else on screen is the product's own UI.
 
 ## Poster frames
 
