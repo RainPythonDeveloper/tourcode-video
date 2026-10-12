@@ -5,9 +5,9 @@
 | File | What it is |
 |------|------------|
 | `tourcode-teaser-v2.mp4` | The film (v4): 1920×1080, 60 fps, 75.0 s, H.264 High (yuv420p, BT.709) + AAC 256 kb/s, −14 LUFS, 27.5 MB |
-| `posters/poster-1-tour-map.png` | Poster frame: the tour map, just after the reveal (0:23) |
-| `posters/poster-2-step.png` | Poster frame: step 1, `auth.ts` lines 4–10 lit, the explanation under the code (0:31) |
-| `posters/poster-3-final.png` | Poster frame: the final frame (1:14) |
+| `posters/poster-1-tour-map.png` | Poster frame cut from the MP4: the tour map, just after the reveal (0:23.3, frame 1398) |
+| `posters/poster-2-step.png` | Poster frame cut from the MP4: step 1, `auth.ts` lines 4–10 lit, the explanation under the code (0:31.3, frame 1878) |
+| `posters/poster-3-final.png` | Poster frame cut from the MP4: the final frame (1:14.6, frame 4476) |
 | `STORYBOARD.md` | The approved storyboard: scenes, techniques, narration, sound |
 | `checks/` | Contact sheets (stills before the render, the encoded MP4 after it) and the loudness report |
 | `source/` | Everything needed to re-render (see below) |
@@ -78,7 +78,7 @@ What it runs, step by step:
 5. `node render/stills.mjs ../checks/stills` — stills every 1.5 s and a contact sheet.
 6. `node render/capture.mjs OUT.mp4 MIX.wav` — headless Chromium seeks the paused GSAP timeline frame by
    frame at 60 fps (3 parallel workers, lossless RGB intermediates), then one H.264 + AAC encode.
-7. `node render/posters.mjs ../posters` — the three poster frames.
+7. `render/posters-from-mp4.sh OUT.mp4 ../posters` — the three poster frames, cut from the finished MP4 (`node render/posters.mjs` draws the same moments straight from the page, lossless).
 
 To edit: `index.html` + `film.css` + `film.js` are the film (one page, one paused GSAP timeline; open
 `index.html` through any local web server and call `__seek(seconds)` in the console). The narration

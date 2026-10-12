@@ -26,3 +26,4 @@ mkdir -p audio/build ../checks
 (cd audio && ../$PY music.py build/music.wav && ../$PY mix.py build/music.wav build/mix.wav ../../checks/loudness.json)
 node render/stills.mjs ../checks/stills   # contact sheet of stills before the full render
 node render/capture.mjs ../tourcode-teaser-v2.mp4 audio/build/mix.wav --workers "${WORKERS:-3}"
+render/posters-from-mp4.sh ../tourcode-teaser-v2.mp4 ../posters   # poster frames cut from the film
